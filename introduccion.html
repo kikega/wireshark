@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introducción a Wireshark &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Trabajando con los paquetes capturados" href="filtrado.html" />
+    <link rel="prev" title="Wireshark, analizador de redes" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introducción a Wireshark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion-al-analisis-de-paquetes">Introducción al análisis de paquetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#que-es-wireshark">¿Qué es Wireshark?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#como-trabaja">¿Cómo trabaja?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disectores">Disectores</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#metodologias-de-captura">Metodologías de captura</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interfaz-de-usuario">Interfaz de usuario</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ajuste-de-columnas">Ajuste de columnas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ajuste-de-diseno">Ajuste de diseño</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#personalizando-wireshark">Personalizando Wireshark</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#capture">Capture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-buttons">Filter Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#name-resolution">Name Resolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#protocolos">Protocolos</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#perfiles">Perfiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#capturando-trafico">Capturando tráfico</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#berkeley-packet-filter">Berkeley Packet Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#captura-en-multiples-archivos">Captura en múltiples archivos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#perdida-de-paquetes-en-la-captura">Perdida de paquetes en la captura</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Capa de enlace de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Capa de Transporte</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración interfaz</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Introducción a Wireshark</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/introduccion.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduccion-a-wireshark">
+<h1>Introducción a Wireshark<a class="headerlink" href="#introduccion-a-wireshark" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="introduccion-al-analisis-de-paquetes">
+<h2>Introducción al análisis de paquetes<a class="headerlink" href="#introduccion-al-analisis-de-paquetes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En una red, nos podemos encontrar:</p>
+<ul class="simple">
+<li><p>Problemas de funcionamiento y rendimiento</p></li>
+<li><p>Problemas de seguridad</p></li>
+<li><p>Errores de configurción</p></li>
+</ul>
+<p>El análisis de paquetes, describe el proceso de captura e interpretación de tráfico de red, con el fin de entender qué está pasando.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Para entender el análisis de paquetes, se debe comprender exactamente como se comunican los dispositivos de una red, los fundamentos de sus protocolos de comunicación y el hardware que lo soporta todo.</p>
+</div>
+</div>
+<div class="section" id="que-es-wireshark">
+<h2>¿Qué es Wireshark?<a class="headerlink" href="#que-es-wireshark" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Wireshark, es un analizador de paquetes de red. Captura paquetes en una red de datos y muestra los datos de cada paquete lo más detalladamente posible.</p>
+<p>Wireshark está disponible de forma gratuita, es de código abierto y es uno de los mejores analizadores de paquetes disponibles en la actualidad, puede ser instalado en varias plataformas, Windows, Mac OS y Linux</p>
+<p>Razones para usar Wireshark</p>
+<ul class="simple">
+<li><p>Para solucionar problemas de red</p></li>
+<li><p>Para examinar problemas de seguridad, detectar intentos de intrusión o el uso indebido de la red por parte de usuarios</p></li>
+<li><p>Para verificar, monitorizar y examinar aplicaciones de red</p></li>
+<li><p>Recopilar e informar de estadísticas de la red</p></li>
+<li><p>Para depurar implementaciones de protocolos de red</p></li>
+<li><p>Para aprender sobre redes</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El análisis de paquetes, se utiliza para interceptar y capturar datos en tiempo real de una red, con el fin de entender lo que está pasando</p>
+</div>
+<p>Uno de los aspectos clave en la detección de paquetes, es dónde colocar el analizador físicamente en la red, se debe conocer el comportamiento de los distintos dispositivos de red. Situar el analizador en el lugar correcto, puede conducir a resultados satisfactorios</p>
+<p>Cada sesión de análisis es diferente, paero básicamente, los pasos a seguir en cada sesión</p>
+<ul class="simple">
+<li><p>Determinar el dispositivo que queremos tracear</p></li>
+<li><p>Detrminar qué aplicaciones se están utilizando</p></li>
+<li><p>Filtrar la conversación que nos interes</p></li>
+</ul>
+<div class="section" id="como-trabaja">
+<h3>¿Cómo trabaja?<a class="headerlink" href="#como-trabaja" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Wireshark viene con las librerias libpcap/winpcap (Npcap), el cual, se encarga de configurar el interfaz de red en modo promiscúo, que nos permitirá capturar el tráfico, independientemente de que vaya dirigido o no a nuestro dispositivo. Necesitamos privilegios de administrador para capturar tráfico.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># En Linux, debemos añadir nuestro usuario al grupo de Wireshark</span>
+sudo usermod -a -G wireshark usuario
+</pre></div>
+</div>
+<img alt="_images/wshark-modulos.png" class="align-center" src="_images/wshark-modulos.png" />
+<p>Características:</p>
+<ul class="simple">
+<li><p>Puede abrir archivos capturados por otro software como <strong>tcpdump</strong>, <strong>windump</strong>, <strong>Oracle</strong>, etc.</p></li>
+<li><p>Decodifica gran cantidad de protocolos y visualiza los paquetes con información detallada de cada protocolo.</p></li>
+<li><p>Crea flujogramas de tráfico</p></li>
+<li><p>Filtra, busca y colorea paquetes según un criterio (filtrado)</p></li>
+<li><p>Puede guardar y exportar parte o la totalidad de la captura.</p></li>
+<li><p>Puede crear varios tipos de estadísticas</p></li>
+</ul>
+<p>La cantidad de recursos que necesita Wireshark, dependerá del entorno deonde esté instalado y del tamaño del archivo de captura. Una red con mucho tráfico puede producir archivos de captura de varios cientos de Mb en muy poco tiempo. Con grandes archivos de captura, los requerimientos de memoria y espacio en disco son mayores.</p>
+</div>
+<div class="section" id="disectores">
+<h3>Disectores<a class="headerlink" href="#disectores" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los disectores de paquetes, son los encargados de examinar, analizar y mostrar la información contenida en cada paquete, existe un disector por cada nivel de tráfico.</p>
+<ul class="simple">
+<li><p>Ethernet, decodifica y muestra los campos de la cabecera ethernet y en función del contenido del campo tipo (0x0800) entrega la trama al siguiente disector (IPv4)</p></li>
+<li><p>IPv4, decodifica los campos de la cabecera y basándose en el contenido del protocolo, entrega el paquete al siguiente disector (6, TCP)</p></li>
+<li><p>TCP, decodifica y basándose en el contenido de los campos puerto, pasa el paquete al siguiente disector (80, HTTP)</p></li>
+<li><p>El disector de aplicación, es el último</p></li>
+</ul>
+<p>Hay aplicaciones que se ejecutan sobre puertos no estándar, en estos casos, wireshark no reconoce el tráfico y aplica mal los disectores. Considera los bytes tras TCP como datos e intenta averiguar, buscando patrones reconocibles (disectores heuristicos), de que tipo de tráfico se trata.</p>
+<p>Un disector heurístico, busca patrones reconocibles en los datos para averiguar que tipo de comunicación está contenida, si no reconoce nada, devuelve una indicación de fallo a wireshark y manda los datos al siguiente decodificador heurístico, hasta que se queda sin disectores para probar.</p>
+<p>Podemos aplcar manualmente un disector, desde <strong>Analyze -&gt; Decode As</strong> o seleccionando el paquete mal decodificado y con click derecho, seleccionamos <strong>Decode as…</strong></p>
+</div>
+</div>
+<div class="section" id="metodologias-de-captura">
+<h2>Metodologías de captura<a class="headerlink" href="#metodologias-de-captura" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los paquetes de red pueden ser capturados a través de varias técnicas. Dependiendo del requisito, un analizador de protocolos, se sitúa un un lugar determinado de la red, con un determinado tipo de configuración.</p>
+<ul class="simple">
+<li><p>Por mirroring (puertos SPAN). &gt;Nos permite configurar un puerto del switch como una copia del puerto que queremos analizar, esta configuración, tiene problemas con el tráfico pesado</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#(config) no monitor session 1</span>
+<span class="c1">#(config) monitor session 1 source int fa0/1</span>
+<span class="c1">#(config) monitor session 1 destination int gb0/1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Network TAP</p></li>
+<li><p>Machine in the Middle (MIM), se utiza un equipo como un puente transparente (permite pasar el tráfico sin alterarlo)</p></li>
+</ul>
+<img alt="_images/wshark-mim.png" class="align-center" src="_images/wshark-mim.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># En Debian Linux</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">bridge</span><span class="o">-</span><span class="n">utils</span>
+<span class="c1"># Crear e script</span>
+<span class="c1">#!/bin/bash</span>
+<span class="n">systemctl</span> <span class="n">stop</span> <span class="n">NetworkManager</span>
+<span class="n">brctl</span> <span class="n">addbr</span> <span class="n">br0</span>
+<span class="n">ifconfig</span> <span class="n">enp0s20f0u1</span> <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">promisc</span> <span class="n">up</span>
+<span class="n">ifconfig</span> <span class="n">eth1</span> <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">promisc</span> <span class="n">up</span>
+<span class="n">brctl</span> <span class="n">addif</span> <span class="n">br0</span> <span class="n">enp0s20f0u1</span>
+<span class="n">brctl</span> <span class="n">addif</span> <span class="n">br0</span> <span class="n">eth1</span>
+<span class="n">ip</span> <span class="n">link</span> <span class="nb">set</span> <span class="n">br0</span> <span class="n">up</span>
+<span class="n">systemctl</span> <span class="n">start</span> <span class="n">NetworkManager</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="interfaz-de-usuario">
+<h2>Interfaz de usuario<a class="headerlink" href="#interfaz-de-usuario" title="Enlazar permanentemente con este título">¶</a></h2>
+<img alt="_images/p-principal.png" class="align-center" src="_images/p-principal.png" />
+<ul class="simple">
+<li><p>El menú principal</p></li>
+<li><p>Barra de herramientas</p></li>
+<li><p>Herramienta de filtrado, permite a los usuariosconfigurar filtros para visualizar paquetes que cumplan ciertas condiciones</p></li>
+<li><p>Lista de paquetes que se han capturado</p></li>
+<li><p>Detalles del paquete seleccionado</p></li>
+<li><p>Barra e estado, proporcionainformación detallada sobre el estado de wireshark y los datos capturados</p></li>
+</ul>
+<p>Se puede configurar el interfaz de usuaio desde el menú <strong>Edit -&gt; Preferences -&gt; Appearance</strong></p>
+<img alt="_images/preferencias.png" class="align-center" src="_images/preferencias.png" />
+<div class="section" id="ajuste-de-columnas">
+<h3>Ajuste de columnas<a class="headerlink" href="#ajuste-de-columnas" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Wireshark contiene un conjunto predeterminado de columnas que proporciona información básica. La adición de columnas, puede ayudar a detectar patrones de comportamiento</p>
+<p>Podemos configurar y ajustar las columnas que tenemos en el panel de lista de paquetes, añadiendo o eliminando columnas. Estas, se pueden añadir desde <strong>Edit -&gt; Preferences -&gt; Appearance -&gt; Columns</strong> o seleccionando el campo deseado desde la vista de detalle del paquete y con el botón derecho, seleccionar <strong>Apply as column</strong></p>
+<p>Desde la vista de paquetes, podemos gestionar las columnas:</p>
+<ul class="simple">
+<li><p>Borrar</p></li>
+<li><p>Ocultar</p></li>
+<li><p>Ordenar</p></li>
+<li><p>Alinear</p></li>
+<li><p>Editar</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La adición de columnas y su clasificación, son dos tareas fundamentales, que pueden mejorar el tiempo de análisis</p>
+<p>Las clumnas que están ocultas, también son procesadas por Wireshark cuando se aplica un filtro o cuando se abre un archivo, así que cuando hay muchas columnas (aunque estén ocultas), Wireshark se volverá más lento.</p>
+</div>
+</div>
+<div class="section" id="ajuste-de-diseno">
+<h3>Ajuste de diseño<a class="headerlink" href="#ajuste-de-diseno" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Desde <strong>Edit -&gt; Preferences -&gt; Appearance -&gt; Layout</strong>, podemos seleccionar la visualización y situación de los paneles en la pantalla principal (Packet List, Packet Details y Packet Bytes)</p>
+</div>
+</div>
+<div class="section" id="personalizando-wireshark">
+<h2>Personalizando Wireshark<a class="headerlink" href="#personalizando-wireshark" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Desde <strong>Edit -&gt; Preferences</strong>, podemos ajustar parámetros generales de Wireshark.</p>
+<p>Situando el cursor en cada parámetro de opción, nos aparecerá una pantalla emergente con un texto de ayuda</p>
+<div class="section" id="capture">
+<h3>Capture<a class="headerlink" href="#capture" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En las preferencias de captura, podemos elegir varias opciones para las interfaces disponibles, por defecto, está marcado</p>
+<ul class="simple">
+<li><p>Capturar paquetes en modo promiscuo, si queremos capturar todo el tráfico que circula por la red</p></li>
+<li><p>Capturar paquetes en formato <strong>pcapng</strong> (formato netx generation)</p></li>
+<li><p>Actualizar la lista de paquetes en tiempo real</p></li>
+<li><p>Hacer scroll automático en captura</p></li>
+</ul>
+</div>
+<div class="section" id="filter-buttons">
+<h3>Filter Buttons<a class="headerlink" href="#filter-buttons" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Nos permite gestionar filtros a medida y situarlos como un botón en la barra de filtrado para un acceso más rápido.</p>
+</div>
+<div class="section" id="name-resolution">
+<h3>Name Resolution<a class="headerlink" href="#name-resolution" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La resolución de nombres, intenta resolver algunos valores numéricos a su equivalente nombre, puede resolverlo llamando a los servicios de sistema o bien, utilizando archivos de configuración de Wireshark.</p>
+<p>Inconvenientes:</p>
+<ul class="simple">
+<li><p>La resolución puede fallar, o bien porque los servidores de nombres son desconocidos o no estan disponibles o no se encuentra an los archivos de configuración nde Wireshark</p></li>
+<li><p>Los nombres resueltos no se almacenan en el archivo de captura.</p></li>
+<li><p>DNS agrega tráfico adicional al archivo de captura</p></li>
+</ul>
+<p>La resolución de la dirección MAC, puede resolver:</p>
+<ul class="simple">
+<li><p>A su dirección IP mediante la resolución ARP</p></li>
+<li><p>A un nombre de dispositivo conocido, si existe un archivo de conversión mac a nombre de dispositivo</p></li>
+<li><p>Códigos del fabricante, convirtiendo los tres primeros octetos</p></li>
+</ul>
+<p>Resolución dirección IP</p>
+<ul class="simple">
+<li><p>Resolución DNS, Wireshark utilizará /etc/hosts o el resolutor de nombres para convertir una dirección IP al nombre de host asociado</p></li>
+</ul>
+<p>Resolve Transport Name</p>
+<ul class="simple">
+<li><p>Resolución del puerto TCP/UDP, Wireshark, le pedirá al sistema operativo, que convierta un puerto TCP o UDP a su nombre copnocido</p></li>
+</ul>
+<p>Para obtener un nombre descriptivo para una ID de etiqueta VLAN, se puede usar un archivo vlans.</p>
+</div>
+<div class="section" id="protocolos">
+<h3>Protocolos<a class="headerlink" href="#protocolos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Podemos configurar el comportamiento del análisis sobre cada protocolo sobre parámetros que son editables.</p>
+<img alt="_images/http-preferences.png" class="align-center" src="_images/http-preferences.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>También podemos acceder a las preferencias del protocolo, seleccionando un paquete de ese protocolo en el panel de listado de paquetes, y con el botón derecho del ratón, seleccionamos <strong>Protocol Preferences</strong></p>
+</div>
+<p>Cuando se utiliza un número de puerto no estándar en un protocolo conocido, se puede agregar ese puerto a la configuración de preferencias de ese protocolo (no todas las preferencias de protocolo son configurables)</p>
+</div>
+</div>
+<div class="section" id="perfiles">
+<h2>Perfiles<a class="headerlink" href="#perfiles" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Hay ciertas caracteristicas de personalización que se ajustan a tareas concretas. Los perfiles, son como entornos personalizados que pueden ahorrar una cantidad significativa de tienpo al auditar una red.</p>
+<p>Los perfiles, son un conjunto de archivos de texto simples, que definen los ajustes de preferencias, filtros de captura, filtros de visualización, reglas de colreado, etc, que se ajustan y le brindan un escenario específico para cada caso.</p>
+<p>Para crear un perfil nuevo, podemos acceder desde la barra de menús <strong>Edit -&gt; Configuration profiles</strong> o hacer click derecho en <strong>Profile</strong> la barra de estado y elegir la opción adecuada:</p>
+<ul class="simple">
+<li><p>Manage Profiles</p></li>
+<li><p>New</p></li>
+<li><p>Edit</p></li>
+<li><p>Delete</p></li>
+<li><p>Switch To</p></li>
+</ul>
+<img alt="_images/profiles.png" class="align-center" src="_images/profiles.png" />
+<p>Los ajustes de configuración, se guardan en dos lugares</p>
+<ul class="simple">
+<li><p>El directorio de configuración global, dónde se encuentra la configuración predeterminada de Wireshark</p></li>
+<li><p>El directorio de configuración personal</p></li>
+</ul>
+<p>Los directorios donde se almacenan los archivos de configuración varían en función del sistema donde ejecutemos Wireshark, para conocer que directorios utiliza, desde el menú <strong>Help -&gt; About Wireshark -&gt; Folders</strong></p>
+<img alt="_images/folders.png" class="align-center" src="_images/folders.png" />
+<p>La configuración, se almacena en archivos diferentes:</p>
+<ul class="simple">
+<li><p>Preferencias, <strong>preferences</strong></p></li>
+<li><p>Flitros de captura, <strong>cfilters</strong></p></li>
+<li><p>Filtros de visualización, <strong>dfilters</strong></p></li>
+<li><p>Reglas de coloreado, <strong>colorfilters</strong></p></li>
+<li><p>Protocolos deshabilitados, <strong>disabled_protos</strong></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Cuando se crea un nuevo perfil (sin copiar un perfil existente), wireshark, utiliza los ajustes básicos de los archivos en el directorio global</p>
+<p>La ubicación de estos archivos, dependerá del sistema dónde esté instalado Wireshark</p>
+</div>
+<p>Cuando se construye el primer perfil personalizado, wireshark crea un directorio de perfil en  el directorio de configuración personal.</p>
+<p>Los archivos de configuración, son archivos de texto que pueden ser modificados, los cambios manuales serán visibles cuando se recarga el perfil</p>
+<img alt="_images/config-local.png" class="align-center" src="_images/config-local.png" />
+</div>
+<div class="section" id="capturando-trafico">
+<h2>Capturando tráfico<a class="headerlink" href="#capturando-trafico" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Podemos iniciar una captura con los siguientes métodos</p>
+<ul class="simple">
+<li><p>Doble click en el interfaz de red en la pagina inicial</p></li>
+<li><p>Obtener una descripción general de las interfaces desde, <strong>Caapture -&gt; Options</strong></p></li>
+<li><p>Si nos encontramos en la página principal, desde la barra de ménús o desde <strong>Captura -&gt; Start</strong></p></li>
+</ul>
+<img alt="_images/capture-ini.png" class="align-center" src="_images/capture-ini.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Este cuadro de diálogo, sólo mostrará las interfaces locales a las que Wireshark puede acceder, com <strong>Manage interfaces</strong>, podemos gestionar todas las interfaces locales y las interfaces remotas disponibles</p>
+</div>
+<p>En redes con mucho tráfico, se puede obtener un volúmen de tráfico de un tamaño tal, que dificulte su análisis. Si capturamos tráfico cerca del dispositivo de red, podémos ver mucho menos tráfico, pero si hemos de situar el analizdor en un enlace troncal, deberemos utilizar filtros de captura para reducir el tráfico almacenado, así, reducimos la cantidad de tráfico a analizar.</p>
+<p>Desde el cuadro de edición <strong>Capture filter for selected Interfaces</strong>, podemos escribir un filtro de captura o gestionar los que tenemos almacenados. Los filtros de captura, utilizan la sintaxis BPF (Berkeley Packet Filter), el color de fondo del cuadro de edición, se pondrá de color verde cuando la sintaxis del filtro sea correcta</p>
+<div class="section" id="berkeley-packet-filter">
+<h3>Berkeley Packet Filter<a class="headerlink" href="#berkeley-packet-filter" title="Enlazar permanentemente con este título">¶</a></h3>
+<p><a class="reference external" href="_static/BPF-sintax.pdf">Sintaxis BPF</a></p>
+<p><strong>BPF</strong>, es un interfaz estándarizado para el filtrado y el nálisis de tráfico, que utiliza la librería <strong>libpcap</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La sintaxis de BPF es un estándar de la industria y es utilizada por múltiples analizadores de protocolos, lo que hace que el archivo de configuración de su filtro sea portátil.</p>
+</div>
+<p>La sintaxis está compuesta de primitivas y modificadores, estos, pueden ser de tres tipos:</p>
+<ul class="simple">
+<li><p>Modificadores de tipo (host, net, port, etc…)</p></li>
+<li><p>Modificadores de dirección (src, dst)</p></li>
+<li><p>Modificadores de protocolo (IP, ICMP, HTTP, etc…)</p></li>
+</ul>
+<p>Existen una serie de primitivas especiales:</p>
+<ul class="simple">
+<li><p><strong>gateway</strong> nombre_equipo</p></li>
+<li><p><strong>broadcast</strong></p></li>
+<li><p><strong>less</strong> tamaño_bytes</p></li>
+<li><p>Flags TCP, <strong>tcp-syn</strong>, <strong>tcp-fin</strong>, <strong>tcp-rst</strong>. <strong>tcp-ack</strong>, etc…</p></li>
+</ul>
+<p>Se pueden hacer combinaciones, utilizar paréntesis y combinar primitivas con operadores lógicos para construir expresiones más complejas</p>
+<p>Podemos expresar el tamaño de los datos, <strong>[expresion:tamaño]</strong></p>
+<ul class="simple">
+<li><p>Situarse en el comienzo del octeto 0 de la cabecera TCP y leer dos octetos, en este caso, el puerto de origen. <strong>tcp[0:2] &lt; 1024</strong> (un puerto TCP inferior a 1024)</p></li>
+<li><p>Ver si el flag <strong>syn</strong> está a 1. <strong>tcp[13] = 2</strong></p></li>
+</ul>
+<img alt="_images/bpf-tcp.png" class="align-center" src="_images/bpf-tcp.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>De donde sale el 13 de TCP, puerto de origen = 2 bytes, puerto destino = 2 bytes, número secuencia = 4 bytes, número ACK = 4 bytes, igual  a 12 bytes, posición de los datos mas 4 bits de reservado, hacen 14 bytes, como se empieza con 0, los dos bits de reserva y los seis de flags, hacen el byte 13</p>
+</div>
+<p>Nos podemos encontrar un byte dividido en dos campos de 4 bits cada uno, para quedarnos con la parte que queremos, hay que aplicar una máscara <strong>ip[0] &amp;0x0F</strong> (aplicamos una operación <strong>and</strong> con la máscara 0F -&gt; 00001111, con lo que nos quedamos con los últimos 4 bits).</p>
+<p>Ejemplos:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>host <span class="m">192</span>.168.1.100
+src <span class="m">10</span>.25.86.101
+ip broadcast
+host <span class="m">10</span>.10.100.1 and port <span class="m">80</span>
+
+<span class="c1"># Icmp echo request</span>
+icmp<span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">=</span> <span class="m">8</span>
+<span class="c1"># Icmp echo reply</span>
+icmp<span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">=</span> <span class="m">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="captura-en-multiples-archivos">
+<h3>Captura en múltiples archivos<a class="headerlink" href="#captura-en-multiples-archivos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si nos encontramos con problemas esporádicos, puede ser preciso poner el analizador y recogerlo después de que se produzca el problema, pero Wireshark, mientras captura datos, los guarda en un archivo temporal, pro, para evitar el llenado del disco duro, podemos decirle a Wireshark, que guarde la captura en un archivo específico y que cambie a un archivo diferente, después de que haya transcurrido un tiempo determinqado o se haya capturado un número predeterminado de paquetes. Cuando Wireshark guarde los archivos, los irá nombrando con el nombre que le hemos dado, un número de autoincremento y un timestamp.</p>
+<p>Si configuramos u número determnado de archivos, cuando se llegue al último archivo, Wireshark, sobreescribira el primero y así sucesivamente haciendo un ciclo. De esta manera, no se llenará el disco y siempre tendrá un conjunto de archivos en el que pueda estar el problema.</p>
+<p>Ejemplo capturado 24 archivos de 1 hora cada uno</p>
+<img alt="_images/capture-ring-buffer.png" class="align-center" src="_images/capture-ring-buffer.png" />
+<p>Para ver los archivos cíclicos que se han capturado, desde el menú <strong>File -&gt; File set -&gt; List</strong></p>
+</div>
+<div class="section" id="perdida-de-paquetes-en-la-captura">
+<h3>Perdida de paquetes en la captura<a class="headerlink" href="#perdida-de-paquetes-en-la-captura" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si Wireshark no es capaz de mantener la velocidad de captura, descartará paquetes y aparecera <strong>Dropped:x</strong> en la barra de estado, para indicar dicha perdida.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Si el problema de la captura se localiza en el switch, no veremos <strong>Dropped:x</strong> en la barra de estado, veremos ACKs perdidos o segmentos anteriores no capturados.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="filtrado.html" class="btn btn-neutral float-right" title="Trabajando con los paquetes capturados" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Wireshark, analizador de redes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

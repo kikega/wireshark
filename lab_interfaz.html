@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Laboratorios Configuración Introducción a Wireshark &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Laboratorios paquetes capturados" href="lab_filtrado.html" />
+    <link rel="prev" title="Capa de Transporte" href="tcp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Capa de enlace de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Capa de Transporte</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Laboratorios Configuración Introducción a Wireshark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-1">Laboratorio 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-2">Laboratorio 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-3">Laboratorio 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-4">Laboratorio 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-5">Laboratorio 5</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Laboratorios Configuración Introducción a Wireshark</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/lab_interfaz.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="laboratorios-configuracion-introduccion-a-wireshark">
+<h1>Laboratorios Configuración Introducción a Wireshark<a class="headerlink" href="#laboratorios-configuracion-introduccion-a-wireshark" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="laboratorio-1">
+<h2>Laboratorio 1<a class="headerlink" href="#laboratorio-1" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Queremos crear una columna con el campo <strong>host</strong> y situarlo al lado de la columna <strong>IP Destino</strong>. Observar el resultado desde el menú <strong>Preferences</strong></p>
+<p><a class="reference external" href="_static/laboratorios/interfaz/lab_1.pcapng">Archivo de captura HTTP</a></p>
+</div>
+<div class="section" id="laboratorio-2">
+<h2>Laboratorio 2<a class="headerlink" href="#laboratorio-2" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Archivo cuyo tráfico se ejecuta sobre un puerto no estándar, hay que seguir el flujo hasta averiguar qué tipo de tráfico es, y después forzar el disector correspondiente.</p>
+<p><a class="reference external" href="_static/laboratorios/interfaz/lab_2.pcapng">Disector correcto</a></p>
+</div>
+<div class="section" id="laboratorio-3">
+<h2>Laboratorio 3<a class="headerlink" href="#laboratorio-3" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Crear un perfil basado en el perfil por defecto, cambiar de perfil y reiniciar Wireshark. ¿Qué perfil es el que utiliza al reiniciar el programa?</p>
+<p>Revisar los ficheros de configuración de cada perfil</p>
+</div>
+<div class="section" id="laboratorio-4">
+<h2>Laboratorio 4<a class="headerlink" href="#laboratorio-4" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Capturar tráfico hacia o desde una dirección IP.</p>
+<p>Crear y salvar un filtro de captura para tráfico HTTP</p>
+</div>
+<div class="section" id="laboratorio-5">
+<h2>Laboratorio 5<a class="headerlink" href="#laboratorio-5" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Capturar archivos con parada automática, definir 1 Mb y el siguiente archivo cada minuto (la condición que se produzca antes, provocará la creación del siguiente archivo), hasta un máximo de 10 archivos</p>
+<p>Comprobar con «File List»</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lab_filtrado.html" class="btn btn-neutral float-right" title="Laboratorios paquetes capturados" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tcp.html" class="btn btn-neutral float-left" title="Capa de Transporte" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

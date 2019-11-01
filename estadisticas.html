@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Estadísticas en Wireshark &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Capa de enlace de datos" href="ip.html" />
+    <link rel="prev" title="Trabajando con los paquetes capturados" href="filtrado.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Estadísticas en Wireshark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#capture-file-properties">Capture file properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#protocol-hierarchy">Protocol Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conversations">Conversations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#endpoint">Endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#estadisticas-ip">Estadísticas IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flow-graph">Flow graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#io-graph">IO Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tcp-stream-graph">TCP Stream Graph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tcp-stream-graph-steven">TCP Stream Graph Steven</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tcp-stream-graph-tcptrace">TCP Stream Graph TCPTrace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tcp-stream-graph-throughput">TCP Stream Graph Throughput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tcp-stream-graph-round-trip-time">TCP Stream Graph Round Trip Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tcp-stream-graph-window-scaling">TCP Stream Graph Window Scaling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Capa de enlace de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Capa de Transporte</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Estadísticas en Wireshark</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/estadisticas.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="estadisticas-en-wireshark">
+<h1>Estadísticas en Wireshark<a class="headerlink" href="#estadisticas-en-wireshark" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Uno de los puntos fuertes de Wireshark, es la herramienta de estadísticas.</p>
+<p>Wireshark, nos proporciona una amplia gama de estadísticas de red, a las que se puede acceder a través del menú <strong>Statistics</strong>. Estas, nos proporcionan datos obre la red, quien habla con quien, el tamaño de los paquetes, en definitiva, información sobre el comportamiento de la red.</p>
+<p>Nos encontramos con estadísticas específicas de un protocolo y estadísticas generales:</p>
+<ul class="simple">
+<li><p><strong>Capture file properties</strong>, propiedades sobre el archivo de captura.</p></li>
+<li><p><strong>Protocol Hierarchy</strong>, jerarquía de protocolos de los paquetes capturados</p></li>
+<li><p><strong>Conversations</strong>, tráfico entre direcciones IP</p></li>
+<li><p><strong>Endpoints</strong>, tráfico hacia y desde una dirección IP</p></li>
+<li><p><strong>I/O Graphs</strong>, gráfica sobre el número de paquetes en el tiempo</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Las estadísticas específicas del protocolo requieren un conocimiento detallado sobre el protocolo específico, a menos que esté familiarizado con ese protocolo, pueden ser difíciles de entender.</p>
+</div>
+</div>
+<div class="section" id="capture-file-properties">
+<h2>Capture file properties<a class="headerlink" href="#capture-file-properties" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Nos proporciona datos relativos al archivo de captura:</p>
+<ul class="simple">
+<li><p>Nombre del archivo, formato, hash, tamaño</p></li>
+<li><p>Fecha y hora de captura del primer y último paquete</p></li>
+<li><p>Sistema operativo de la máquina dónde se realizó la captura</p></li>
+<li><p>Estadísticas de paquetes capturados</p></li>
+</ul>
+<img alt="_images/captura-propiedades.png" class="align-center" src="_images/captura-propiedades.png" />
+</div>
+<div class="section" id="protocol-hierarchy">
+<h2>Protocol Hierarchy<a class="headerlink" href="#protocol-hierarchy" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si queremos conocer el tipo de tráfico que corre a través de la red, se presenta como un árbol con todos los protocolos de la captura.</p>
+<p>Cada fila, contiene los valores estadísticos de un protocolo. Si se configura un filtro de visualización, se mostrará en la parte inferior y sólo apareceran los protocolos que coincidan con la regla de filtrado</p>
+<img alt="_images/protocol-hierarchy.png" class="align-center" src="_images/protocol-hierarchy.png" />
+<p>Nos presenta datos estdísticos de los protocolos en el archivo capturado</p>
+<ul class="simple">
+<li><p>Nombre de protocolo</p></li>
+<li><p><strong>Percent Packets</strong>, porcentaje de paquetes que se corresponden con el protocolo</p></li>
+<li><p><strong>Packets</strong>, número de paquetes de ese protocolo</p></li>
+<li><p><strong>Percent Bytes</strong>, porcentaje del número de bytes del protocolo capturado</p></li>
+<li><p><strong>Bytes</strong>, número de bytes en el protocolo capturado</p></li>
+<li><p><strong>Bits/s</strong>, especifica el ancho de banda de ese protocolo en relación con el tiempo de captura</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Con el fin de garantizar que Wireshark también contará los paquetes de datos dentro del protocolo TCP, desactive la opción <strong>Allow subdissector TCP stream</strong> y vuelva a ensamblar los flujos TCP</p>
+</div>
+<p>Los paquetes, generalmente tiene varios protocolos, como resultado, se contará más de un protocolo para cada paquete</p>
+<ul class="simple">
+<li><p>El porcentaje de la columna <strong>Packets</strong> y <strong>Bytes</strong>, muestran el total de la captura</p></li>
+<li><p>Cuando expandimos una sección, los paquetes que dependen de él, son la suma del total de la sección</p></li>
+<li><p>Wireshark, no asocia el tráfico TCP como aplicación y habrá muchos paquetes que no formen parte de una aplicación (datos de aplicaciones HTTP, FTP, conexión, retransmisiones, etc.). Sin embargo, si sumamos los valores de UDP, estos deben ser muy parecidos o muy cercanos al valor global de UDP.</p></li>
+</ul>
+<p>Esta ventana, sirve de ayuda cuando se sospecha que un host puede estar comprometido, se pueden identificar aplicaciones de red inusuales (IRC, RPC, etc.), cuando se vea tráfico sospechoso, se puede filtrar y examinar para determinar si es malicioso.</p>
+<p>Con el botón derecho del ratón, podemos aplicar un filtro o construir una regla de coloreado para ese protocolo o aplicación.</p>
+</div>
+<div class="section" id="conversations">
+<h2>Conversations<a class="headerlink" href="#conversations" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Una conversación de red es el tráfico entre dos puntos finales específicos. Por ejemplo, una conversación IP es todo el tráfico entre dos direcciones IP (dos equipos finales). Por lo tanto, podemos saber que hosts se comunican en la red</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Podemos elegir entre conversaciones Ethernet, IPv4, IPv6, TCP y UDP</p>
+</div>
+<img alt="_images/conversations.png" class="align-center" src="_images/conversations.png" />
+<p>Se presenta una ventana con todas las conversaciones capturadas, clasificadas por protocolos.</p>
+<p>Junto con las direcciones, los contadores de paquetes y de bytes, se agregan dos columnaa (Rel Start y Duration), que indican el tiempo de inicio de la conversación y la duración.</p>
+<p>Se pueden limitar las conversaciones con un filtro de visualización, para ello aplicamos un filtro de visualización y marcamos la casilla <strong>Limit to display filter</strong>, así, las estadísticas se presentarán los paquetes que cumplan la regla de filtrado</p>
+<p>Desde el campo de selección <strong>Display Types</strong>, podemos selecionar que protocolos se van a visualizar en la ventana conversations.</p>
+<p>La resolución de nombre se realizará si se selecciona en la ventana y si está activa para la capa de protocolo específica.</p>
+<p>Podemos cambiar la columna de tiempo de inicio entre tiempos relativos o tiempos absolutos.  Las horas de inicio relativas coinciden con el formato de visualización de la hora «Segundos desde el comienzo de la captura» en la lista de paquetes y las horas de inicio absolutas coinciden con el formato de visualización de «Hora del día».</p>
+<p>Desde la pestaña de TCP, si seleccionamos una conversación, se activará el botón <strong>Follow Stream</strong>, que extrae el flujo de datos establecido en una sesión TCP. También podemos aplicar un filtro, seleccionando con el botón derecho <strong>Apply as filter</strong>, en este caso, podemos seleccionar la dirección en la que estamos interesados para filtrar.</p>
+<p>Haciendo click en el titulo de cada columna, se pueden ordenar las conversaciones de mayor a menor o viceversa, lo que nos permitirá, buscar patrones de exploración y aplicar un filtro o construir una regla de coloreado para esa conversación</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Esta ventana se actualiza con frecuencia, por lo que será útil, tenerla abierta mientras se está haciendo una captura en vivo.</p>
+</div>
+</div>
+<div class="section" id="endpoint">
+<h2>Endpoint<a class="headerlink" href="#endpoint" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Muestra el tráfico de los elementos finales, ofreciendo estadísticas de ese host concreto, para el protocolo Ethernet, IPv4, IPv6, TCP y UDP</p>
+<p>Podemos utilizar esta ventana para ver la actividad de una máquina en particular. Si vemos pocos endpoints IP con muchos nodos finales TCP, caso de muchas conexiones TCP por host, podría ser una operación regular de un servidor con muchas conexiones, un tipo de ataque DoS, o un simple escaneo de puertos</p>
+</div>
+<div class="section" id="estadisticas-ip">
+<h2>Estadísticas IP<a class="headerlink" href="#estadisticas-ip" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Nos ofrece varias estadísticas sobre el tráfico IP</p>
+<ul class="simple">
+<li><p>All addresses, se visualizarán todas las estadísticas de paquetes</p></li>
+<li><p>Destination and ports, mostrará todas las direcciones IP destino al cual son enviados los paquetes y sobre qué protocolos, con esta herramienta, si vemos una dirección y un puerto extraño con demasiados paquetes enviados, nos puede dar lugar a sospecha</p></li>
+<li><p>IP protocol types</p></li>
+<li><p>Source and destination addresses</p></li>
+</ul>
+<p>Todas los resultados estadísticos, se puede exportar a varios formatos de archivo</p>
+<ul class="simple">
+<li><p>Texto plano</p></li>
+<li><p>Archivos csv</p></li>
+<li><p>Archivos YAML</p></li>
+</ul>
+</div>
+<div class="section" id="flow-graph">
+<h2>Flow graph<a class="headerlink" href="#flow-graph" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Nos ofrece una ventana con el flujo TCP en modo gráfico</p>
+<img alt="_images/flow-graph.png" class="align-center" src="_images/flow-graph.png" />
+<p>Podemos seleccionar entre ver todos los flujos, o sólo los flujos TCP</p>
+<p>También, podemos ver los flujos que tengamos seleccionados con un filtro de visualización haciendo click en <strong>Limit display filter</strong></p>
+<p>Podemos exportar la ventana como archivo pdf o como un archivo gráfico (png, lpeg, etc.)</p>
+</div>
+<div class="section" id="io-graph">
+<h2>IO Graph<a class="headerlink" href="#io-graph" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un gráfico, nos permite analizar el flujo de una aplicación o host y compararlo con ciertos eventos o comportamientos</p>
+<p>Por defecto, saca una gráfica que analiza el tráfico total de la captura con los eventos de análisis TCP (errores TCP) que ha confeccionado wireshark</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Wireshark, comprende muchos tipos de errores, cuando se ven paquetes que indican problemas de red, se etquetan con <strong>tcp.analisys.flags</strong>. Un <strong>Windows update</strong>, es bueno, pero se etiqueta como <strong>tcp.analisys.flags</strong>. Si buscamos problemas de TCP, deberemos excluir esos paquetes</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>tcp.analisys.flags &amp;&amp; !tcp.analisys.window_update
+</pre></div>
+</div>
+<img alt="_images/io-graph.png" class="align-center" src="_images/io-graph.png" />
+<p>El eje X, corresponde al tiempo (podemos seleccionar varios intervalos de tiempo), el eje Y, puede contener.</p>
+<ul>
+<li><p>Paquetes</p></li>
+<li><p>Bytes</p></li>
+<li><p>Bits</p></li>
+<li><p>Operaciones estadísticas:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Suma (SUM)</p></li>
+<li><p>Conteos (COUNT FRAME y COUNT FIELD)</p></li>
+<li><p>Valores máximo (MAX)</p></li>
+<li><p>Valores mínimos (MIN)</p></li>
+<li><p>Medias (AVG)</p></li>
+<li><p>Tiempos de respuesta (LOAD)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>Podemos elegir varios tipos de gráficos:</p>
+<ul class="simple">
+<li><p>Barras</p></li>
+<li><p>Línea</p></li>
+<li><p>Puntos</p></li>
+<li><p>Cuadrados</p></li>
+<li><p>Impulsos</p></li>
+</ul>
+<p>Podemos añadir otro gráfico para comparar pulsando el botón [+] y elegir en <strong>Display Filter</strong>, los paquetes que queremos utilizar en el estudio.</p>
+<p>Si el archivo de rastreo tiene varias conversaciones IP, debemos usar un filtro para representar la conversación deseada</p>
+<p>Cuando se hace un gráfico de aplicaciones basadas en TCP, asegurese de aplicar el filtro en el puerto, en lugar de en el nombre de la aplicación, nos aseguramos de capturar la conexión y los problemas que se encuentren</p>
+<p>Con <strong>Time of Day</strong>, ajustamos el tiempo en valor absoluto</p>
+<p>Con <strong>Log scale</strong>, vemos el gráfico como una escala logaritmica</p>
+<img alt="_images/io-graph-log.png" class="align-center" src="_images/io-graph-log.png" />
+</div>
+<div class="section" id="tcp-stream-graph">
+<h2>TCP Stream Graph<a class="headerlink" href="#tcp-stream-graph" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Una de las herramientas que nos permite profucizar en el comportamiento de las aplicaciones, es el gráfico de flujo TCP <strong>TCP Stream Graph</strong> (Time Secuence Graph)</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Es recomendable grabar una captura y luego usar esa herramienta</p>
+</div>
+<p>En todos los tipos de gráfico, nos aparece la dirección de la conversación, IP origen -&gt; IP destino y un botón <strong>Switch Directión</strong> para ver el sentido contrario de la conversación.</p>
+<div class="section" id="tcp-stream-graph-steven">
+<h3>TCP Stream Graph Steven<a class="headerlink" href="#tcp-stream-graph-steven" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Es un gráfico que muestra el número de secuencia TCP a lo largo del tiempo, es decir, vemos el avance de la transferencia de bytes en el tiempo. Esta gráfica, nos puede dar una buena indicación del comportamiento de la aplicación,  si vemos una señal diagonal contínua, es señal de buena transferencia, si vemos una diagonal con interrupciones, muestra un problema en la transferencia. Una pendiente elevada, indica una alta transferencia de datos y al contrario, a menor pendiente, menor tasa de transferfencia</p>
+<p>Al hacer click derecho en un punto del gráfico, nos llevará hasta el panel de paquetes en el paquete capturado</p>
+<img alt="_images/graph-steven.png" class="align-center" src="_images/graph-steven.png" />
+</div>
+<div class="section" id="tcp-stream-graph-tcptrace">
+<h3>TCP Stream Graph TCPTrace<a class="headerlink" href="#tcp-stream-graph-tcptrace" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Estos gráficos, además del estándar número secuencia/segundo, también reciben información sobre los ACKs que se enviaron, retransmisiones, tamaño de ventana y más detalles que nos permiten analizar los problemas de la conexión.</p>
+<p>El tráfico inferior, muestra el avance en la transferencia de datos respecto al tiempo y el gráfico superior, muestra el tamaño de la ventana. Cuando hay espacio entre los dos, significa que hay un flujo correcto, si estan cerca o llegan a tocarse, sería un problema de tamaño de ventana, que hace que el equipo receptor no permita la transferencia de datos.</p>
+<img alt="_images/graph-tcptrace.png" class="align-center" src="_images/graph-tcptrace.png" />
+</div>
+<div class="section" id="tcp-stream-graph-throughput">
+<h3>TCP Stream Graph Throughput<a class="headerlink" href="#tcp-stream-graph-throughput" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Nos permite ver el rendimiento de una conexión y verificar su inestabilidad</p>
+<img alt="_images/graph-throughput.png" class="align-center" src="_images/graph-throughput.png" />
+<p>Podemos elegir ver la relación del tamaño del paquete con respecto al rendimiento</p>
+</div>
+<div class="section" id="tcp-stream-graph-round-trip-time">
+<h3>TCP Stream Graph Round Trip Time<a class="headerlink" href="#tcp-stream-graph-round-trip-time" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El gráfico representa los números de secuencia TCP frente al tiempo que llevó reconocerlos (en realidad, es el tiempo entre un paquete enviado y el ACK recibido para ese paquete).</p>
+<img alt="_images/graph-rtt.png" class="align-center" src="_images/graph-rtt.png" />
+<p>Podemos ver la relación de RTT con respecto a los números de secuencia</p>
+</div>
+<div class="section" id="tcp-stream-graph-window-scaling">
+<h3>TCP Stream Graph Window Scaling<a class="headerlink" href="#tcp-stream-graph-window-scaling" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Nos permite ver el tamaño de la ventana publicada por el lado receptor, que es una indicación de la capacidad del receptor para procesar datos.</p>
+<p>Cuando el tamaño de la ventana disminuye, el rendimiento de las aplicaciones debe disminuir también (el tamaño de la ventana, está completamente controlado por los dos extremos de la conexión)</p>
+<img alt="_images/graph-ws.png" class="align-center" src="_images/graph-ws.png" />
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ip.html" class="btn btn-neutral float-right" title="Capa de enlace de datos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="filtrado.html" class="btn btn-neutral float-left" title="Trabajando con los paquetes capturados" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

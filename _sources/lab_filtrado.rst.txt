@@ -1,0 +1,45 @@
+================================
+Laboratorios paquetes capturados
+================================
+
+Laboratorio 1
+-------------
+
+- Situar el nombre de host como columna
+- Cómo podemos ver todas las peticiones HTTP que se realizan
+- Qué filtro hay que utilizar si queremos buscar un host en particular
+- Y si queremos ver las consultas DNS
+- Guardar filtro en dfilters, crear un botón genérico y comprobar en archivos de configuración
+
+`Archivo de sesion HTTP <_static/laboratorios/filtrado/filtrado_lab1.pcapng>`_
+
+Laboratorio 2
+-------------
+
+Filtrar errores DNS o errores 404 Response
+Y si se quiere filtrar por cualquier error HTTP
+
+`Errores HTTP <_static/laboratorios/filtrado/filtrado_lab2.pcapng>`_
+
+Laboratorio 3
+-------------
+
+- Construya una regla de coloreado para resaltar nombres de usuario y password en FTP
+- Colorear el filtro con fondo rojo y con primer plano en blanco y si el isiario es administrador, cambiar el color del texto
+
+`Archivo de descarga FTP <_static/laboratorios/filtrado/filtrado_lab3.pcapng>`_
+
+Laboratorio 4
+-------------
+
+- Exportar una conversación TCP que se descargen archivos ".exe" y seleccioamos sólo esa conversación
+
+`Descarga de archivo <_static/laboratorios/filtrado/filtrado_lab4.pcapng>`_"
+
+Laboratorio 5
+-------------
+
+- Ecportar lista de valores de campo HTTP que contenga el nombre de host en formato CSV
+- Se puede utilizar cualquier herramienta para análisis posterior
+
+`Exportar archivos <_static/laboratorios/filtrado/filtrado_lab5.pcapng>`_

@@ -1,0 +1,41 @@
+============================
+Laboratorios de estadísticas
+============================
+
+Laboratorio 1
+-------------
+
+Detectar aplicaciones o tráfico sospechoso, cuando se esta preocupado por un problema de seguridad, busque protocolos sospechosos debajo de IP, TCP o UDP.
+ 
+- Seleccionar Statistics -> Protocolo Hierarchy, en el archivo de ejemplo, tenemos algo de tráfico IRC y de datos en la sección TCP.
+- Botón-derecho en IRC y seleccionamos “Apply as Filter -> Selected” para examinarlo mejor, busque nombres de usuario y el servidor IRC objetivo, haga lo mismo con la sección de datos.
+    
+`Tráfico sospechoso <_static/laboratorios/estadistica/lab_1.pcapng>`_
+
+Laboratorio 2
+-------------
+
+En el siguiente archivo de captura, ¿cuantas maquinas hay?, buscar la conversación mas activa. ¿Que esta haciendo el usuario? 
+ 
+`Conversaciones <_static/laboratorios/estadistica/lab_2.pcapng>`_
+
+Laboratorio 3
+-------------
+
+Hacer un estudio desde la perspectiva de Flow Graph, filtrar por aplicación y vuelve a ver el flujo de datos
+
+`Uso de flow graph <_static/laboratorios/estadistica/lab_3.pcapng>`_
+
+Laboratorio 4
+-------------
+
+Crear un gráfico IO para comprobar el momento en el que cae el rendimiento. Ver la lista de paquetes en el momento en que aparece el problema. ¿Cual es la causa del problema? 
+
+`Bajo rendimiento <_static/laboratorios/estadistica/lab_4.pcapng>`_
+
+Laboratorio 5
+-------------
+
+En el siguiente archivo, vamos a ver errores que afectan al rendimiento, desde IO Graph, comparar tráfico con flags TCP (retransmisiones, ACKs duplicados, perdida de paquetes).
+
+`TCP con errores <_static/laboratorios/estadistica/lab_5.pcapng>`_

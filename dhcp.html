@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Protocolo DHCP &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Protocolo ARP" href="arp.html" />
+    <link rel="prev" title="Capa de enlace de datos" href="ip.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Capa de enlace de datos</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Protocolo DHCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-inicial-de-bootp">Versión inicial de BOOTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolo-bootp">Protocolo BOOTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mejoras-de-dhcp">Mejoras de DHCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tmporizadores">Tmporizadores</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Capa de Transporte</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Protocolo DHCP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/dhcp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="protocolo-dhcp">
+<h1>Protocolo DHCP<a class="headerlink" href="#protocolo-dhcp" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Las demandas de conectividad, cambios, movimientos y reconfiguraciones de red, que caracterizan el entorno de red actual, necesitan de mecanismos que permitan automatizar la configuración de nodos y la distribución de sistema operativo y software en la red.</p>
+<p>Algunos equipos necesitan pocas variables de configuración antes de arrancar, otros, una lista más detallada, a veces, se necesita descargar el sistema operativo completo. La forma mas efectiva de conseguirlo es configurar un servidor de arranque y guardar los datos de configuración y el software necesario, al inicializarse, las estaciones de red interactúan con el servidor de arranque de donde descargan los parámetros de configuración y el software necesario.</p>
+<p>BOOTP fue el primer estándar para el arranque en entornos TCP/IP, ofrece a los dispositivos, todos los parámetros básicos de configuración y la descarga de software.</p>
+<p>DHCP, extendió las funciones de BOOTP, automatizando la asignación y protegiendo la configuración de IP contra fallos.</p>
+</div>
+<div class="section" id="version-inicial-de-bootp">
+<h2>Versión inicial de BOOTP<a class="headerlink" href="#version-inicial-de-bootp" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>BOOTP se diseño para estaciones de trabajo sin disco, que necesitaban un arranque automático con lo básico, aunque, no se tardo mucho tiempo en incluir parámetros como la mascara de subred, el gateway por defecto, dirección del servidor de descarga TFTP, etc.</p>
+<img alt="_images/dhcp-proceso.png" class="align-center" src="_images/dhcp-proceso.png" />
+<p>El procedimiento era:</p>
+<ul class="simple">
+<li><p>Cliente difunde una petición de información en un mensaje UDP</p></li>
+<li><p>El servidor de devuelve la dirección IP y los datos necesarios.</p></li>
+</ul>
+</div>
+<div class="section" id="protocolo-bootp">
+<h2>Protocolo BOOTP<a class="headerlink" href="#protocolo-bootp" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Es un protocolo simple de pregunta/respuesta, el cliente transmite un mensaje de petición de arranque desde el puerto 68 al puerto 67 del servidor y el servidor, responde con un mensaje de respuesta al puerto 68.</p>
+<img alt="_images/cabecera-bootp.png" class="align-center" src="_images/cabecera-bootp.png" />
+<ul class="simple">
+<li><p>Se utiliza el mismo mensaje para la petición que para la respuesta.</p></li>
+<li><p>El tipo de mensaje, indica si es una petición (1) o una respuesta (2).</p></li>
+<li><p>El byte de saltos, es unsado por DHCP relay para definir el número de redes que se debe cruzar hasta alcanzar el servidor DHCP.</p></li>
+<li><p>El campo Transaction ID se utiliza para hacer coincidir las peticiones con las respuestas.</p></li>
+<li><p>El bit mas significativo del campo flags, se utiliza como indicador de broadcast, normalmente, los servidores DHCP intentan transportar los mensajes a un cliente mediante unicast, con la dirección IP asignada y la dirección hardware del cliente y al puerto 68, si un cliente es incapaz de recibir un datagrama unicast hasta que se sepa su dirección IP, se debe activar el bit de broadcast para indicar al servidor que debe enviar la respuesta con la dirección de broadcast.</p></li>
+<li><p>La dirección IP del cliente la puede fijar el cliente a irá todo a 0.</p></li>
+<li><p>El campo Tu dirección IP, lo fija el servidor si la dirección del cliente es 0.0.0.0</p></li>
+</ul>
+</div>
+<div class="section" id="mejoras-de-dhcp">
+<h2>Mejoras de DHCP<a class="headerlink" href="#mejoras-de-dhcp" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>DHCP extiende las posibilidades de BOOTP, definido en el RFC 2131, permite</p>
+<ul class="simple">
+<li><p>Una administración mas sencilla</p></li>
+<li><p>Configuración automatizada</p></li>
+<li><p>Posibilidad de que el cliente solicite los valores de ciertos parámetros</p></li>
+<li><p>Nuevos tipos de mensajes</p></li>
+</ul>
+<p>Permite tres tipos de asignación</p>
+<ul class="simple">
+<li><p>Asignación manual, una dirección que ha sido introducida manualmente en el servidor, se asigna permanentemente al cliente</p></li>
+<li><p>Asignación automática, se selecciona una dirección IP de las que estan disponibles en el servidor y se asigna permenentemente al cliente</p></li>
+<li><p>Asignación dinámica, se asigna una dirección IP durante un tiempo límite. Aparece el concepto de alquiler, que indica el período de tiempo que un cliente puede disponer de una dirección IP.</p></li>
+</ul>
+<p>En el campo opciones, se define el tipo de mensaje</p>
+<img alt="_images/dhcp-msg.png" class="align-center" src="_images/dhcp-msg.png" />
+<ul class="simple">
+<li><p><strong>DHCPDISCOVER</strong>, el cliente envía este tipo de mensaje para descubrir servidores</p></li>
+<li><p><strong>DHCPOFFER</strong>, el servidor responde y envía la configuración IP con sus parámetros</p></li>
+<li><p><strong>DHCPREQUEST</strong>, el cliente envía una petición de más parámetros o la renovación de la IP asignada</p></li>
+<li><p><strong>DHCPACK</strong>, el servidor esta de acuerdo</p></li>
+<li><p><strong>DHCPNACK</strong>, el servidor rehusa la petición</p></li>
+<li><p><strong>DHCPINFO</strong>, un cliente configurado de forma estática, puede pedir datos que le falten con este mensaje, el servidor devolverá los parámetros adecuados con DCHPACK.</p></li>
+<li><p><strong>DHCPDECLINE</strong>, el cliente rehusa la dirección de red porque no es aceptable (probablemente descubrió que es dirección IP ya estaba signada mediante un ARP gratuito)</p></li>
+<li><p><strong>DHCPRELEASE</strong>, el cliente ya no necesita esa dirección IP y la libera.</p></li>
+</ul>
+</div>
+<div class="section" id="tmporizadores">
+<h2>Tmporizadores<a class="headerlink" href="#tmporizadores" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En la asignación dinámica, entran en juego tres temporizadores</p>
+<ul class="simple">
+<li><p><strong>Lease time (LT)</strong>, define cuanto tiempo permite a un cliente usar la dirección asignada</p></li>
+<li><p><strong>Renewal time (T1)</strong>, por defecto es 0,5*LT, que una vez superado se envía un DHCPREQUEST por unicast</p></li>
+<li><p><strong>Rebind time (T2)</strong>, por defecto es 0,875 * LT, que una vez superado, envía un DHCPREQUEST por multicast, si el cliente tampoco recibe un DHCPACK del servidor, se debe volver al proceso inicial con un DHCPDISCOVER.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="arp.html" class="btn btn-neutral float-right" title="Protocolo ARP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ip.html" class="btn btn-neutral float-left" title="Capa de enlace de datos" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

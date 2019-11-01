@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Protocolo ARP &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Capa de Transporte" href="tcp.html" />
+    <link rel="prev" title="Protocolo DHCP" href="dhcp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Capa de enlace de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Protocolo ARP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#itroduccion">Itroducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#el-problema">El problema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#motivacion">Motivación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#formato-del-paquete">Formato del paquete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generacion-del-paquete">Generación del paquete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vulnerabilidad-arp">Vulnerabilidad ARP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Capa de Transporte</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Protocolo ARP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/arp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="protocolo-arp">
+<h1>Protocolo ARP<a class="headerlink" href="#protocolo-arp" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="itroduccion">
+<h2>Itroducción<a class="headerlink" href="#itroduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Las direcciones de hosts dentro del protocolo IP no son compatibles con las direcciones Ethernet de 48 bits. El protocolo ARP, permite la distribución necesaria para construir tablas de traducción de una dirección IP a direcciones Ethernet de 48 bits, aunque fue diseñado originalmente para redes Ethernet, ha sido generalizado para permitir su uso en otros tipos de redes.</p>
+</div>
+<div class="section" id="el-problema">
+<h2>El problema<a class="headerlink" href="#el-problema" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ethernet permite el uso de varios protocolos por encima en un sólo cable, definido por el campo tipo en el encabezado Ethernet, sin embargo, Ethernet requiere de direcciones de 48 bits y los protocolos por encima difieren de este tamaño (IP tiene tamaño de 32 bits).</p>
+<p>Un protocolo es necesario para distribuir dinámicamente la correspondencia entre el par protocolo-dirección y una dirección Ethernet.</p>
+</div>
+<div class="section" id="motivacion">
+<h2>Motivación<a class="headerlink" href="#motivacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>A principios de los 80 (fecha del RFC-826), el uso de distintos protocolos de red era habitual, y Ethernet, estaba empezando a imponerse en el diseño de redes. Con este panorama, había dos alternativas, todo aquel que implemente un protocolo de red, diseñaba su propio método para la resolución de direcciones o se intentaba usar un estándar, para que su código pueda ser distribuido a otros sistemas sin necesidad de modificación.</p>
+<p>El RFC-826 intenta establecer ese estándar.</p>
+</div>
+<div class="section" id="formato-del-paquete">
+<h2>Formato del paquete<a class="headerlink" href="#formato-del-paquete" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Es necesario el formato de un paquete que contenga el protocolo de resolución de dirección.</p>
+<img alt="_images/cabecera-arp.png" class="align-center" src="_images/cabecera-arp.png" />
+<ul class="simple">
+<li><p>Tipo de hardware (HTYPE), especifica el protocolo de red, para Ethernet es 1</p></li>
+<li><p>Tipo de protocolo (PTYPE), para redes IPv4 es valor es 0x0800.</p></li>
+<li><p>Longitud hardware (HLEN), longitud en octetos de una dirección hardware, para Ethernet es 6.</p></li>
+<li><p>Longitud del protocolo (PLEN), para IPv4 es 4</p></li>
+<li><p>Código de operación (OPCODE), define si se trata de una pregunta (ARP-request, OPCODE = 1) o de una respuesta (ARP-reply, OPCODE = 2).</p></li>
+<li><p>Dirección hardware y dirección IP de origen y destino.</p></li>
+</ul>
+<p>En teoría, los campos de longitud HLEN y PLEN, son redundantes, la longitud de una dirección de protocolo, debe estar determinada por el tipo de hardware y el tipo de protocolo. Esto es incluido para un chequeo de consistencia opcional y para monitorización y depuración de red</p>
+</div>
+<div class="section" id="generacion-del-paquete">
+<h2>Generación del paquete<a class="headerlink" href="#generacion-del-paquete" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El módulo ARP mantiene una cache de asociaciones entre direcciones hardware y direcciones de protocolo, la cache tiene un tamaño limitado, por lo que las entradas antiguas y menos frecuentes, son eliminadas por un recolector de basura. Las entradas marcadas como permanentes nunca serán eliminadas.</p>
+<p>Para enviar datos a un destino, el emisor pregunta a su cache si existe esa asociación entre dirección hardware y dirección de protocolo, en caso negativo, se realizará una petición (ARP-request) a la dirección de broadcast, únicamente el host destino responderá con un ARP-reply al comparar la dirección contenida en el campo TARGET IP con su propia dirección IP. cuando se reciba una contestación, se añadirá una entrada arp no permanente en la cache.</p>
+<p>Este formato del paquete, no permite que se haga mas de una resolución en el mismo paquete, una respuesta tiene la misma longitud que una solicitud, y varios de los campos son los mismos.</p>
+<p>El código de operación, está para determinar si el paquete es una solicitud o una respuesta a una solicitud previa.</p>
+<img alt="_images/arp-request.png" class="align-center" src="_images/arp-request.png" />
+<img alt="_images/arp-reply.png" class="align-center" src="_images/arp-reply.png" />
+</div>
+<div class="section" id="vulnerabilidad-arp">
+<h2>Vulnerabilidad ARP<a class="headerlink" href="#vulnerabilidad-arp" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Es posible engañar a un host dentro de la red diciéndole que la dirección MAC con quien se quiere comunicar sea un tercer host, produciéndose así una redirección del tráfico del host origen al host destino, en donde toda la información que salga del host origen pase por un tercer host, y éste a su vez vuelva a redireccionar el tráfico hacia el host destino verdadero con el fin de funcionar transparentemente en la comunicación de ambos y observando todo lo que se dicen. Este tipo de ataque se conoce como “Hombre en medio” o <strong>Man In The Middle</strong>.</p>
+<p>Una vez conseguimos <strong>colocar</strong> este tercer host entre dos hosts que se están comunicando, podremos monitorizar absolutamente todo el tráfico que circule entre origen y destino.</p>
+<p>Ésto se lleva a cabo en la práctica enviando continuamente ARP-replys al host víctima, de esta manera, el host atacante conseguirá modificar la tabla ARP en caché del host victima introduciendo una entrada falsa, donde la dirección Ethernet del host destino, sea la del atacante.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tcp.html" class="btn btn-neutral float-right" title="Capa de Transporte" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dhcp.html" class="btn btn-neutral float-left" title="Protocolo DHCP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

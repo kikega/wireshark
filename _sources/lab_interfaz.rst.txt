@@ -1,0 +1,40 @@
+===================================================
+Laboratorios Configuración Introducción a Wireshark
+===================================================
+
+Laboratorio 1
+-------------
+
+Queremos crear una columna con el campo **host** y situarlo al lado de la columna **IP Destino**. Observar el resultado desde el menú **Preferences**
+
+`Archivo de captura HTTP <_static/laboratorios/interfaz/lab_1.pcapng>`_
+
+Laboratorio 2
+-------------
+
+Archivo cuyo tráfico se ejecuta sobre un puerto no estándar, hay que seguir el flujo hasta averiguar qué tipo de tráfico es, y después forzar el disector correspondiente. 
+
+`Disector correcto <_static/laboratorios/interfaz/lab_2.pcapng>`_
+
+Laboratorio 3
+-------------
+
+Crear un perfil basado en el perfil por defecto, cambiar de perfil y reiniciar Wireshark. ¿Qué perfil es el que utiliza al reiniciar el programa? 
+
+Revisar los ficheros de configuración de cada perfil
+
+Laboratorio 4
+-------------
+
+Capturar tráfico hacia o desde una dirección IP.
+
+Crear y salvar un filtro de captura para tráfico HTTP
+
+Laboratorio 5
+-------------
+
+Capturar archivos con parada automática, definir 1 Mb y el siguiente archivo cada minuto (la condición que se produzca antes, provocará la creación del siguiente archivo), hasta un máximo de 10 archivos
+
+Comprobar con "File List"
+	
+

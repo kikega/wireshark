@@ -1,0 +1,598 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Protocolo TCP &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Laboratorios Configuración Introducción a Wireshark" href="lab_interfaz.html" />
+    <link rel="prev" title="Protocolo ARP" href="arp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Protocolo TCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#documentacion-y-rfcs">Documentación y RFCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transferencia-basica-de-datos">Transferencia básica de datos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fiabilidad">Fiabilidad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flujo-de-control">Flujo de control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiplexamiento">Multiplexamiento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conexiones">Conexiones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prioridad-y-seguridad">Prioridad y seguridad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interfaces">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comunicacion-fiable">Comunicación fiable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#establecimiento-y-finalizacion-de-la-conexion">Establecimiento y finalización de la conexión</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comunicacion-de-datos">Comunicación de datos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formato-de-la-cabecera">Formato de la cabecera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numeros-de-secuencia">Números de secuencia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#establecimiento-de-la-conexion">Establecimiento de la conexión</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reglas-de-generacion-de-reset">Reglas de generación de <strong>RESET</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cierre-de-una-conexion">Cierre de una conexión</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Comunicación de datos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tiempo-de-espera-de-retrasnmision">Tiempo de espera de retrasnmisión</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ventana-de-recepcion">Ventana de recepción</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configurando-preferencias-de-tcp-en-wireshark">Configurando preferencias de TCP en Wireshark</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flags-tcp-de-wireshark">Flags TCP de Wireshark</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problemas-de-conexion-tcp">Problemas de conexión TCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#retransmisiones-tcp">Retransmisiones TCP</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Protocolo TCP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tcp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="protocolo-tcp">
+<h1>Protocolo TCP<a class="headerlink" href="#protocolo-tcp" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="documentacion-y-rfcs">
+<h2>Documentación y RFCs<a class="headerlink" href="#documentacion-y-rfcs" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://tools.ietf.org/pdf/rfc793.pdf">Especificación del protocolo TCP. RFC793</a></p></li>
+<li><p><a class="reference external" href="https://tools.ietf.org/pdf/rfc1323.pdf">TCP Extensions for High Perfomance. RFC1323</a></p></li>
+</ul>
+</div>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La función de TCP, es convertir el intercambio de datagramas, en una conexión de datos entre aplicaciones sólida y fiable, para ello, encaja en una arquitectura de protocolos entre la capa de red (simple y poco fiable) y la capa de aplicación, a las que a través de sus interfaces, ofrece un conjunto de funciones que permiten abrir y cerrar conexiones y enviar y recibir datos, aunque se deja libertad a los fabricantes a la hora de diseñar las interfaces de un sistema operativo particular</p>
+<p>TCP es un protocolo orientado a la conexión, fiable y entre dos extremos, diseñado para encajar en una jerarquía en capas de protocolos que soportan aplicaciones sobre múltiples redes.</p>
+<img alt="_images/tcp-capas.png" class="align-center" src="_images/tcp-capas.png" />
+<p>TCP presenta interfaz por un lado con el usuario o los procesos de aplicación y por el otro con un protocolo de más bajo nivel como es el protocolo de internet (IP). Esta interfaz consiste en un conjunto de llamadas, de forma muy similar a las llamadas que un sistema operativo proporciona a los procesos de aplicación para manipular ficheros, por ejemplo, hay llamadas para abrir y cerrar conexiones y para enviar y recibir datos por las conexiones establecidas.</p>
+<p>Aunque se deja considerable libertad a los fabricantes de implementaciones de TCP a la hora de diseñar las interfaces que sean apropiadas para el entorno de un sistema operativo particular, se  exige un mínimo de funcionalidad en la interfaz TCP/usuario de cualquier implementación válida.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>TCP está pensado para proporcionar un servicio fiable de comunicación entre procesos en un entorno con múltiples redes.</p>
+</div>
+<p>Como se ha hecho notar más arriba, el propósito principal de TCP consiste en proporcionar un servicio de conexión o circuito lógico fiable y seguro entre pares de procesos. Para proporcionar este servicio encima de un entorno de internet menos fiable, el sistema de comunicación requiere de mecanismos relacionados con las siguientes áreas:</p>
+<ul class="simple">
+<li><p>Transferencia básica de datos</p></li>
+<li><p>Fiabilidad</p></li>
+<li><p>Control de flujo</p></li>
+<li><p>Multiplexamiento</p></li>
+<li><p>Conexiones</p></li>
+<li><p>Prioridad y seguridad</p></li>
+</ul>
+<div class="section" id="transferencia-basica-de-datos">
+<h3>Transferencia básica de datos<a class="headerlink" href="#transferencia-basica-de-datos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>TCP es capaz de transferir un flujo continuo de octetos en cada sentido entre sus usuarios empaquetando un cierto número de octetos en segmentos para su transmisión a través del sistema de internet. En general, los módulos de TCP deciden cuándo bloquear y enviar datos según su propia conveniencia.</p>
+<p>Algunas veces los usuarios necesitan estar seguros de que todos los datos que habían entregado al módulo de TCP han sido transmitidos. Para este propósito se define una función “push” («enviar  inmediatamente»). Un “push” en un cierto instante causa que los módulos de TCP envíen y entreguen inmediatamente al usuario receptor los datos almacenados hasta ese instante</p>
+</div>
+<div class="section" id="fiabilidad">
+<h3>Fiabilidad<a class="headerlink" href="#fiabilidad" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El módulo de TCP debe poder recuperar los datos que se corrompan, pierdan, dupliquen o se  entreguen desordenados por el sistema de comunicación del entorno de internet. Esto se consigue asignando un número de secuencia a cada octeto transmitido, y exigiendo un acuse de recibo (ACK, acknowledgment) del módulo de TCP receptor. Si no se recibe un ACK dentro de un cierto plazo de  expiración prefijado, los datos se retransmiten. En el receptor, se utilizan los números de secuencia para ordenar correctamente los segmentos que puedan haber llegado desordenados y para eliminar los duplicados. La corrupción de datos se trata añadiendo un campo de suma de control (“checksum”) a cada segmento transmitido, comprobándose en el receptor y descartando los segmentos dañados.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>TCP se recupera de los errores del sistema de comunicación de internet.</p>
+</div>
+</div>
+<div class="section" id="flujo-de-control">
+<h3>Flujo de control<a class="headerlink" href="#flujo-de-control" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>TCP proporciona al receptor un medio para controlar la cantidad de datos enviados por el emisor. Esto se consigue devolviendo una «ventana» con cada ACK, indicando el rango de números de secuencia aceptables más allá del último segmento recibido con éxito. La ventana indica el número de octetos que se permite que el emisor transmita antes de que reciba el siguiente permiso.</p>
+</div>
+<div class="section" id="multiplexamiento">
+<h3>Multiplexamiento<a class="headerlink" href="#multiplexamiento" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para permitir que muchos procesos dentro de un único “host” utilicen simultáneamente las posibilidades de comunicación de TCP, el módulo de TCP proporciona una serie de direcciones o puertos dentro de cada “host”. Concatenadas con las direcciones de red y de “host” de la capa de comunicación internet conforman lo que se denomina una dirección de conector (“socket”).  Un par de direcciones de conector identifica de forma única la conexión.  Es decir, un conector puede utilizarse simultáneamente en múltiples conexiones.</p>
+<p>La asignación de puertos a los procesos se gestiona de forma independiente en cada “host”. Sin embargo, resulta de la máxima utilidad asignar a los procesos más utilizados frecuentemente conectores fijos que se hacen conocer de forma pública. Estos servicios pueden entonces ser accedidos a través de direcciones conocidas públicamente.</p>
+</div>
+<div class="section" id="conexiones">
+<h3>Conexiones<a class="headerlink" href="#conexiones" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La fiabilidad y los mecanismos de control de flujo descritos más arriba exigen que los módulos de TCP inicialicen y mantengan una información de estado para cada flujo de datos. La combinación de esta información, incluyendo las direcciones de los conectores, los números de secuencia y los tamaños de las ventanas, se denomina una conexión. Cada conexión queda especificada de forma única por un par de conectores que corresponden con sus dos extremos.</p>
+<p>Cuando dos procesos desean comunicarse, sus módulos de TCP deben establecer primero una conexión (inicializar la información de estado en cada lado). Cuando la comunicación se ha completado, la conexión se termina o cierra con la intención de liberar recursos para otros usos.</p>
+<p>Como las conexiones tienen que establecerse entre “hosts” no fiables y sobre un sistema de comunicación internet no fiable, se utiliza un  mecanismo de acuerdo que usa números de secuencia basados en tiempos de reloj para evitar una inicialización errónea de las conexiones.</p>
+</div>
+<div class="section" id="prioridad-y-seguridad">
+<h3>Prioridad y seguridad<a class="headerlink" href="#prioridad-y-seguridad" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los usuarios de TCP pueden indicar el nivel de seguridad y prioridad de su comunicación. Se emplean valores por defecto cuando estas características no se necesiten.</p>
+</div>
+<div class="section" id="interfaces">
+<h3>Interfaces<a class="headerlink" href="#interfaces" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La interfaz TCP/usuario proporciona al usuario funciones de llamada al módulo de TCP:</p>
+<ul class="simple">
+<li><p><strong>OPEN</strong> y <strong>CLOSE</strong>, ara abrir o cerrar una conexión</p></li>
+<li><p><strong>SEND</strong> y <strong>RECEIVE</strong>, para enviar y recibir datos</p></li>
+<li><p><strong>STATUS</strong>,  para obtener información de estado sobre una conexión</p></li>
+</ul>
+<p>Estas llamadas son del mismo tipo que otras llamadas al sistema operativo realizadas desde programas de usuario como, por ejemplo, las llamadas para abrir, leer y cerrar un fichero.</p>
+<p>La interfaz TCP/internet proporciona llamadas para enviar y recibir datagramas direccionados a los módulos TCP en cualquier “host” del sistema de internet.</p>
+</div>
+<div class="section" id="comunicacion-fiable">
+<h3>Comunicación fiable<a class="headerlink" href="#comunicacion-fiable" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La transmisión es fiable gracias al uso de números de secuencia y de acuses de recibo. Básicamente, se le asigna un número de secuencia a cada octeto de datos.</p>
+<p>Los segmentos también llevan un número de acuse de recibo que es el número de secuencia del siguiente octeto de datos esperado en la transmisión en el sentido inverso. Cuando el módulo de TCP transmite un segmento conteniendo datos, pone una copia en una cola de retransmisión e inicia un contador de tiempo; si llega el acuse de recibo para esos de datos, el segmento se borra de la cola. Si no se recibe el acuse de recibo dentro de un plazo de expiración, el segmento se retransmite.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La llegada del acuse de recibo, no garantiza que los datos ya hayan sido entregados al usuario final, sino, únicamente, que el TCP receptor, ha asumido la responsabilidad de hacerlo.</p>
+</div>
+<p>Para controlar el flujo de datos entre los módulos de TCP, se utiliza un mecanismo de flujo de control, mediante el cual, el TCP receptor devuelve una <strong>ventana</strong> al TCP emisor. Esta ventana especifica el número de octetos, a contar a partir del número del acuse de recibo, que el TCP receptor está en ese momento preparado para recibir.</p>
+</div>
+<div class="section" id="establecimiento-y-finalizacion-de-la-conexion">
+<h3>Establecimiento y finalización de la conexión<a class="headerlink" href="#establecimiento-y-finalizacion-de-la-conexion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para identificar los distintos flujos de datos que un módulo TCP puede manejar simultáneamente, TCP proporciona un identificador de puerto.</p>
+<p>Para disponer de direcciones únicas dentro de cada TCP, se concatena la dirección de internet que identifica al módulo de TCP con el identificador de puerto para así conformar una dirección de conector (<strong>socket</strong>) que será única a largo de todo el conjunto de redes interconectadas. Una conexión queda completamente especificada por el par de conectores de sus extremos.</p>
+<p>Una conexión se especifica en la llamada de apertura OPEN con los argumentos de un puerto local y una dirección de conector remoto. Una petición pasiva OPEN significa que el proceso desea aceptar peticiones de conexión entrantes en vez de intentar iniciar directamente una conexión.</p>
+<p>Los procedimientos para establecer conexiones utilizan el indicador de control de sincronización <strong>SYN</strong> e involucran un intercambio de tres mensajes. Se ha denominado a este intercambio como el acuerdo en tres pasos <strong>three-way handshake</strong></p>
+<p>La finalización de una conexión también involucra el intercambio de segmentos, en este caso transportando un indicador de control <strong>FIN</strong></p>
+</div>
+<div class="section" id="comunicacion-de-datos">
+<h3>Comunicación de datos<a class="headerlink" href="#comunicacion-de-datos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>TCP puede almacenar datos del usuario emisor y enviar estos en segmentos según su propia conveniencia, siempre y cuando no se invoque la función <strong>PUSH</strong>, en cuyo caso, TCP tiene que enviar todos los datos pendientes. Cuando el TCP receptor ve el indicador <strong>PUSH</strong>, no debe esperar más datos antes de pasar los datos al proceso receptor (el propósito de la función en indicación PUSH, consiste en transportar inmediatamente los datos desde el usuario emisor al usuario receptor).</p>
+</div>
+<div class="section" id="formato-de-la-cabecera">
+<h3>Formato de la cabecera<a class="headerlink" href="#formato-de-la-cabecera" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los segmentos de TCP se envían como datagramas de Internet, la cabecera del protocolo de internet, transporta varios campos de información, entre los que se incluyen las direcciones de los host de origen y destino.</p>
+<img alt="_images/tcp.png" class="align-center" src="_images/tcp.png" />
+<ul>
+<li><p>El número de puerto de origen</p></li>
+<li><p>El númro de puerto de destino</p></li>
+<li><p>Número de secuencia. Si SYN está puesto a 1, es el número de secuencia original, entonces, el primer octeto de datos es ISN+1.</p></li>
+<li><p>Número de acuse de recibo. Si ACK es 1, contiene el valor del siguiente número de secuencia que el emisor del segmento espera recibir. Una vez que la comunicación está establecida, este número se envía siempre.</p></li>
+<li><p>Longitud cabecera. Número de palabras de 32 bits que ocupa la cabecera TCP.</p></li>
+<li><p>Bits de código.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>URG, hace significativo el campo “puntero urgente”</p></li>
+<li><p>ACK, hace significativo el campo “número de acuse de recibo”</p></li>
+<li><p>PSH, función de entregar datos inmediatamente</p></li>
+<li><p>RST, reiniciar conexión.</p></li>
+<li><p>SYN, sincronizar los números de secuencia.</p></li>
+<li><p>FIN, últimos datos del emisor.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Ventana. Número de octeto de datos a contar a partir del número indicado en el campo “número de acuse de recibo” que el emisor de este segmento está dispuesto a aceptar.</p></li>
+<li><p>Suma de control. Es el complemento a 1 de 16 bits de la suma de los complementos a 1 de todas las palabras de 16 bits de la cabecera y el texto. La suma de control, también incluye una pseudocabecera que contiene la dirección de origen, la dirección de destino, el protocolo y la longitud del segmento TCP.</p></li>
+<li><p>Puntero urgente. El puntero urgente apunta al número de secuencia del octeto al que siguen los datos urgentes, este campo, sólo se interpreta si el bit URG es 1.</p></li>
+<li><p>Opciones. Variable, existen dos posibilidades para el formato opción:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Un octeto único con el tipo de opción.</p></li>
+<li><p>Un octeto con el tipo de opción, otro con la longitud de la opción y los datos de la opción (el octeto longitud, tiene en cuenta los 3 campos).</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="numeros-de-secuencia">
+<h3>Números de secuencia<a class="headerlink" href="#numeros-de-secuencia" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El hecho de que todo octeto de datos enviado por una conexión TCP tenga asociado un número de secuencia, constituye una noción fundamental en el diseño de TCP.</p>
+<p>El mecanismo de acuse de recibo es acumulativo, de tal forma, que el acuse de recibo de un número de secuencia X, indica que todos los octetos hasta, pero no incluyendo X, han sido recibidos.</p>
+<p>Un segmento ubicado en la cola de retransmisión queda completamente confirmado por un acuse de recibo si la suma de su número de secuencia inicial y su longitud, es menor o igual que el valor del acuse de recibo indicado en el segmento entrante.</p>
+<p>¿Cómo se selecciona el número de secuencia inicial? Si partimos de la premisa que si abrimos y cerramos una sucesión de conexiones muy rápidamente, o si una conexión se corta acompañada de una perdida de memoria, podría dar lugar a segmentos duplicados. Para evitar cierta confusión, se debe evitar que los segmentos de una conexión, utilicen los números de secuencia que psiblemente estén circulando pr la red, de otra conexión anterior.</p>
+<p>Cuando se crean nuevas conexiones, se utiliza un generador de números de secuencia de 32 bits. El generador, está asociado a un reloj de 32 bits, cuyo bits menos significativo, se incrementa aproximadamente cada 4 microsegundos, de forma, que el <strong>ISN</strong>, rota cada 4,55 horas (a 2 MB/s, a 100 Mb/s, la rotación, sería cada 5,4 minutos).</p>
+<p>Para estar seguro de que un TCP no cree un segmento que transporte un número de secuencia que podría estar duplicado por la existencia de otro anterior que todavía permanece en la red, TCP debe permanecer en silencio durante el tiempo de vida máximo de un segmento (MSL) antes de que asigne cualquier número de secuencia tras arrancar o recuperarse de una caída en la que se perdieron los números de secuencia en uso (el MSL se toma de 2 minutos).</p>
+<p>Para cada conexión, existe un número de secuencia de envío y un numero de secuencia de recepción (el numero de secuencia de envío inicial “ISS”, lo elige el TCP emisor y el numero de secuencia inicial de recepción “IRS”, se asume durante el procedimiento de establecimiento de conexión).</p>
+<p>Para que una conexión quede establecida o inicializada, los dos TCP deben sincronizarse entre si mediante sus números de secuencia iniciales. Esto se consigue durante el establecimiento de la conexión mediante el intercambio de segmentos que transportan un bit de control (SYN) y los números de secuencia iniciales.</p>
+<p>La sincronización requiere que cada parte envíe su propio numero de secuencia inicial y reciba una confirmación de su llegada en la forma de acuse de recibo, cada parte debe recibir el número de secuencia inicial de la otra parte y enviar un acuse de recibo como confirmación.</p>
+<img alt="_images/handsake.png" class="align-center" src="_images/handsake.png" />
+<p>Es necesario un acuerdo de tres pasos porque los números de secuencia no están sujetos a un reloj global de la red y los TCP puede que tengan diferentes mecanismos para elegir los ISN.</p>
+</div>
+<div class="section" id="establecimiento-de-la-conexion">
+<h3>Establecimiento de la conexión<a class="headerlink" href="#establecimiento-de-la-conexion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El procedimiento de acuerdo en tres pasos para establecer una conexión, también funciona si dos TCP simultáneamente inician la conexión, en este caso, cada TCP recibe un segmento SYN que no lleva acuse de recibo, tras haber enviado su SYN.</p>
+<p>La llegada de un segmento SYN duplicado, hace creer al receptor que está en progreso de una iniciación simultánea, un uso adecuado de los segmentos de tipo “reset”, puede eliminar la ambigüedad.</p>
+<img alt="_images/Iniciacion-normal.png" class="align-center" src="_images/Iniciacion-normal.png" />
+<p>En una iniciación normal</p>
+<ol class="arabic simple">
+<li><p>Esta esperando recibir el 101 de la secuencia y confirma la recepción del SYN que ocupa el lugar 100 de la secuencia.</p></li>
+<li><p>Reconoce el SYN del TCP B, el número de secuencia es el mismo porque los ACK no consumen números de secuencia.</p></li>
+</ol>
+<p>En una iniciación simultánea</p>
+<img alt="_images/Iniciacion-simultanea.png" class="align-center" src="_images/Iniciacion-simultanea.png" />
+<p>El principal motivo del uso del acuerdo de 3 pasos es evitar que las iniciaciones de conexiones duplicadas anteriores causen confusión, se establece un mensaje de control especial <strong>RESET</strong>. Si el TCP receptor está en un estado no sincronizado (SYN_SENT, SYN-RECEIVED) vuelve al estado de LISTEN tras la recepción de un reset. Si el TCP está en uno de los estados sincronizados (ESTABLISHED, FIN-WAIT-1, FIN-WAIT-2, CLOSE-WAIT, CLOSING, LAST-ACK, TIME-WAIT), corta abruptamente la conexión e informa al usuario de ello.</p>
+<p>Recuperación de un SYN duplicado anterior</p>
+<img alt="_images/Iniciacion-duplicado.png" class="align-center" src="_images/Iniciacion-duplicado.png" />
+<ol class="arabic simple">
+<li><p>SYN duplicado anterior que TCP B no diferencia y responde de forma normal.</p></li>
+<li><p>TCP A detecta que el ACK es incorrecto y devuelve un RESET.</p></li>
+<li><p>Cuando el SYN auténtico llega a TCP B, la sincronización procede de forma normal.</p></li>
+</ol>
+<p>Una conexión establecida se dice que está medio abierta si uno de los TCP ha cerrado o interrumpido la conexión en su extremo sin avisar a la otra parte, o si los dos extremos de la comunicación han quedado desincronizados por culpa de una caída que cause perdidas de memoria. Si hubiera un intento de enviar datos en cualquier sentido, la conexión se reiniciaría automáticamente con un reset.</p>
+<img alt="_images/Iniciacion-caida.png" class="align-center" src="_images/Iniciacion-caida.png" />
+<ol class="arabic simple">
+<li><p>Estando en estado sincronizado, responde indicando que número de secuencia espera recibir.</p></li>
+<li><p>Aprecia que este segmento no confirma nada y estando desincronizado envía un reset.</p></li>
+<li><p>El TCP A, intenta restablecer la conexión.</p></li>
+</ol>
+</div>
+<div class="section" id="reglas-de-generacion-de-reset">
+<h3>Reglas de generación de <strong>RESET</strong><a class="headerlink" href="#reglas-de-generacion-de-reset" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Como regla general, se debe enviar un reset siempre que llegue un segmento que aparentemente no este destinado para la conexión actual.</p>
+<p>Hay 3 grupos de estados:</p>
+<ul class="simple">
+<li><p>Si la conexión no existe (CLOSED), se envía un RESET como respuesta a cualquier segmento entrante excepto si es otro RESET (los SYN enviados a una conexión no existente, serán rechazados de esta forma). Si en el segmento entrante tiene significado el ACK, el RESET escoge como número de secuencia el valor del campo ACK, en caso contrario, es 0 y el ACK es igual al número de secuencia y la longitud del segmento entrante.</p></li>
+<li><p>La conexión está en cualquier estado no sincronizado (LISTEN, SYN-SENT, SYN-RECEIVED) y el segmento entrante confirma un segmento no enviado (ACK inaceptable) o si tiene un nivel de prioridad distinto al solicitado, se envía un reset. Si nuestro SYN no ha sido confirmado y el nivel de prioridad del segmento entrante es más alto que el nivel solicitado, entonces, o se aumenta el nivel de prioridad local (si está permitido) o se envía un reset. Si nuestro SYN ha sido confirmado, el nivel de prioridad del segmento entrante debe concordar exactamente con el nivel de prioridad local, si no es así, se envía un reset.</p></li>
+<li><p>Si la conexión está en un estado sincronizado (ESTABLISHED, FIN-WAIT-1, FIN-WAIT-2, CLOSE-WAIT, CLOSING, LAST-ACK, TIME-WAIT), cualquier segmento inaceptable (número de secuencia fuera de ventana o un número de acuse de recibo inaceptable) se envía un segmento ACK sin datos con el número de secuencia y un valor ACK indicando el siguiente número de secuencia que se espera recibir, la conexión permanece en el mismo estado.</p></li>
+</ul>
+</div>
+<div class="section" id="cierre-de-una-conexion">
+<h3>Cierre de una conexión<a class="headerlink" href="#cierre-de-una-conexion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p><strong>CLOSE</strong>, es una operación que significa <strong>no tengo más datos que enviar</strong>, el usuario que hace la llamada CLOSE, puede continuar recibiendo hasta que se le indique que el otro lado ha cerrado también la conexión mediante otro CLOSE (por lo tanto, un programa puede iniciar varias llamadas SEND seguidas de un CLOSE y continuar recibiendo hasta que el interlocutor cierre la conexión con un CLOSE).</p>
+<p>Se asume que TCP indicará al usuario que el otro lado de la conexión ha cerrado ésta, incluso si no hay llamadas RECEIVE pendientes, de forma que pueda cerrar su conexión limpiamente.</p>
+<p>Una conexión TCP entregará de forma fiable todos los bufers enviados en llamadas SENT antes de que la conexión sea cerrada, los usuarios deben mantenerse leyendo en las conexiones que cierren hasta que TCP notifique que no hay mas datos.</p>
+<p>Existen tres casos:</p>
+<ol class="arabic simple">
+<li><p>El usuario inicia el cierre de la conexión enviando CLOSE a TCP, TCP forma un segmento FIN y lo pone en la cola de salida, no acepta mas llamadas SEND y entra en estado FIN-WAIT-1. En este estado, se permiten las llamadas RECEIVE. Cuando el TCP remoto haya realizado el acuse de recibo del FIN y enviado su propio FIN, el TCP local puede realizar el acuse de recibo de este FIN (un TCP recibe un FIN y envía un ACK, pero no enviará su propio FIN hasta que el usuario cierre su conexión).</p></li>
+<li><p>El TCP remoto inicia el cierre enviando FIN. Si llega un FIN no solicitado, el receptor responde con un ACK y advierte al usuario de que la conexión se esta cerrando, el usuario responde con CLOSE y el TCP envía un FIN tras enviar los datos restantes. El TCP espera hasta el ACK de su propio FIN y elimina la conexión, si el ACK no llega, la conexión aborta y se le notifica al usuario.</p></li>
+<li><p>Ambos usuarios cierran simultáneamente. Cuando todos los segmentos que preceden a los FIN se han procesado y confirmado, cada TCP puede responder con un ACK el FIN que ha recibido, ambos, ante la recepción de los ACK, eliminarán la conexión.</p></li>
+</ol>
+<p>Secuencia de cierre normal</p>
+<img alt="_images/fin-normal.png" class="align-center" src="_images/fin-normal.png" />
+<p>Secuencia de cierre simultáneo</p>
+<img alt="_images/fin-simultaneo.png" class="align-center" src="_images/fin-simultaneo.png" />
+</div>
+<div class="section" id="id1">
+<h3>Comunicación de datos<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Una vez establecida la conexión, los datos se transmiten mediante el intercambio de segmentos, como estos pueden perderse, TCP utiliza la retransmisión (tras un tiempo de espera) para asegurar la entrega de cada segmento.</p>
+<p>TCP realiza ciertas comprobaciones sobre los números de secuencia y de acuse de recibo en los segmentos para verificar su admisión (pueden llegar duplicados).</p>
+<p>La llamada del usuario CLOSE, implica la función de entrega inmediata PUSH, tal y como sucede con el indicador de control FIN en un segmento entrante.</p>
+</div>
+<div class="section" id="tiempo-de-espera-de-retrasnmision">
+<h3>Tiempo de espera de retrasnmisión<a class="headerlink" href="#tiempo-de-espera-de-retrasnmision" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Debido a la variabilidad de las redes que componen un sistema de redes de internet y la gran cantidad de casos de conexiones TCP el tiempo de espera de retransmisión se debe determinar dinámicamente</p>
+<p>Mídase el tiempo transcurrido entre el envio de un octeto de datos con un número de secuencia determinado y la recepción de un acuse de recibo que incluya ese número de secuencia (los segmentos
+enviados no tienen por qué concordar con los segmentos recibidos).</p>
+<p>Este tiempo medido es el «tiempo de ida y vuelta (<strong>Round Trip Time</strong> o <strong>RTT</strong>) y basado en este, se calcula el tiempo de espera de retransmisión (<strong>RTO</strong>)</p>
+</div>
+<div class="section" id="ventana-de-recepcion">
+<h3>Ventana de recepción<a class="headerlink" href="#ventana-de-recepcion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>TCP ve los datos enviados como una ecuencia de bytes, para limitr el número de datos que se pueden enviar simultáneamente y para proporcionar control de flujo del lado del receptor, TCP usa una ventana, que son todos los datos de la secuencia de bytes que el receptor permite que el remitente envíe (el remitente, sólo puede enviar los bytes incluidos en la ventana)</p>
+<p>Cuando no existen datos o los ACK están en transito, se establece una coincidencia entre las ventanas de envío y la de recepción.</p>
+<p>TCP contiene un campo de 16 bits, cuando el receptor obtiene datos, envía ACK indicando la recepción correcta e indicando el número de bytes que permeneceran en la ventana de recepción. Cuando la aplicación envía, confirma y recupera datos, la ventana de recepción y envío, se desplazaran a la izquierda</p>
+<img alt="_images/ventana-recepcion.png" class="align-center" src="_images/ventana-recepcion.png" />
+<p>La ventana de recepción máxima tiene un tamaño fijo, la recepción actual, tiene un tamaño variable, que se corresponde con el número de datos restantes que el receptor permite que le envíe, este tamaño actual, es el valor del campo ventana anunciado en el segmento ACK.</p>
+<p>Cuando el TCP receptor tiene una ventana de tamaño cero y llega un segmento debe todavía enviar un acuse de recibo con su próximo número de secuencia esperado y su tamaño de ventana actual (cero).</p>
+<img alt="_images/ventana-zero.png" class="align-center" src="_images/ventana-zero.png" />
+<p>Sugerencias sobre la gestión de ventana:</p>
+<ul class="simple">
+<li><p>Disponer de una ventana muy pequeña, provoca que los datos sean transmitidos en segmentos pequeños (a mayor tamaño, mejor rendimiento).</p></li>
+<li><p>Que el receptor retrase la actualización hasta que el tamaño de ventana disponible sea de al menos el 20% o 40% del tamaño maximizo posible.</p></li>
+<li><p>Que el emisor evite el envío de segmentos pequeños, hasta que la ventana sea lo bastante grande para enviar datos (excepto PUSH)</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p>¡OJO! Los acuses de recibo no deben retrasarse, provocan retransmisiones.</p>
+</div>
+<p>Para optimizar el rendimiento TCP, el remitente, debe enviar suficientes paquetes, para completar la capacidad del enlace (Ancho de banda * RTT)</p>
+<p>La capacidad, se conoce como el producto del retraso de ancho de banda (BDP), la canalización, puede sr ancha (ancho de banda alto) o estrecha (ancho de banda bajo), corta (RTT bajo) o larga (RTT alto), las canalizaciones anchas y largas, representan el BDP más elevado</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El tamaño de ventana en el encabezado TCP es de 16 bits, lo que permite que TCP anuncie un tamaño máximo de ventana de 65535 bytes.</p>
+<p>Puede calcular el rendimiento aproximado para un tamaño de ventana TCP determinado mediante la fórmula</p>
+<p><strong>Troughput = TCP Maximun Window Size / RTT</strong></p>
+</div>
+</div>
+</div>
+<div class="section" id="configurando-preferencias-de-tcp-en-wireshark">
+<h2>Configurando preferencias de TCP en Wireshark<a class="headerlink" href="#configurando-preferencias-de-tcp-en-wireshark" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En la mayoría de los casos, se puede utilizar la configuración por defecto para TCP, pero hay cosas que se pueden cambiar</p>
+<p>Desde preferencias del protocolo <strong>Edit -&gt; Preference -&gt; Protocols -&gt; TCP</strong></p>
+<img alt="_images/tcp-preferences.png" class="align-center" src="_images/tcp-preferences.png" />
+<ul class="simple">
+<li><p><strong>Show TCPsummary in protocol tree</strong>. Marque esta opción si desea que la línea resumen TCP, se muestre en el arbol de protocolos</p></li>
+<li><p>Validate the TCP checksum if possible. Esta característica, puede ralentizar el rendimiento, en la mayoría de los casos, no es recomendable</p></li>
+<li><p><strong>Allow subdisector to reasemble streams</strong>. Esta opción, es para el análisis de flujo</p></li>
+<li><p><strong>Analyze TCP sequence numbers</strong>. Cuando se establece, Wireshark, analiza los números de secuencia y rastrea fenómenos como retransmisiones, ACKs dupllicados, etc. Es una de las características importantes de Wireshark</p></li>
+<li><p><strong>Relative sequence numbers</strong>. Cuando está configurado, Wireshark, mostrará cada conexión TCO que comienza, con el número de secuencia igual a 0.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Los números de secuencia, son números entre 0 y <span class="math notranslate nohighlight">\(2^{32}\)</span>, elegidos por el proceso TCP y que son difíciles de seguir (el estándar TCP, no establece ninguna regla para elegir este número), Wireshark, normaliza estos números para que empiecen por 0.</p>
+</div>
+<ul class="simple">
+<li><p><strong>Track number of bytes in fligtht</strong>. Permite a Wireshark, rastrear la cantidad de bytes no reconocidos que fluyen en la red.</p></li>
+<li><p><strong>Calculate Conversation timestamp</strong>. Permite los cálculos de marcas de tiempo en TCP</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>TCP implementa la entrega confiable de datos retransmitiendo segmentos que no se reconocen dentro de un intervalo de tiempo de espera de retransmisión (RTO). La determinación dinámica precisa de un RTO apropiado es esencial para el rendimiento del TCP. El RTO se determina estimando la media y la varianza del tiempo medido de ida y vuelta (RTT, Round Trip Time), es decir, el intervalo de tiempo entre el envío de un segmento y la recepción de un acuse de recibo.</p>
+<p>TCP, introduce una nueva opción <strong>Timestamp</strong> y define un mecanismo que utiliza esta opción, que permite, que casi todos los segmentos, incluidas las retransmisiones, se cronometren.</p>
+<ul class="simple">
+<li><p>El remitente, coloca una marca de tiempo en cada segmento de datos que envía</p></li>
+<li><p>El receptor, refleja esas marcas de tiempo en segmentos ACK</p></li>
+</ul>
+<p>Una sola resta, da al remitente una medición de tiempo precisa. Utilizamos el nemonico <strong>RTTM</strong> (Medición del Tiempo de Ida y Vuelta) para ese mecanismo</p>
+</div>
+<ul class="simple">
+<li><p>Try heuristic subdissector first. Intanta decodificar un paquete usando un método heurśitico antes de usar un disector registrado en el puerto específico.</p></li>
+<li><p>Ignore TCP timestamp in summary. Ignorar la opción timestamp en la cabecera TCP</p></li>
+</ul>
+</div>
+<div class="section" id="flags-tcp-de-wireshark">
+<h2>Flags TCP de Wireshark<a class="headerlink" href="#flags-tcp-de-wireshark" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Por defecto, el disector TCP de Wireshark, ratrea el estado de cada sesión TCP y proporciona información adicional cuando se detectan problemas</p>
+<p>El análisis, se realiza una vez para cada paquete TCP cuando se abre por primera vez un archivo de captura, los paquetes, se van procesando en el orden en que aparecen en la lista de paquetes.</p>
+<p>Puede deshabilitar/habiltar esta función a través las preferencias de protocolo <strong>Analyze TCP sequence  numbers</strong></p>
+<p>Los indicadores de análisis TCP, se agregan al árbol de protocolos TCP y pueden ser utilizados en la composición de filtros de visualización</p>
+<ul class="simple">
+<li><p><strong>Next sequence number</strong>, el último número de secuencia visto más la longitud del segmento</p></li>
+<li><p><strong>TCP ACK end un seen segment</strong></p></li>
+<li><p><strong>TCP Dup ACK</strong></p></li>
+<li><p><strong>TCP Fast retransmission</strong></p></li>
+<li><p><strong>TCP Keep-Alive</strong></p></li>
+<li><p><strong>TCP Keep-Alive ACK</strong></p></li>
+<li><p><strong>TCP Out-Of-Order</strong></p></li>
+<li><p><strong>TCP Port numbers reused</strong>, establecido cuando tenemos un SYN (no SYN y ACK) y una conversación existente que usa la misma dirección, y el número de secuencia es diferente al inicial de la conversación existente</p></li>
+<li><p><strong>TCP Previous segment not captured</strong>, se establece cuando el número de secuencia actual, es mayor que el siguiente número de secuencia esperado</p></li>
+<li><p><strong>TCP Spurious Retransmission</strong></p></li>
+<li><p><strong>TCP Retransmission</strong></p></li>
+<li><p><strong>TCP Windows full</strong>, se establece cuando el tamaño del egmento no es 0, sabemos el tamaño de la ventana en dirección inversa y el tamaño de nuestro segmento, excede del tamaño de ventana en la receptor</p></li>
+<li><p><strong>TCP Window update</strong></p></li>
+<li><p><strong>TCP Zero Window</strong></p></li>
+<li><p><strong>TCP Zero Window Probe</strong></p></li>
+<li><p><strong>TCP Zero Window Probe ACK</strong></p></li>
+</ul>
+</div>
+<div class="section" id="problemas-de-conexion-tcp">
+<h2>Problemas de conexión TCP<a class="headerlink" href="#problemas-de-conexion-tcp" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cuando dos procesos TCP desean comunicarse, abren una conexión, envían los datos y luego cierran la conexión.</p>
+<p>Cuando TCP abre una conexión, envía una petición de conexión desde el puerto origen al puerto de destino.</p>
+<p>Pueden ocurrir algunos problemas durante el establecimiento o cierre de la conexión (intentar navegar por Internet y que no funcione o un servidor que no responde, las razones pueden ser debidas a que el servidor está caido, la aplicación no se ejecuta en el servidor o la red está caida en algún lugar de camino al servidor)</p>
+<p>También podemos encontrar razones más complejas, como problemas DNS, memoria insuficiente en el servidor, IP duplicadas, etc.</p>
+<p>Cuando nos falla alguna aplicación, lo primero que solemos hacer es:</p>
+<ul>
+<li><p>Verificar que el servidor y las aplicaciones se están ejecutando.</p></li>
+<li><p>Hacer ping al servidor y verificar que tenemos conexión (en algunos casos podemos no tener conectividad con el servidor porque puede estar bloqueado el tráfico ICMP por algún firewall).</p></li>
+<li><p>Al tracear con Wireshark, mirar los siguientes patrones:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>3 mensajes SYN que no responden</p></li>
+<li><p>Mensajes SYN con una respuesta RST.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>En el inicio de una conexión TCP en el lado cliente, se envía un paquete SYN en el que:</p>
+<ul class="simple">
+<li><p>Especifica el número de secuencia inicial, que es el número del primer byte que el cliente envía al servidor.</p></li>
+<li><p>Especifica el tamaño de la ventana.</p></li>
+<li><p>Establecen las opciones que se van a utilizar (MSS, Maximun Segment Size, Window size, SACK)</p></li>
+</ul>
+<p>En recepción:</p>
+<ul class="simple">
+<li><p>Envía un paquete SYN-ACK, confirmando que acepta la petición SYN</p></li>
+<li><p>Especifica su número de secuencia inicial.</p></li>
+<li><p>Especifica el tamaño de la ventana de recepción</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>En las opciones de la cabecera TCP, puede haber las siguientes opciones principales.</p>
+<ul class="simple">
+<li><p>Maximun Segment Size, es el máximo tamaño de los datagramas TCP, esto es el número de bytes desde el comienzo de la cabecera TCP y el final del paquete.</p></li>
+<li><p>Window size, este factor se multiplica con el campo de tamaño de ventana en la cabecera TCP para notificar al receptor un bufer de mayor tamaño. Dado que el tamaño máximo de ventana en la cabecera es de 64 Kb, un factor de 4 nos da 256 Kb de tamaño de ventana.</p></li>
+<li><p>SACK (Selective ACK), es una opción que permite a las dos partes de una conexión a reconocer paquetes específicos, por lo que cuando se pierde un sólo paquete, sólo ese paquete es enviado de nuevo. Ambas partes tienen que ponerse de acuerdo sobre SACK en el establecimiento de la conexión.</p></li>
+<li><p>Timestamps options, se refiera a la medición de la demora entre el cliente y el receptor</p></li>
+</ul>
+</div>
+<p>En esta etapa, las dos partes, acuerdan establecer una conexión, conocen el número de secuencia de la otra parte y el tamaño de la ventana de recepción.</p>
+</div>
+<div class="section" id="retransmisiones-tcp">
+<h2>Retransmisiones TCP<a class="headerlink" href="#retransmisiones-tcp" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cuando TCP envía un paquete o un grupo de paquetes, espera a que un reconocimiento confirme la aceptación de esos paquetes, las retransmisiones ocurren debido a un paquete que no ha llegado o a un reconocimiento que no ha llegado a tiempo.</p>
+<p>Cuando ven que la red se vuelve lenta, una de las razones para ello puede ser las retransmisiones.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>En una captura, podemos encontrar muchas direcciones IP, muchas aplicaciones, etc. Lo imporftante, es ubicar las conexiones TCP en las que ocurren las retransmisiones y ver de dónde provienen</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lab_interfaz.html" class="btn btn-neutral float-right" title="Laboratorios Configuración Introducción a Wireshark" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="arp.html" class="btn btn-neutral float-left" title="Protocolo ARP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

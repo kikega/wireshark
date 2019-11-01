@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Trabajando con los paquetes capturados &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Capa de enlace de datos" href="ip.html" />
+    <link rel="prev" title="Introducción a Wireshark" href="introduccion.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Trabajando con los paquetes capturados</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#paquetes-capturados">Paquetes capturados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#moviendonos-a-un-paquete-especifico">Moviendonos a un paquete específico</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filtrado-de-paquetes">Filtrado de paquetes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ventana-de-filtros-y-menu-de-filtros-guardados">Ventana de filtros y menú de filtros guardados</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seleccionando-un-filtro-con-las-herramientas-de-wireshark">Seleccionando un filtro con las herramientas de Wireshark</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#definiendo-macros-de-filtrado">Definiendo macros de filtrado</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#coloreando-paquetes">Coloreando paquetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exportando-paquetes">Exportando paquetes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Capa de enlace de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Capa de Transporte</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Trabajando con los paquetes capturados</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/filtrado.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="trabajando-con-los-paquetes-capturados">
+<h1>Trabajando con los paquetes capturados<a class="headerlink" href="#trabajando-con-los-paquetes-capturados" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="paquetes-capturados">
+<h2>Paquetes capturados<a class="headerlink" href="#paquetes-capturados" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Una vez que hayamos capturado tráfico o se haya abierto un archivo de captura previamente guardado, podeos acceder a los detalles de cada paquete, seleccionando el paquete en la ventana de lista de paquetes.</p>
+<p>Apareceran los detalles en una rama por cada nivel de red, y podremos expandir una parte del arbol de datos o el árbol completo. Si tenemos abierta la ventana de <strong>bytes</strong>, al hacer click en un elemento del árbol, se resaltarán los bytes correspondientes en la vista de bytes. También se puede seleccionar y ver detalles de un paquete mientras se está capturando tráfico en tiempo real (siempre que tengamos marcado en <strong>Preferencias -&gt; Captura</strong> la opción <strong>Update list of packets in real time</strong>)</p>
+<p>Podemos ver el paquete en una nueva ventana, haciendo doble click en el paquete o seleccionando con el botón derecho del ratón, la opción <strong>Show packet in new window</strong></p>
+<p>Tanto si seleccionamos un paquete en el listado de paquetes, en el panel de detalle de paquetes o en la cabecera de las columnas del listado de paquetes, al hacer click con el botón derecho del ratón, aparecerá un menú emergente con distintas opciones</p>
+<p>Si pulsamos en la cabecera de columnas del listado de paquetes</p>
+<ul class="simple">
+<li><p>Align left</p></li>
+<li><p>Align center</p></li>
+<li><p>Align Right</p></li>
+<li><p>Edit Column y Column Preferences, abrimos el cuadro de diálogo para gestionar esa columna</p></li>
+<li><p>Resize contents, cambia el tamaño de las columnas para que se ajuste a sus valores</p></li>
+<li><p>Resolve names</p></li>
+<li><p>Remove column, borramos esa columna del panel de listado de paquetes</p></li>
+</ul>
+</div>
+<div class="section" id="moviendonos-a-un-paquete-especifico">
+<h2>Moviendonos a un paquete específico<a class="headerlink" href="#moviendonos-a-un-paquete-especifico" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Podemos saltar a un paquete desde el menú <strong>Go</strong></p>
+<ul class="simple">
+<li><p>Siguiente paquete</p></li>
+<li><p>Paquete anterior</p></li>
+<li><p>Primer paquete</p></li>
+<li><p>Último paquete</p></li>
+<li><p>Próximo paquete en la conversación</p></li>
+<li><p>Pauqte anterior en la conversación</p></li>
+</ul>
+<p>Podemos marcar paquetes en el panel lista de paquetes, este, se mostrará con fondo negro. Marcar un paquete, puede ser útil para encontarlo más tarde mientras se analiza en un archivo de captura.</p>
+<p>Podemos marcarlo o desmarcarlo con el botón derecho al seleccionar un paquete.</p>
+<p>Las marcas de paquetes no se almcenan en el archivo de captura y se perderan cuando el archivo de captura sea cerrado.</p>
+<p>Podemos seleccionar los paquetes marcados con un filtro</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">.</span><span class="n">marked</span> <span class="o">==</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>Podemos agregar un comentario a un sólo paquete, nos aparecerá en el árbol de detalle del paquete una entrada con el comentario que hemos escrito</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La capacidad de guardar comentarios en un paquete, dependerá del formato de archivo, el formato <strong>pcapng</strong>, permite guardar comentarios, el formato <strong>pcap</strong> no</p>
+</div>
+<img alt="_images/packet-comment.png" class="align-center" src="_images/packet-comment.png" />
+</div>
+<div class="section" id="filtrado-de-paquetes">
+<h2>Filtrado de paquetes<a class="headerlink" href="#filtrado-de-paquetes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los <strong>filtros de visualización</strong>, se aplican después de capturar datos y nos permite, mediante un potente lenguaje, construir complejas expresiones para seleccionar ciertos paquetes que cumplan con lo regla de filtrado .</p>
+<p>Podemos seleccinar paquetes, atendiendo a:</p>
+<ul class="simple">
+<li><p>Parámetros como la dirección IP, una red concreta, puertos, etc.</p></li>
+<li><p>Protocolos</p></li>
+<li><p>La presencia de un campo o un valor en un campo concreto</p></li>
+<li><p>Condiciones como la longitud de un paquete, existencia de flags</p></li>
+<li><p>Fenómenos como retransmisiones TCP, ACKs duplicados, etc.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La comprensión de filtros de visualización, es absolutamente esencial para el analsta de redes, aprender a construir, editar y guardar filtros de visualización, ahorrará mucho trabajo</p>
+</div>
+<p>Cualquier dato que se envíe sobre una red, puede ser filtrado y cuando se filtra, se pueden estadísticas y gráficos.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Los filtros de visualización, sólo deciden qué datos mostrar, por lo tanto, el archivo de captura aún contiene los datos originales que se capturaron. Después, se puede guardar los datos completos, o sólo los datos visualizados</p>
+</div>
+<p>A la hora de configurar filtros de visualización, podemos elegir entre varias opciones</p>
+<ul class="simple">
+<li><p>Elegir desde el menú, los filtros guardados</p></li>
+<li><p>Escribir la sintaxis directamente en la entrada de filtrado</p></li>
+<li><p>Elegir un parámetro en el panel de detalle del paquete y definirlo como filtro</p></li>
+<li><p>Construir un filtro mediante el botón <strong>Expression</strong></p></li>
+</ul>
+<p>En general, una cadena de filtro de visualización, se construye con una serie de expresiones unidas por operadores</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="ow">not</span><span class="p">]</span> <span class="n">Expresión</span> <span class="p">[</span><span class="ow">and</span><span class="o">|</span><span class="ow">or</span><span class="p">]</span> <span class="p">[</span><span class="ow">not</span><span class="p">]</span> <span class="n">Expresión</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">addr</span> <span class="o">==</span> <span class="mf">10.15</span><span class="o">.</span><span class="mf">100.1</span> <span class="ow">and</span> <span class="n">sip</span>
+</pre></div>
+</div>
+<img alt="_images/filtros-condiciones.png" class="align-center" src="_images/filtros-condiciones.png" />
+<img alt="_images/filtros-operadores.png" class="align-center" src="_images/filtros-operadores.png" />
+<p>Tipos de campos:</p>
+<ul class="simple">
+<li><p><strong>Unsigned integer</strong>, se pueden expresar enteros en decimal, octal o hexadecimal</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span><span class="o">.</span><span class="n">len</span> <span class="n">le</span> <span class="mi">1500</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Booleanos</strong>, un booleano es presente sólo si su valor presente en el protocolo decodificado es <strong>verdadero</strong></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sólo si los segmentos TCP contienen el flag SYN</span>
+<span class="n">tcp</span><span class="o">.</span><span class="n">flag</span><span class="o">.</span><span class="n">syn</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Direcciones ethernet</strong>, 6 bytes separados por dos puntos (:), puntos (.) o guiones (-)</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Yo, siempre lo pongo así</span>
+<span class="n">eth</span><span class="o">.</span><span class="n">dst</span> <span class="o">==</span> <span class="n">ff</span><span class="p">:</span><span class="n">ff</span><span class="p">:</span><span class="n">ff</span><span class="p">:</span><span class="n">ff</span><span class="p">:</span><span class="n">ff</span><span class="p">:</span><span class="n">ff</span>
+
+<span class="n">eth</span><span class="o">.</span><span class="n">dst</span> <span class="o">==</span> <span class="n">ffff</span><span class="o">.</span><span class="n">ffff</span><span class="o">.</span><span class="n">ffff</span>
+<span class="n">eth</span><span class="o">.</span><span class="n">dst</span> <span class="o">==</span> <span class="n">ff</span><span class="o">-</span><span class="n">ff</span><span class="o">-</span><span class="n">ff</span><span class="o">-</span><span class="n">ff</span><span class="o">-</span><span class="n">ff</span><span class="o">-</span><span class="n">ff</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Direcciones IP</strong>, también admite la notación CIDR para las redes</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span><span class="o">.</span><span class="n">addr</span> <span class="o">==</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">1.10</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">addr</span> <span class="o">==</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">1.0</span><span class="o">/</span><span class="mi">24</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Cadenas de texto</strong>, se encierran entre comillas. Hay ocasiones en las que se quiere buscar una palabra en particular, el uso de <strong>contains</strong>, pued ebuscar en una trama o en el contenido de un campo. Tener en cuanta que Wireshark, es case-sensitive y soporta expresiones regulares, donde para buscar una cadena concreta, utilizamos <strong>matches</strong></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">uri</span> <span class="o">==</span> <span class="s2">&quot;https://www.wireshark.org&quot;</span>
+<span class="n">sip</span><span class="o">.</span><span class="n">To</span> <span class="n">contains</span> <span class="s2">&quot;@10.235.15.37&quot;</span>
+<span class="n">ftp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">arg</span> <span class="n">matches</span> <span class="s2">&quot;(A|a)dmin&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Slice operator</strong>, podemos seleccionar parte de un array</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ets</span><span class="o">.</span><span class="n">scr</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="o">==</span> <span class="mi">20</span><span class="p">:</span><span class="mi">20</span>
+<span class="n">eth</span><span class="o">.</span><span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mi">00</span><span class="p">:</span><span class="n">Ç00</span><span class="p">:</span><span class="mi">33</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Operador de pertenecia</strong>, permite probar que un campo pertenece a un conjunto de valores</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tcp</span><span class="o">.</span><span class="n">port</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">80</span> <span class="mi">443</span> <span class="mi">8080</span><span class="p">}</span>
+<span class="n">tcp</span><span class="o">.</span><span class="n">port</span> <span class="o">==</span> <span class="mi">80</span> <span class="o">||</span> <span class="n">tcp</span><span class="o">.</span><span class="n">port</span> <span class="o">==</span> <span class="mi">443</span> <span class="o">||</span> <span class="n">tcp</span><span class="o">.</span><span class="n">port</span> <span class="o">==</span> <span class="mi">8080</span>
+<span class="c1"># También puede contener rangos</span>
+<span class="n">tcp</span><span class="o">.</span><span class="n">port</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">443</span> <span class="mf">4410.</span><span class="o">.</span><span class="mi">4420</span><span class="p">}</span>
+<span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;GET&quot;</span> <span class="s2">&quot;POST&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<ul>
+<li><p><strong>Funciones</strong>, disponemos de un número de funciones para convertir campos</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>upper y lower, forzamos coincidencias que sean case sensitive</p></li>
+<li><p>len, devuelve la longitud de una cadena o los bytes de un campo</p></li>
+<li><p>string, convierte un valor de campo en una cadena para utilizar operadores como <strong>matches</strong> o <strong>contains</strong></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lower</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">server</span><span class="p">)</span> <span class="n">contains</span> <span class="s2">&quot;apache&quot;</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span>
+<span class="n">string</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">dst</span><span class="p">)</span> <span class="n">matches</span> <span class="s2">&quot;^172&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Un error común, es el uso del operador <strong>!=</strong> en expresiones combinadas como <strong>eth.addr</strong>, <strong>ip.addr</strong>, <strong>tcp.port</strong>, probablemente no funcione como esperamos. Wireshark, mostrará la advertencia <strong>«Puede tener resultados inesperados»</strong>. Cuando queremos buscar tráfico para una dirección ip que no sea 10.10.10.10, si utilizamos <strong>ip.addr != 10.10.10.10</strong>, se debe leer como el paquete que contiene un campo ip.addr con un valor diferente a 10.10.10.10, como un datagrama ip contiene una dirección de origen y una de destino, la expresión, se evaluará como verdadera, siempre que al menos una de las dos direcciones difiera de 10.10.10.10.</p>
+<p>Lo correcto, sería utilizar !(ip.addr == 10.10.10.10)</p>
+</div>
+<div class="section" id="ventana-de-filtros-y-menu-de-filtros-guardados">
+<h3>Ventana de filtros y menú de filtros guardados<a class="headerlink" href="#ventana-de-filtros-y-menu-de-filtros-guardados" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Podemos escribir directamente la sintaxis del filtro en el cuadro de edición de filtros de la barra de herramientas. Cuando se teclea en el área de edición, wireshark, abre una ventana de autocompletado, para las opciones de filtrado</p>
+<img alt="_images/filtros-autocompletado.png" class="align-center" src="_images/filtros-autocompletado.png" />
+<p>Cuando empezamos a escribir en el área de edición de filtros, se colorea el fondo del campo:</p>
+<ul class="simple">
+<li><p>Color rojo, indica un error de sintaxis</p></li>
+<li><p>Color verde, la sintaxis es correcta</p></li>
+<li><p>Fondo amarillo, la sintaxis es correcta, pero puede obtener resuktados que no espera (uso del operador !=)</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La ventana de edición de filtros, nos guarda los últimos 10 filtros utilizados</p>
+</div>
+<p>Podemos seleccionar los filtros de visualización que hemos configurado desde el menú <strong>Analyze -&gt; Display Filters</strong> o pulsando el icono a la izquierda del cuadro de edición de filtros en la barra de herramientas. Esto, nos deslegará una ventana con los filtros que se encuentran en el archivo <strong>dfilters</strong>. Desde esta ventana, accedemos a la opción de configuración con <strong>Manage Display Filters</strong></p>
+<p>Este archivo, se puede editar para modificar o añadir más filtros, para ello, debemos saber en el perfil en el que nos encontramos</p>
+</div>
+<div class="section" id="seleccionando-un-filtro-con-las-herramientas-de-wireshark">
+<h3>Seleccionando un filtro con las herramientas de Wireshark<a class="headerlink" href="#seleccionando-un-filtro-con-las-herramientas-de-wireshark" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si pulsamos el botón <strong>Expression</strong>, se nos abre una ventana de diálogo, donde podemos ir construyendo el filtro a medida</p>
+<ul class="simple">
+<li><p>Field Name. En este panel se configura el parámetro de filtro, eligiendo el protocolo y luego el parámetro.</p></li>
+<li><p>Relation. Elegimos el operador que se ajustará al parámetro seleccionado</p></li>
+<li><p>Value. Elegimos el valor que queremos para ese parámetro</p></li>
+<li><p>Valores predefinidos. para los campos seleccionados (no todos los campos tienen esa ayuda).</p></li>
+<li><p>Range. Este campo, proporciona parámetros de longitud.</p></li>
+</ul>
+<img alt="_images/filtros-wizard.png" class="align-center" src="_images/filtros-wizard.png" />
+<p>También podemos seleccionar un campo en el panel de detalle del paquete y con el botón derecho definirlo como un filtro, seleccionar:</p>
+<ul class="simple">
+<li><p>Apply as Filter, seleccionamos el factor booleano (Selected y Not Selected, que negara el parámetro)y se ejecuta el filtro</p></li>
+<li><p>Prepare a Filter, seleccionamos el factor booleano, construimos el filtro y se queda en el campo de edición para seguir editandolo antes de ejecutarlo</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Selected
+sip.Method == &quot;INVITE&quot;
+# Not Selected
+!(sip.Method == &quot;INVITE&quot;)
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Una vez que hemos seleccionado un campo en el detalle de paquete, nos aparecerá en la barra de estado la sintaxis de filtro correspondiente a ese campo</p>
+</div>
+<img alt="_images/filters-barra-estado.png" class="align-center" src="_images/filters-barra-estado.png" />
+<p>Una vez seleccionado un filtro en el cam po de edición de filtros, podemos crear un botón en la barra de herramientas seleccionado el icono <strong>[+]</strong> en la barra de herramientas. Nos aparecera un cuadro de diálogo, dónde seleccionaremos una etiqueta que defina el botón y el filtro que hemos configurado</p>
+<img alt="_images/filters-boton.png" class="align-center" src="_images/filters-boton.png" />
+<p>Podemos gestionar los botones creados desde el menú <strong>Edit -&gt; Preferences -&gt; Filter Buttons</strong>, donde gestionaremos el archivo <strong>dfilter_buttons</strong></p>
+</div>
+<div class="section" id="definiendo-macros-de-filtrado">
+<h3>Definiendo macros de filtrado<a class="headerlink" href="#definiendo-macros-de-filtrado" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Las macros de filtrado, son un mecanismo para crear accesos directos a filtros complejos</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Definimos una macro llamada tcp_conv
+ip.addr==$1 &amp;&amp; ip.addr==$2 &amp;&amp; tcp.port==$3
+
+# Instanciamos la macro
+${tcp_con:192.168.1.42;216.58.211.46;443}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="coloreando-paquetes">
+<h2>Coloreando paquetes<a class="headerlink" href="#coloreando-paquetes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Puedes configurar Wireshark para que coloree los paquetes de acuerdo con un filtro de pantalla. Esto permite resaltar paquetes que podríamos estar buscando.</p>
+<p>Hay dos tipos de reglas de coloreado:</p>
+<ul class="simple">
+<li><p>Reglas temporales que sólo están vigentesmhasta que se salga del programa</p></li>
+<li><p>Reglas permanentes que se guardan en un archivo de preferencias para que estén disponibles la próxima vez que se ejecute Wireshark</p></li>
+</ul>
+<p>Para colorear permanentemente los paquetes, seleccione del menú <strong>View -&gt; Coloring Rules</strong> y nos aparecerá un cuadro de diálogo, dónde podremos editar, crear y eliminar reglas de coloreado,  así como exportar o importar reglas en un archivo de texto</p>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p>Estos archivos, aunque están en texto plano, no es aconsejable editarlos, ya que son creados por Wireshark con una sintaxis particular.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># DO NOT EDIT THIS FILE!  It was created by Wireshark
+@Bad TCP@tcp.analysis.flags &amp;&amp; !tcp.analysis.window_update@[4626,10023,11822][63479,34695,34695]
+@HSRP State Change@hsrp.state != 8 &amp;&amp; hsrp.state != 16@[4626,10023,11822][65535,64764,40092]
+@Spanning Tree Topology  Change@stp.type == 0x80@[4626,10023,11822][65535,64764,40092]
+</pre></div>
+</div>
+</div>
+<img alt="_images/coloreado-reglas.png" class="align-center" src="_images/coloreado-reglas.png" />
+<p>En ete cuadro de diálogo, vemos las reglas de coloreado predeterminadas, deberíamos editar y ajustar las reglas, según nuestras necesidades</p>
+<p>Si observamos, cada regla está compuesta de un literal, un color de fondo, un color de primer plano y una regla de filtrado</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Por lo general, se deben enumerar las reglas más específicas antes que las reglas más generales. Por ejemplo, si tenemos una regla UDP antes que una regla DNS, la regla DNS puede que no se aplique, ya que normalmente DNS se transporta sobre UDP y está, coincidirá primero</p>
+</div>
+<p>Si estamos editando una regla, al hacer click en el botón de primer plano o background, abrirá un selector de color donde seleccionaremos los colores.</p>
+<p>En el detalle del paquete, podemos ver una variable dónde nos dice que regla de coloreado se ha aplicado para ese paquete</p>
+<img alt="_images/coloring-frame.png" class="align-center" src="_images/coloring-frame.png" />
+</div>
+<div class="section" id="exportando-paquetes">
+<h2>Exportando paquetes<a class="headerlink" href="#exportando-paquetes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Wireshark proporciona varias formas y formatos para exportar paquetes de datos</p>
+<p>Desde <strong>File -&gt; Export Especified Packets</strong>, podemos exportar todo el archivo de captura, o sólo los paquetes visualizaos por un filtro seleccionado, en diversos formatos binarios (pcapng, pcap, snoop, etc.)</p>
+<img alt="_images/export-pcap.png" class="align-center" src="_images/export-pcap.png" />
+<p>Con <strong>File -&gt; Export Packet Dissections</strong>, podemos elegir el formato de salida como:</p>
+<ul>
+<li><p>Texto plano, donce podemos elegir la información contenida en el archivo</p></li>
+<li><p>Como csv</p></li>
+<li><p>Como Arrays de C, para que pueda importar los datos de la secuencia en su propio programa de C</p></li>
+<li><p>Como xml, en dor tipos:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>PSML, formato basado en XML que sólo incluye el resúmen del paquete</p></li>
+<li><p>PDML, en este formato basado en XML, se incluyen los detalles del paquete</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Como JSON</p></li>
+</ul>
+<img alt="_images/export-text.png" class="align-center" src="_images/export-text.png" />
+<p>Podemos exportar objetos a disco, por ejemplo, si seleccioamos HTTP, se pued exportar documentos HTML, imágenes, ejecutables y cualquier otro archivo transferido a través de HTTP al disco. Las columnas que nos ofrece:</p>
+<ul class="simple">
+<li><p>Packet, el número del paquete</p></li>
+<li><p>Hostname, el hostname del servidor</p></li>
+<li><p>Content Type, el content type de ese objeto</p></li>
+<li><p>Size, el tamaño del objeto en bytes</p></li>
+<li><p>Filname, el nombre de archivo de ese objeto</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ip.html" class="btn btn-neutral float-right" title="Capa de enlace de datos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduccion.html" class="btn btn-neutral float-left" title="Introducción a Wireshark" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
