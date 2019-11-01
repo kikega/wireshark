@@ -25,11 +25,9 @@ Familiarizarse con la estructura del protocolo
     
 ¿Qué ocurre en los siguientes archivos?
 
-`ARP Gratuito <_static/laboratorios/ip/lab_2b.pcapng>`_
-
-`ARP Storm <_static/laboratorios/ip/lab_2c.pcapng>`_
-
-`ARP Sweep <_static/laboratorios/ip/lab_2d.pcapng>`_
+- `ARP Gratuito <_static/laboratorios/ip/lab_2b.pcapng>`_
+- `ARP Storm <_static/laboratorios/ip/lab_2c.pcapng>`_
+- `ARP Sweep <_static/laboratorios/ip/lab_2d.pcapng>`_
 
 En esta captura, ¿cuantas maquinas hay en la red?
 
@@ -37,9 +35,8 @@ En esta captura, ¿cuantas maquinas hay en la red?
 
 En los siguientes archivos, ¿qué está pasando?, ¿cuantas maquinas intervienen?, ¿en qué condición?
 
-`Ataque ARP 1 <_static/laboratorios/ip/lab_2f.pcapng>`_
-
-`Ataque ARP 2 <_static/laboratorios/ip/lab_2g.pcap>`_
+- `Ataque ARP 1 <_static/laboratorios/ip/lab_2f.pcapng>`_
+- `Ataque ARP 2 <_static/laboratorios/ip/lab_2g.pcap>`_
 
 Laboratorio 3
 -------------
@@ -61,8 +58,6 @@ Laboratorio 4
 
  Observar en los siguientes archivos de captura, una petición de eco básica, el motivo de rechazo de un datagrama y los datos que reporta ICMP y la operación clásica de "traceroute" 
  
-`Ping <_static/laboratorios/ip/lab_4a.pcapng>`_
-
-`Destino inalcanzable <_static/laboratorios/ip/lab_4b.pcapng>`_
-
-`Traceroute <_static/laboratorios/ip/lab_4c.pcapng>`_
+- `Ping <_static/laboratorios/ip/lab_4a.pcapng>`_
+- `Destino inalcanzable <_static/laboratorios/ip/lab_4b.pcapng>`_
+- `Traceroute <_static/laboratorios/ip/lab_4c.pcapng>`_
