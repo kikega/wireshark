@@ -39,7 +39,7 @@ En los siguientes archivos, ¿qué está pasando?, ¿cuantas maquinas interviene
 
 `Ataque ARP 1 <_static/laboratorios/ip/lab_2f.pcapng>`_
 
-`Ataque ARP 2 <_static/laboratorios/ip/lab_2g.pcapng>`_
+`Ataque ARP 2 <_static/laboratorios/ip/lab_2g.pcap>`_
 
 Laboratorio 3
 -------------
