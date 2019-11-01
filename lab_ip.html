@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Wireshark, analizador de redes &mdash; documentación de Wireshark - 1</title>
+  <title>Laboratorios arquitectura IP &mdash; documentación de Wireshark - 1</title>
   
 
   
@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="next" title="Introducción a Wireshark" href="introduccion.html" /> 
+    <link rel="prev" title="Laboratorios de estadísticas" href="lab_estadisticas.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -52,7 +52,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Wireshark
+            <a href="index.html" class="icon icon-home"> Wireshark
           
 
           
@@ -96,11 +96,17 @@
 <li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Laboratorios:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Laboratorios arquitectura IP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-1">Laboratorio 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-2">Laboratorio 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-3">Laboratorio 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-4">Laboratorio 4</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -115,7 +121,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Wireshark</a>
+          <a href="index.html">Wireshark</a>
         
       </nav>
 
@@ -144,15 +150,15 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Wireshark, analizador de redes</li>
+      <li>Laboratorios arquitectura IP</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/lab_ip.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -165,28 +171,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="wireshark-analizador-de-redes">
-<h1>Wireshark, analizador de redes<a class="headerlink" href="#wireshark-analizador-de-redes" title="Enlazar permanentemente con este título">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contenido:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
-<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+  <div class="section" id="laboratorios-arquitectura-ip">
+<h1>Laboratorios arquitectura IP<a class="headerlink" href="#laboratorios-arquitectura-ip" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="laboratorio-1">
+<h2>Laboratorio 1<a class="headerlink" href="#laboratorio-1" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Estudio de la fragmentación</p>
+<ul class="simple">
+<li><p>Comprobar el funcionamiento de la fragmentación, offset, flags</p></li>
+<li><p>¿Qué tipo de tráfico es?</p></li>
 </ul>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_1a.pcapng">Fragmentación 1</a></p>
+<ul class="simple">
+<li><p>En el segundo archivo, ¿qué diferencia significativa hay entre los dos archivos?</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_1b.pcapng">Fragmentación 2</a></p>
 </div>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Laboratorios:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
-</ul>
+<div class="section" id="laboratorio-2">
+<h2>Laboratorio 2<a class="headerlink" href="#laboratorio-2" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Familiarizarse con la estructura del protocolo</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2a.pcapng">Resolucion ARP</a></p>
+<p>¿Qué ocurre en los siguientes archivos?</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2b.pcapng">ARP Gratuito</a></p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2c.pcapng">ARP Storm</a></p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2d.pcapng">ARP Sweep</a></p>
+<p>En esta captura, ¿cuantas maquinas hay en la red?</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2e.pcapng">ARP Discovery</a></p>
+<p>En los siguientes archivos, ¿qué está pasando?, ¿cuantas maquinas intervienen?, ¿en qué condición?</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2f.pcapng">Ataque ARP 1</a></p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2g.pcapng">Ataque ARP 2</a></p>
+</div>
+<div class="section" id="laboratorio-3">
+<h2>Laboratorio 3<a class="headerlink" href="#laboratorio-3" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Secuencia correcta de una petición IP a un servidor DHCP. ¿Qué parametros solicita el cliente al servidor?, ¿Le devuelve el servidor todo lo solicitado?, ¿Está el servidor DHCP en la misma red?</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_3a.pcapng">Arranque DHCP</a></p>
+<p>Problema con un servidor DHCP</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_3b.pcapng">Problema servidor DHCP</a></p>
+<p>Cliente rechaza una dirección que le ofrece un servidor</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_3c.pcapng">Decline DHCP</a></p>
+</div>
+<div class="section" id="laboratorio-4">
+<h2>Laboratorio 4<a class="headerlink" href="#laboratorio-4" title="Enlazar permanentemente con este título">¶</a></h2>
+<blockquote>
+<div><p>Observar en los siguientes archivos de captura, una petición de eco básica, el motivo de rechazo de un datagrama y los datos que reporta ICMP y la operación clásica de «traceroute»</p>
+</div></blockquote>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_4a.pcapng">Ping</a></p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_4b.pcapng">Destino inalcanzable</a></p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_4c.pcapng">Traceroute</a></p>
 </div>
 </div>
 
@@ -198,8 +228,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="introduccion.html" class="btn btn-neutral float-right" title="Introducción a Wireshark" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+        <a href="lab_estadisticas.html" class="btn btn-neutral float-left" title="Laboratorios de estadísticas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

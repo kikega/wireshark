@@ -25,6 +25,7 @@ Wireshark, analizador de redes
     lab_interfaz
     lab_filtrado
     lab_estadisticas
+    lab_ip
 
         
     

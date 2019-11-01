@@ -2,6 +2,9 @@
 Protocolo DHCP
 ==============
 
+`RFC2131 DHCP <_static/laboratorios/documentacion/rfc/rfc2131-DHCP.pdf>`_
+`RFC2132 Opciones DHCP <_static/laboratorios/documentacion/rfc/rfc2132-Opciones-DHCP.pdf>`_
+
 Introducción
 ------------
 
