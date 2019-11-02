@@ -25,9 +25,9 @@ Wireshark, analizador de redes
     
     lab_interfaz
     lab_filtrado
-    lab_estadisticas
     lab_ip
     lab_tcp
+    lab_estadisticas
 
 .. toctree::
     :maxdepth: 1
