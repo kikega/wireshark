@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Protocolo ICMP &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Protocolo TCP" href="tcp.html" />
+    <link rel="prev" title="Protocolo ARP" href="arp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Protocolo ICMP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#formato-del-mensaje">Formato del mensaje</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#destino-inaccesible">Destino inaccesible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mensaje-de-tiempo-superado">Mensaje de tiempo superado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mensaje-problemas-de-parametros">Mensaje problemas de parámetros</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mensaje-de-redireccion">Mensaje de redirección</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mensaje-de-eco-o-de-respuesta-de-eco">Mensaje de eco o de respuesta de eco</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_tcp.html">Laboratorios protocolo TCP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentación:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Protocolo ICMP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/icmp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="protocolo-icmp">
+<h1>Protocolo ICMP<a class="headerlink" href="#protocolo-icmp" title="Enlazar permanentemente con este título">¶</a></h1>
+<p><a class="reference external" href="_static/documentacion/rfc/rfc0792-Protocolo-ICMP.pdf">RFC0792 Protocolo ICMP</a></p>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El protocolo Internet se utiliza pra el servicio de datagramas de host a host en un sistema de redes interconectadas, en ocasiones, un host de origen, debe informar de un error en el procesamiento de datagramas. El <strong>Protocolo de Mensajes de Control de Internet (ICMP)</strong>, se usa para este propósito.</p>
+<p>Hay situaciones en las que se descartan datagramas</p>
+<ul class="simple">
+<li><p>Un enlace o un dispositivo caido</p></li>
+<li><p>Ha expirado el contador de vida</p></li>
+<li><p>No se puede enviar porque no se permite la fragmentación</p></li>
+</ul>
+<p>ICMP, utiliza el soporte básico de IP como si se tratara de un protocolo de nivel superior, sin embargo, ICMP es realmente, una parte integrante de IP y debe ser implementado por todo módulo IP</p>
+<p>El Protocolo Internet no está diseñado para ser absolutamente fiable. El propósito de estos mensajes de control no es hacer a IP fiable, sino suministrar información sobre los problemas en el entorno de comunicación.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Los paquetes ICMP, son paquetes IP, por lo que para evitar que paquetes ICMP con errores, generen más tráfico IP, nunca se envian paquetes ICMP para avisar de errores en otro paquete ICMP</p>
+</div>
+</div>
+<div class="section" id="formato-del-mensaje">
+<h2>Formato del mensaje<a class="headerlink" href="#formato-del-mensaje" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los mensajes ICMP se envían usando la cabecera IP básica. El primer octeto de la parte de datos del datagrama es el campo de tipo ICMP; el valor de este campo determina el formato del resto de los datos.</p>
+<img alt="_images/cabecera-icmp.png" class="align-center" src="_images/cabecera-icmp.png" />
+<p>Los datos ICMP, dependeran del tipo de mensaje</p>
+<img alt="_images/icmp-types.png" class="align-center" src="_images/icmp-types.png" />
+<div class="section" id="destino-inaccesible">
+<h3>Destino inaccesible<a class="headerlink" href="#destino-inaccesible" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si un databrama llega a un router y la red de destino está inaccesible, este, puede enviar un mensaje de <strong>destino inaccesible</strong> al host de origen del datagrama, además, la pasarela, puede ser capaz de determinar si el host de destino es inalcanzable.</p>
+<p>Otro caso se presenta cuando un datagrama debe ser fragmentado para poder ser enviado y el indicado <strong>no fragmentar</strong> está activo, en este caso, la pasarela debe desechar el datagrama e informar de que el destino está inaccesible</p>
+</div>
+<div class="section" id="mensaje-de-tiempo-superado">
+<h3>Mensaje de tiempo superado<a class="headerlink" href="#mensaje-de-tiempo-superado" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si la pasarela que está procesando el datagrama detecta que el campo <strong>tiempo de vida</strong> es cero, debe desechar el datagrama e informar al host de origen mediante el mensaje tiempo de vida superado</p>
+<p>Si un host que trata de ensamblar un datagrama fragmentado, no puede hacerlo en el tiempo límite debido a fragmentos perdidos, descarta el datagrama y puede informar de la condición de error con el mensaje <strong>tiempo de ensamblado superado</strong></p>
+</div>
+<div class="section" id="mensaje-problemas-de-parametros">
+<h3>Mensaje problemas de parámetros<a class="headerlink" href="#mensaje-problemas-de-parametros" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si la pasarela o host que procesa el datagrama, encuentra un problema con los parámetros de la cabecera, de modo que no puede completar el procesamiento del datagrama, debe desecharlo.</p>
+<p>El puntero, identifica el octeto de la cabecera del datagrama original donde fue detectado el error</p>
+</div>
+<div class="section" id="mensaje-de-redireccion">
+<h3>Mensaje de redirección<a class="headerlink" href="#mensaje-de-redireccion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si una pasarela recibe un datagrama de un host en una red a la cual la pasarela está conectada, comprueba su tabla de rutas y obtiene la dirección de otra pasarela, si esta última pasarela y el host están en la misma red, se envía un mensaje de redirección al host, donde recomienda que dirija el trafico directamente a esa segunda pasarela, ya que se trata de un camino más corto hacia el destino</p>
+</div>
+<div class="section" id="mensaje-de-eco-o-de-respuesta-de-eco">
+<h3>Mensaje de eco o de respuesta de eco<a class="headerlink" href="#mensaje-de-eco-o-de-respuesta-de-eco" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los datos recibidos en el mensaje de eco, deben ser devueltos en el mensaje de respuesta de eco.</p>
+<p>El identificador y el número de secuencia, son usados como referencia para emparejar las respuestas con las peticiones</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tcp.html" class="btn btn-neutral float-right" title="Protocolo TCP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="arp.html" class="btn btn-neutral float-left" title="Protocolo ARP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

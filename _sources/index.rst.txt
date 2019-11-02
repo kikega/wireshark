@@ -12,11 +12,12 @@ Wireshark, analizador de redes
 
     introduccion
     filtrado
-    estadisticas
     ip
     dhcp
     arp
+    icmp
     tcp
+    estadisticas
     
 .. toctree::
     :maxdepth: 1
@@ -26,6 +27,11 @@ Wireshark, analizador de redes
     lab_filtrado
     lab_estadisticas
     lab_ip
+    lab_tcp
 
-        
+.. toctree::
+    :maxdepth: 1
+    :caption: Documentación:
+    
+    presentaciones        
     

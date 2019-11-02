@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Laboratorios protocolo TCP &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Documentación" href="presentaciones.html" />
+    <link rel="prev" title="Laboratorios arquitectura IP" href="lab_ip.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Laboratorios protocolo TCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-1">Laboratorio 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-2">Laboratorio 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-3">Laboratorio 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-4">Laboratorio 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-5">Laboratorio 5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-6">Laboratorio 6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-7">Laboratorio 7</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Documentación:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Laboratorios protocolo TCP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/lab_tcp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="laboratorios-protocolo-tcp">
+<h1>Laboratorios protocolo TCP<a class="headerlink" href="#laboratorios-protocolo-tcp" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="laboratorio-1">
+<h2>Laboratorio 1<a class="headerlink" href="#laboratorio-1" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En este archivo de captura, ver el intercambio de mensajes para el establecimiento de una conexión y para la finalización de la misma.</p>
+<p>¿Que pasa con el último archivo de captura?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_1a.pcap">Conexión TCP</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_1b.pcapng">Fin TCP</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_1c.pcapng">Fin TCP huerfano</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-2">
+<h2>Laboratorio 2<a class="headerlink" href="#laboratorio-2" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Estudiar el mecanismo de control de flujo mediante la ventana de recepción</p>
+<ul class="simple">
+<li><p>¿Quien indica el tamaño de ventana 0</p></li>
+<li><p>¿Qué longitud tienen los segmentos de sonda zero?</p></li>
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_2a.pcapng">Problemas de ventana</a></p></li>
+</ul>
+<p>Comprobar el multiplicador para el tamaño de ventana</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_2b.pcapng">Multiplicador de ventana</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-3">
+<h2>Laboratorio 3<a class="headerlink" href="#laboratorio-3" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Estudiar el mecanismo de las retransmisiones y comprobar el temporizador entre ellas. ¿Que se supone que debe pasar?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_3.pcap">Retransmisiones TCP</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-4">
+<h2>Laboratorio 4<a class="headerlink" href="#laboratorio-4" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Comprobar el funcionamiento de SACK</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_4.pcap">TCP SACK</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-5">
+<h2>Laboratorio 5<a class="headerlink" href="#laboratorio-5" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Comprobar cual es el motivo para que se produzca una retransmisión</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_5.pcap">ACKs duplicados</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-6">
+<h2>Laboratorio 6<a class="headerlink" href="#laboratorio-6" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Trabajar com Timestamp para comprobar retrasos entre tramas, ajustar Time a «Seconds since previous displayed packet» y añadir una columna «Time Delta»</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_6.pcapng">HTTP lento</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-7">
+<h2>Laboratorio 7<a class="headerlink" href="#laboratorio-7" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Estudio de un escaneo de puertos realizado con la herramienta nmap. ¿Que puertos estan abiertos?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_7.pcap">Exporación de puertos</a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="presentaciones.html" class="btn btn-neutral float-right" title="Documentación" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="lab_ip.html" class="btn btn-neutral float-left" title="Laboratorios arquitectura IP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

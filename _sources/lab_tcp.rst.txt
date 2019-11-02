@@ -1,0 +1,63 @@
+==========================
+Laboratorios protocolo TCP
+==========================
+
+Laboratorio 1
+-------------
+
+En este archivo de captura, ver el intercambio de mensajes para el establecimiento de una conexión y para la finalización de la misma.
+
+¿Que pasa con el último archivo de captura? 
+
+- `Conexión TCP <_static/laboratorios/tcp/lab_1a.pcap>`_
+- `Fin TCP <_static/laboratorios/tcp/lab_1b.pcapng>`_
+- `Fin TCP huerfano <_static/laboratorios/tcp/lab_1c.pcapng>`_
+
+Laboratorio 2
+-------------
+
+Estudiar el mecanismo de control de flujo mediante la ventana de recepción
+
+- ¿Quien indica el tamaño de ventana 0
+- ¿Qué longitud tienen los segmentos de sonda zero?
+
+- `Problemas de ventana <_static/laboratorios/tcp/lab_2a.pcapng>`_
+
+Comprobar el multiplicador para el tamaño de ventana
+
+- `Multiplicador de ventana <_static/laboratorios/tcp/lab_2b.pcapng>`_
+
+Laboratorio 3
+-------------
+
+Estudiar el mecanismo de las retransmisiones y comprobar el temporizador entre ellas. ¿Que se supone que debe pasar?
+
+- `Retransmisiones TCP <_static/laboratorios/tcp/lab_3.pcap>`_
+
+Laboratorio 4
+-------------
+
+Comprobar el funcionamiento de SACK
+
+- `TCP SACK <_static/laboratorios/tcp/lab_4.pcap>`_
+
+Laboratorio 5
+-------------
+
+Comprobar cual es el motivo para que se produzca una retransmisión
+
+- `ACKs duplicados <_static/laboratorios/tcp/lab_5.pcap>`_
+
+Laboratorio 6
+-------------
+
+Trabajar com Timestamp para comprobar retrasos entre tramas, ajustar Time a "Seconds since previous displayed packet" y añadir una columna "Time Delta"
+
+- `HTTP lento <_static/laboratorios/tcp/lab_6.pcapng>`_
+
+Laboratorio 7
+-------------
+
+Estudio de un escaneo de puertos realizado con la herramienta nmap. ¿Que puertos estan abiertos?
+
+- `Exporación de puertos <_static/laboratorios/tcp/lab_7.pcap>`_

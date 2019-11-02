@@ -1,0 +1,74 @@
+==============
+Protocolo ICMP
+==============
+
+`RFC0792 Protocolo ICMP <_static/documentacion/rfc/rfc0792-Protocolo-ICMP.pdf>`_
+
+Introducción
+------------
+
+El protocolo Internet se utiliza pra el servicio de datagramas de host a host en un sistema de redes interconectadas, en ocasiones, un host de origen, debe informar de un error en el procesamiento de datagramas. El **Protocolo de Mensajes de Control de Internet (ICMP)**, se usa para este propósito.
+
+Hay situaciones en las que se descartan datagramas
+
+- Un enlace o un dispositivo caido
+- Ha expirado el contador de vida
+- No se puede enviar porque no se permite la fragmentación
+
+ICMP, utiliza el soporte básico de IP como si se tratara de un protocolo de nivel superior, sin embargo, ICMP es realmente, una parte integrante de IP y debe ser implementado por todo módulo IP
+
+El Protocolo Internet no está diseñado para ser absolutamente fiable. El propósito de estos mensajes de control no es hacer a IP fiable, sino suministrar información sobre los problemas en el entorno de comunicación.
+
+.. note::
+
+    Los paquetes ICMP, son paquetes IP, por lo que para evitar que paquetes ICMP con errores, generen más tráfico IP, nunca se envian paquetes ICMP para avisar de errores en otro paquete ICMP
+
+Formato del mensaje
+-------------------
+
+Los mensajes ICMP se envían usando la cabecera IP básica. El primer octeto de la parte de datos del datagrama es el campo de tipo ICMP; el valor de este campo determina el formato del resto de los datos.
+
+.. image:: _static/imagenes/cabecera-icmp.png
+    :align: center
+    
+Los datos ICMP, dependeran del tipo de mensaje
+
+.. image:: _static/imagenes/icmp-types.png
+    :align: center
+    
+Destino inaccesible
+*******************
+
+Si un databrama llega a un router y la red de destino está inaccesible, este, puede enviar un mensaje de **destino inaccesible** al host de origen del datagrama, además, la pasarela, puede ser capaz de determinar si el host de destino es inalcanzable.
+
+Otro caso se presenta cuando un datagrama debe ser fragmentado para poder ser enviado y el indicado **no fragmentar** está activo, en este caso, la pasarela debe desechar el datagrama e informar de que el destino está inaccesible
+
+Mensaje de tiempo superado
+**************************
+
+Si la pasarela que está procesando el datagrama detecta que el campo **tiempo de vida** es cero, debe desechar el datagrama e informar al host de origen mediante el mensaje tiempo de vida superado
+
+Si un host que trata de ensamblar un datagrama fragmentado, no puede hacerlo en el tiempo límite debido a fragmentos perdidos, descarta el datagrama y puede informar de la condición de error con el mensaje **tiempo de ensamblado superado**
+
+Mensaje problemas de parámetros
+*******************************
+
+Si la pasarela o host que procesa el datagrama, encuentra un problema con los parámetros de la cabecera, de modo que no puede completar el procesamiento del datagrama, debe desecharlo.
+
+El puntero, identifica el octeto de la cabecera del datagrama original donde fue detectado el error
+
+Mensaje de redirección
+**********************
+
+Si una pasarela recibe un datagrama de un host en una red a la cual la pasarela está conectada, comprueba su tabla de rutas y obtiene la dirección de otra pasarela, si esta última pasarela y el host están en la misma red, se envía un mensaje de redirección al host, donde recomienda que dirija el trafico directamente a esa segunda pasarela, ya que se trata de un camino más corto hacia el destino
+
+Mensaje de eco o de respuesta de eco
+************************************
+
+Los datos recibidos en el mensaje de eco, deben ser devueltos en el mensaje de respuesta de eco.
+
+El identificador y el número de secuencia, son usados como referencia para emparejar las respuestas con las peticiones
+
+
+
+
