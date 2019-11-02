@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="next" title="Laboratorios Configuración Introducción a Wireshark" href="lab_interfaz.html" />
-    <link rel="prev" title="Protocolo ARP" href="arp.html" /> 
+    <link rel="next" title="Estadísticas en Wireshark" href="estadisticas.html" />
+    <link rel="prev" title="Protocolo ICMP" href="icmp.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,10 +90,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
-<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Protocolo TCP</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#documentacion-y-rfcs">Documentación y RFCs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a><ul>
@@ -121,14 +121,28 @@
 <li class="toctree-l2"><a class="reference internal" href="#flags-tcp-de-wireshark">Flags TCP de Wireshark</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problemas-de-conexion-tcp">Problemas de conexión TCP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#retransmisiones-tcp">Retransmisiones TCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#control-de-flujo">Control de flujo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#timestamps">Timestamps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#componentes-internos-de-wireshark">Componentes internos de Wireshark</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formato-de-archivos-de-captura">Formato de archivos de captura</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-zones">Time Zones</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Laboratorios:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_tcp.html">Laboratorios protocolo TCP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentación:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Documentación</a></li>
 </ul>
 
             
@@ -537,11 +551,72 @@ enviados no tienen por qué concordar con los segmentos recibidos).</p>
 </div>
 <div class="section" id="retransmisiones-tcp">
 <h2>Retransmisiones TCP<a class="headerlink" href="#retransmisiones-tcp" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Cuando TCP envía un paquete o un grupo de paquetes, espera a que un reconocimiento confirme la aceptación de esos paquetes, las retransmisiones ocurren debido a un paquete que no ha llegado o a un reconocimiento que no ha llegado a tiempo.</p>
+<p>En un canal de comunicación donde intervienen varios dispositivos, podemos econtramos varios tipos de errores</p>
+<ul class="simple">
+<li><p>Reordenamiento de paquetes</p></li>
+<li><p>Duplicación de paquetes</p></li>
+<li><p>Perdida de paquetes</p></li>
+</ul>
+<p>Un método sencillo para tratar con pérdidas de paquetes o errores de bit, es reenviar el paquete hasta que se reciba correctamente, esto, rquiere un método para determinar si el receptor ha recibido el paquete y si el paquete que recibio, es el mismo que envió el remitente, en su forma más básica, el emisor envía un paquete y espera un reconocimiento.</p>
+<p>Podemos preguntarnos</p>
+<ul class="simple">
+<li><p>¿Cuanto tiempo debe esperar el emisor para recibir un reconocimiento?</p></li>
+<li><p>¿Que pasa si el reconocimiento se pierde?</p></li>
+<li><p>¿Qué pasa si el paquete se ha recibido con errores?</p></li>
+</ul>
+<p>Cuando TCP envía un paquete o un grupo de paquetes, espera a que un reconocimiento confirme la aceptación de esos paquetes, las retransmisiones ocurren debido a un paquete que no ha llegado o a un reconocimiento que no ha llegado a tiempo, venciendo el temporizador RTO</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Configuración del temporizador de retransmisión</strong></p>
+<p>Cuanto tiempo debe esperar TCP antes de concluir que un paquete se ha perdido y se debe retransmitir, el tiempo necesario, suele ser la suma del tiempo de proceso emisor y receptor mas el tiempo que tarda un paquete en ir y venir, pero ninguno de esos tiempos se conocen con certeza, por lo que un algoritmo, calcula el RTO en función de RTT</p>
+</div>
 <p>Cuando ven que la red se vuelve lenta, una de las razones para ello puede ser las retransmisiones.</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>En una captura, podemos encontrar muchas direcciones IP, muchas aplicaciones, etc. Lo imporftante, es ubicar las conexiones TCP en las que ocurren las retransmisiones y ver de dónde provienen</p>
+</div>
+<p>Consideremos el tiempo que tarda un paquete en llegar al receptor y la espera del reconocimiento para enviar el siguiente, el rendimiento de la comunicación es proporcional al cociente entre el tamaño del paquete y el tiempo de ida y vuelta. Para una red que ni daña ni pierde paquetes, la causa del bajo rendimiento, es que la red no se ocupa suficientemente. Si pudieramos porner más de un paquete al mismo tiempo, mejoraria el rendimiento.</p>
+<p>El receptor, necesita tener mecanismos de gestión de los reconocimientos, debe distinguir qué paquetes se han recibido y cuales no, también debe descubrir que paquetes han llegado fuera de secuencia y poder reordenarlos.</p>
+<p>Hay otros temas que no pueden resultar tan obvios, ¿qué pasa si el receptor es más lento que el emisor?, el receptor, podría perder paquetes a causa de las limitaciones de procesamiento o memoria. Esta pregunta, también puede hacerse para los equipos intermedios, ¿qué pasa si la infraestructura de red, no puede manejar la tasa de datos que el emisor y rfeceptor pueden utilizar?</p>
+</div>
+<div class="section" id="control-de-flujo">
+<h2>Control de flujo<a class="headerlink" href="#control-de-flujo" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Asumimos que cada paquete tiene un número de secuencia único y definimos ventana, como un conjunto de paquetes que han sido enviados por el emisor, pero no han sido reconocidos, nos referimos al tamaño de ventana, como el número de paquetes que se encuentran en la ventana.</p>
+<p>Aunque la estructura de ventana es conveniente para hacer el seguimiento de los datos a medida que fluyen entre emisor y receptor, no proporciona información de qué tamaño debe tener o si el receptor no puede manejar datos del remitente.</p>
+<p>La manera de obligar al emisor a reducir la velocidad de transmisión, es el de <strong>ventana deslizante</strong>, donde el tamaño de ventana, varía a lo largo del tiempo y el receptor le indica al emisor cual es el tamaño de la ventana en cada reconocimiento <strong>window uodate</strong></p>
+<p>Si el emisor y el receptor son lo suficientemente rápidos y la red no pierde paquetes y tiene una capacidad infinita, significa que la velocidad de transferncia es proporcional al cociente del tamaño de ventana en bits y el RTT en segundos (para un enlace d 100 Mbps con RTT de 80 ms, el throughput es 6,55 Mbps)</p>
+<p>Para mejorar el rendimiento, o aumentamos el tamaño de ventana o reducimos la latencia.</p>
+<p>La opción <strong>Window scale</strong>, incrementa la cpacidad de la ventana de recepción, multiplicando el valor de la ventana por <span class="math notranslate nohighlight">\(2^{s}\)</span>, donde <strong>s</strong> es el factor de escala.</p>
+<p>Esta opción, sólo puede aparecer en los segmentos SYN, por lo que el factor de escala es fijo en cada dirección cuando se establece la conexión, este valor de escala, puede ser diferente en cada direción</p>
+</div>
+<div class="section" id="timestamps">
+<h2>Timestamps<a class="headerlink" href="#timestamps" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Mientras se capturan los paquetes, cada paquete tiene una marca de tiempo a medida que ingresa, estas marcas de tiempo, se guardarán en el archivo de captura, por lo que también estarán disponibles para el análisis</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Las marcas de tiempo se obtienen del sistema operativo (libpcap o npcap). Si los datos de captura se cargan desde u archivo de captura, Wireshark, obtiene los datos de ese archivo</p>
+</div>
+<div class="section" id="componentes-internos-de-wireshark">
+<h3>Componentes internos de Wireshark<a class="headerlink" href="#componentes-internos-de-wireshark" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El formato interno que Wireshark usa para matener una marca de tiempo del paquete, consiste en la fecha (en dias desde el 1/1/1970) y la hora de dia en nanosegundos desde la media noche.</p>
+<p>Puede ajustar la forma en que Wireshark muestra los datos de la marca de tiempo en la lista de paquetes <strong>View -&gt; Time Display Format</strong></p>
+<p>Mientras lee o escribe archivos de captura, Wireshark, convierte los datos de marca de tiempo entre el formato de archivo de captura y el formato interno según sea necesario</p>
+</div>
+<div class="section" id="formato-de-archivos-de-captura">
+<h3>Formato de archivos de captura<a class="headerlink" href="#formato-de-archivos-de-captura" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cada formato de captura que Wireshark conoce, admite marcas de tiempo.</p>
+<p>La precisión de la marca de tiempo admitido por un formato de archivo de captura específico, difiere y varía de un segundo a un nanosegundo</p>
+<p>La mayoría de los formatos de archivo, almacenan las marcas de tiempo con una precisión fija</p>
+<p>El formato de archivo de catura libpcap común que utiliza Wireshark, sólo admite una resolución fija de microsegundos.</p>
+<p>Escribir datos en un formato de archivo de captura que no brinde la capacidad de almacenar la precisión real, conducirá a la perdida de información (si carga un archivo de captura con resolucin de nanosegundos en un archivo libpcap con resolución de microsegundos, Wireshark, debe reducir la precisión a microsegundos)</p>
+<p>Wireshark no crea ninguna marca de tiempo, simplemente la obtiene de otro sitio, por lo tanto, la precisión, dependerá del sistema de captura que utilice</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Los adaptadores de red conectados por USB, a menudo, proporcionan una precisión de tiempo muy mala. No utilice NICs conectados por USB cuando necesite una precisión me marca de tiempo precisa</p>
+</div>
+</div>
+<div class="section" id="time-zones">
+<h3>Time Zones<a class="headerlink" href="#time-zones" title="Enlazar permanentemente con este título">¶</a></h3>
 </div>
 </div>
 </div>
@@ -554,10 +629,10 @@ enviados no tienen por qué concordar con los segmentos recibidos).</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="lab_interfaz.html" class="btn btn-neutral float-right" title="Laboratorios Configuración Introducción a Wireshark" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="estadisticas.html" class="btn btn-neutral float-right" title="Estadísticas en Wireshark" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="arp.html" class="btn btn-neutral float-left" title="Protocolo ARP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="icmp.html" class="btn btn-neutral float-left" title="Protocolo ICMP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

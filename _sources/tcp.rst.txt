@@ -424,10 +424,93 @@ En esta etapa, las dos partes, acuerdan establecer una conexión, conocen el nú
 Retransmisiones TCP
 -------------------
 
-Cuando TCP envía un paquete o un grupo de paquetes, espera a que un reconocimiento confirme la aceptación de esos paquetes, las retransmisiones ocurren debido a un paquete que no ha llegado o a un reconocimiento que no ha llegado a tiempo.
+En un canal de comunicación donde intervienen varios dispositivos, podemos econtramos varios tipos de errores
+
+- Reordenamiento de paquetes
+- Duplicación de paquetes
+- Perdida de paquetes
+
+Un método sencillo para tratar con pérdidas de paquetes o errores de bit, es reenviar el paquete hasta que se reciba correctamente, esto, rquiere un método para determinar si el receptor ha recibido el paquete y si el paquete que recibio, es el mismo que envió el remitente, en su forma más básica, el emisor envía un paquete y espera un reconocimiento.
+
+Podemos preguntarnos
+
+- ¿Cuanto tiempo debe esperar el emisor para recibir un reconocimiento?
+- ¿Que pasa si el reconocimiento se pierde?
+- ¿Qué pasa si el paquete se ha recibido con errores?
+
+Cuando TCP envía un paquete o un grupo de paquetes, espera a que un reconocimiento confirme la aceptación de esos paquetes, las retransmisiones ocurren debido a un paquete que no ha llegado o a un reconocimiento que no ha llegado a tiempo, venciendo el temporizador RTO
+
+.. note::
+
+    **Configuración del temporizador de retransmisión**
+    
+    Cuanto tiempo debe esperar TCP antes de concluir que un paquete se ha perdido y se debe retransmitir, el tiempo necesario, suele ser la suma del tiempo de proceso emisor y receptor mas el tiempo que tarda un paquete en ir y venir, pero ninguno de esos tiempos se conocen con certeza, por lo que un algoritmo, calcula el RTO en función de RTT
 
 Cuando ven que la red se vuelve lenta, una de las razones para ello puede ser las retransmisiones.
 
 .. note::
 
     En una captura, podemos encontrar muchas direcciones IP, muchas aplicaciones, etc. Lo imporftante, es ubicar las conexiones TCP en las que ocurren las retransmisiones y ver de dónde provienen
+    
+Consideremos el tiempo que tarda un paquete en llegar al receptor y la espera del reconocimiento para enviar el siguiente, el rendimiento de la comunicación es proporcional al cociente entre el tamaño del paquete y el tiempo de ida y vuelta. Para una red que ni daña ni pierde paquetes, la causa del bajo rendimiento, es que la red no se ocupa suficientemente. Si pudieramos porner más de un paquete al mismo tiempo, mejoraria el rendimiento.
+
+El receptor, necesita tener mecanismos de gestión de los reconocimientos, debe distinguir qué paquetes se han recibido y cuales no, también debe descubrir que paquetes han llegado fuera de secuencia y poder reordenarlos.
+
+Hay otros temas que no pueden resultar tan obvios, ¿qué pasa si el receptor es más lento que el emisor?, el receptor, podría perder paquetes a causa de las limitaciones de procesamiento o memoria. Esta pregunta, también puede hacerse para los equipos intermedios, ¿qué pasa si la infraestructura de red, no puede manejar la tasa de datos que el emisor y rfeceptor pueden utilizar?
+    
+Control de flujo
+----------------
+
+Asumimos que cada paquete tiene un número de secuencia único y definimos ventana, como un conjunto de paquetes que han sido enviados por el emisor, pero no han sido reconocidos, nos referimos al tamaño de ventana, como el número de paquetes que se encuentran en la ventana.
+
+Aunque la estructura de ventana es conveniente para hacer el seguimiento de los datos a medida que fluyen entre emisor y receptor, no proporciona información de qué tamaño debe tener o si el receptor no puede manejar datos del remitente.
+
+La manera de obligar al emisor a reducir la velocidad de transmisión, es el de **ventana deslizante**, donde el tamaño de ventana, varía a lo largo del tiempo y el receptor le indica al emisor cual es el tamaño de la ventana en cada reconocimiento **window uodate**
+
+Si el emisor y el receptor son lo suficientemente rápidos y la red no pierde paquetes y tiene una capacidad infinita, significa que la velocidad de transferncia es proporcional al cociente del tamaño de ventana en bits y el RTT en segundos (para un enlace d 100 Mbps con RTT de 80 ms, el throughput es 6,55 Mbps)
+
+Para mejorar el rendimiento, o aumentamos el tamaño de ventana o reducimos la latencia.
+
+La opción **Window scale**, incrementa la cpacidad de la ventana de recepción, multiplicando el valor de la ventana por :math:`2^{s}`, donde **s** es el factor de escala.
+
+Esta opción, sólo puede aparecer en los segmentos SYN, por lo que el factor de escala es fijo en cada dirección cuando se establece la conexión, este valor de escala, puede ser diferente en cada direción
+
+Timestamps
+----------
+
+Mientras se capturan los paquetes, cada paquete tiene una marca de tiempo a medida que ingresa, estas marcas de tiempo, se guardarán en el archivo de captura, por lo que también estarán disponibles para el análisis
+
+.. note::
+
+    Las marcas de tiempo se obtienen del sistema operativo (libpcap o npcap). Si los datos de captura se cargan desde u archivo de captura, Wireshark, obtiene los datos de ese archivo
+    
+Componentes internos de Wireshark
+*********************************
+
+El formato interno que Wireshark usa para matener una marca de tiempo del paquete, consiste en la fecha (en dias desde el 1/1/1970) y la hora de dia en nanosegundos desde la media noche.
+
+Puede ajustar la forma en que Wireshark muestra los datos de la marca de tiempo en la lista de paquetes **View -> Time Display Format**
+
+Mientras lee o escribe archivos de captura, Wireshark, convierte los datos de marca de tiempo entre el formato de archivo de captura y el formato interno según sea necesario
+
+Formato de archivos de captura
+******************************
+
+Cada formato de captura que Wireshark conoce, admite marcas de tiempo.
+
+La precisión de la marca de tiempo admitido por un formato de archivo de captura específico, difiere y varía de un segundo a un nanosegundo
+
+La mayoría de los formatos de archivo, almacenan las marcas de tiempo con una precisión fija
+
+El formato de archivo de catura libpcap común que utiliza Wireshark, sólo admite una resolución fija de microsegundos.
+
+Escribir datos en un formato de archivo de captura que no brinde la capacidad de almacenar la precisión real, conducirá a la perdida de información (si carga un archivo de captura con resolucin de nanosegundos en un archivo libpcap con resolución de microsegundos, Wireshark, debe reducir la precisión a microsegundos)
+
+Wireshark no crea ninguna marca de tiempo, simplemente la obtiene de otro sitio, por lo tanto, la precisión, dependerá del sistema de captura que utilice
+
+.. note::
+
+    Los adaptadores de red conectados por USB, a menudo, proporcionan una precisión de tiempo muy mala. No utilice NICs conectados por USB cuando necesite una precisión me marca de tiempo precisa
+    
+Time Zones
+**********
