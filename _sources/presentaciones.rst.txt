@@ -5,8 +5,13 @@ Documentación
 Archivos pdf con las presentaciones
 -----------------------------------
 
-- `Introducción <_static/laboratorios/documentacion/presentaciones/introduccion.pdf>`_
-- `Filtrado <_static/laboratorios/documentacion/presentaciones/filtrado.pdf>`_
-- `Arquitectura IP <_static/laboratorios/documentacion/presentaciones/ip.pdf>`_
-- `Protocolo TCP <_static/laboratorios/documentacion/presentaciones/tcp.pdf>`_
-- `Wireshark y las estadisticas <_static/laboratorios/documentacion/presentaciones/estadisticas.pdf>`_
+- `Introducción <_static/documentacion/presentaciones/introduccion.pdf>`_
+- `Filtrado <_static/documentacion/presentaciones/filtrado.pdf>`_
+- `Arquitectura IP <_static/documentacion/presentaciones/ip.pdf>`_
+- `Protocolo TCP <_static/documentacion/presentaciones/tcp.pdf>`_
+- `Wireshark y las estadisticas <_static/documentacion/presentaciones/estadisticas.pdf>`_
+
+Documentación
+-------------
+
+- - `Guia usuario Wireshark <_static/documentacion/user-guide-v.3.1.pdf>`_
