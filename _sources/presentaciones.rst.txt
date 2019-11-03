@@ -10,8 +10,13 @@ Archivos pdf con las presentaciones
 - `Arquitectura IP <_static/documentacion/presentaciones/ip.pdf>`_
 - `Protocolo TCP <_static/documentacion/presentaciones/tcp.pdf>`_
 - `Wireshark y las estadisticas <_static/documentacion/presentaciones/estadisticas.pdf>`_
+- `Aplicaciones <_static/documentacion/presentaciones/aplicaciones.pdf>`_
 
 Documentación
 -------------
 
-- - `Guia usuario Wireshark <_static/documentacion/user-guide-v.3.1.pdf>`_
+- - `Guia usuario <_static/documentacion/user-guide-v.3.1.pdf>`_
+- - `Mastering <_static/documentacion/mastering-w.pdf>`_
+- - `Essential <_static/documentacion/essential-w.pdf>`_
+- - `Analysis <_static/documentacion/analysis-w.pdf>`_
+- - `Troubleshooting <_static/documentacion/troubleshooting-w.pdf>`_
