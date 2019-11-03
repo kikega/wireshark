@@ -514,3 +514,13 @@ Wireshark no crea ninguna marca de tiempo, simplemente la obtiene de otro sitio,
     
 Time Zones
 **********
+
+Wireshark, guarda el tiempo de llegada de los paquetes, como valores UTC, por lo que la zona horaria del sistema, debe estar configurada correctamente.
+
+Wireshark, mostrará siempre las marcas de tiempo  en la hora local, el ordenador que los muestra, los convertira de UTC a hora local
+
+.. note::
+
+    Si analizamos un fichero capturado en otra zona horaria, asegurese de que cada computadora tenga la configuración correcta de zona horaria y ajustar mentalmente, las marcas de tiempo.
+    
+    No hacer caso a las zonas horarias, si sólo me interesan  las diferencias de tiempo  entre las marcas de tiempo del paquete y no necesito saber la fecha y hora exacta de los paquetes capturados
