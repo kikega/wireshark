@@ -32,7 +32,7 @@ Laboratorio 3
 
 Estudiar el mecanismo de las retransmisiones y comprobar el temporizador entre ellas. ¿Que se supone que debe pasar?
 
-- `Retransmisiones TCP <_static/laboratorios/tcp/lab_3.pcap>`_
+- `Retransmisiones TCP <_static/laboratorios/tcp/lab_3.pcapng>`_
 
 Laboratorio 4
 -------------
