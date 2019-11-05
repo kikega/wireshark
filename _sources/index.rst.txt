@@ -17,6 +17,7 @@ Wireshark, analizador de redes
     arp
     icmp
     tcp
+    analyze
     estadisticas
     
 .. toctree::
@@ -27,6 +28,7 @@ Wireshark, analizador de redes
     lab_filtrado
     lab_ip
     lab_tcp
+    lab_analyze
     lab_estadisticas
 
 .. toctree::

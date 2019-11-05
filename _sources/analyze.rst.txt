@@ -1,0 +1,86 @@
+============
+Menú Analyze
+============
+
+Follow Protocols Stream
+-----------------------
+
+Puede ser muy útil, ver un protocolo en la forma que lo ve la capa de aplicación, puede querer buscar contraseñas, o ver el contenido de una conversación.
+
+Seleccione el paquete **UDP**, **TCP**, **TLS** o **HTTP** de la lista de paquetes y selecciónde desde el menú **Analyze -> Follow -> (TCP|UDP|TLS|HTTP) stream** o seleccione el paquete y acceda a **Follow stream** con el botón derecho del ratón.
+
+Wireshark, establecerá un filtro de visualización adecuado y abrirá un cuadro de diálogo, con todos los datos de la secuencia TCP, en orden
+
+.. image:: _static/imagenes/follow-stream.png
+    :align: center
+    
+El contenido de la transmisión, se mostrará en la misma secuencia que aparece en la red y el trafico de un sentido estará en rojo y el de sentido contrario, en azul.
+
+.. note::
+
+    El contenido de la transmisión no se actualiza mientras se esté realizando una captura en tiempo real.
+    
+Por defecto,se muestran los datos de ambas direcciones, pero se puede seleccionar la dirección a ver con el botón **Entire conversation**.
+
+Los datos, se pueden var en varios formatos:
+
+- ASCII
+- UTF-86 / UTF-16
+- Raw
+- HEX Dump
+- YAML
+
+Podemos cambiar entre streams con el botón **Stream**
+
+Podemos buscar texto, introduciendolo en el cuadro de edición y pulsando **Find Next**
+
+Expert info
+-----------
+
+Es un registro de anomalías detectadas por Wireshark, en un archivo de captura.
+
+La idea, es tener una mejor visión del comportamiento de red, de esta forma, se detectarán posibles problemas de red, mucho más rápido
+
+.. note::
+
+    Hay que tomarlo como una pista, la ausencia de información de experto, no indica que todo va bien.
+    
+    La cantidad de información obtenida, dependerá del protocolo que se utilice, mientras que TCP/IP, puede mostrar información detallada, otros protocolos, puede que no presenten ninguna.
+    
+.. image:: _static/imagenes/expert-info.png
+    :align: center
+    
+Severidad
+*********
+
+Cada información, tiene un nivel de gravedad específico
+
+- **Chat**, información sobre el flujo de trabajo habitual
+- **Note**, una aplicación, devolvión un código de error (HTTP 404)
+- **Warning**, la aplicación, devolvió un código de error inusual, como, un problema de conexión
+- **Error**, problema grave
+
+Grupos
+******
+
+Hay algunos grupos de Expert Info
+
+- **Checksum**, checksum inválido
+- **Sequence**, secuencia sospechosa o se han detectado retrasmisiones.
+- **Response code**, problema con el código de respuesta de la aplicación
+- **Request code**, una solicitud de una aplicación
+- **Undecoded**, disecto incompleto o los datos, no se pueden decodificar.
+- **Reassembled**, problemas con el reensamblado de paquetes
+- **Protocol Violation**, violación de las especificaciones del protocolo
+- **Malformed**, paquete con un formato incorrecto
+
+Summary
+*******
+
+Información con una explicación adicional
+
+.. note::
+
+    Deplegando el árbol del grupo correspondiente, tendremos acceso a los paquetes y haciendo click, wireshark, nos llevara al panel del listado de paquetes con ese paquete seleccionado. Estará coloreado de igual forma.
+    
+    Podemos crear una columna con la información de extperto

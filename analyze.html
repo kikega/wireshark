@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Menú Analyze &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Estadísticas en Wireshark" href="estadisticas.html" />
+    <link rel="prev" title="Protocolo TCP" href="tcp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Menú Analyze</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#follow-protocols-stream">Follow Protocols Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expert-info">Expert info</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#severidad">Severidad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grupos">Grupos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_tcp.html">Laboratorios protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_analyze.html">Laboratorio Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentación:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Menú Analyze</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/analyze.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="menu-analyze">
+<h1>Menú Analyze<a class="headerlink" href="#menu-analyze" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="follow-protocols-stream">
+<h2>Follow Protocols Stream<a class="headerlink" href="#follow-protocols-stream" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Puede ser muy útil, ver un protocolo en la forma que lo ve la capa de aplicación, puede querer buscar contraseñas, o ver el contenido de una conversación.</p>
+<p>Seleccione el paquete <strong>UDP</strong>, <strong>TCP</strong>, <strong>TLS</strong> o <strong>HTTP</strong> de la lista de paquetes y selecciónde desde el menú <strong>Analyze -&gt; Follow -&gt; (TCP|UDP|TLS|HTTP) stream</strong> o seleccione el paquete y acceda a <strong>Follow stream</strong> con el botón derecho del ratón.</p>
+<p>Wireshark, establecerá un filtro de visualización adecuado y abrirá un cuadro de diálogo, con todos los datos de la secuencia TCP, en orden</p>
+<img alt="_images/follow-stream.png" class="align-center" src="_images/follow-stream.png" />
+<p>El contenido de la transmisión, se mostrará en la misma secuencia que aparece en la red y el trafico de un sentido estará en rojo y el de sentido contrario, en azul.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El contenido de la transmisión no se actualiza mientras se esté realizando una captura en tiempo real.</p>
+</div>
+<p>Por defecto,se muestran los datos de ambas direcciones, pero se puede seleccionar la dirección a ver con el botón <strong>Entire conversation</strong>.</p>
+<p>Los datos, se pueden var en varios formatos:</p>
+<ul class="simple">
+<li><p>ASCII</p></li>
+<li><p>UTF-86 / UTF-16</p></li>
+<li><p>Raw</p></li>
+<li><p>HEX Dump</p></li>
+<li><p>YAML</p></li>
+</ul>
+<p>Podemos cambiar entre streams con el botón <strong>Stream</strong></p>
+<p>Podemos buscar texto, introduciendolo en el cuadro de edición y pulsando <strong>Find Next</strong></p>
+</div>
+<div class="section" id="expert-info">
+<h2>Expert info<a class="headerlink" href="#expert-info" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Es un registro de anomalías detectadas por Wireshark, en un archivo de captura.</p>
+<p>La idea, es tener una mejor visión del comportamiento de red, de esta forma, se detectarán posibles problemas de red, mucho más rápido</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Hay que tomarlo como una pista, la ausencia de información de experto, no indica que todo va bien.</p>
+<p>La cantidad de información obtenida, dependerá del protocolo que se utilice, mientras que TCP/IP, puede mostrar información detallada, otros protocolos, puede que no presenten ninguna.</p>
+</div>
+<img alt="_images/expert-info.png" class="align-center" src="_images/expert-info.png" />
+<div class="section" id="severidad">
+<h3>Severidad<a class="headerlink" href="#severidad" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cada información, tiene un nivel de gravedad específico</p>
+<ul class="simple">
+<li><p><strong>Chat</strong>, información sobre el flujo de trabajo habitual</p></li>
+<li><p><strong>Note</strong>, una aplicación, devolvión un código de error (HTTP 404)</p></li>
+<li><p><strong>Warning</strong>, la aplicación, devolvió un código de error inusual, como, un problema de conexión</p></li>
+<li><p><strong>Error</strong>, problema grave</p></li>
+</ul>
+</div>
+<div class="section" id="grupos">
+<h3>Grupos<a class="headerlink" href="#grupos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Hay algunos grupos de Expert Info</p>
+<ul class="simple">
+<li><p><strong>Checksum</strong>, checksum inválido</p></li>
+<li><p><strong>Sequence</strong>, secuencia sospechosa o se han detectado retrasmisiones.</p></li>
+<li><p><strong>Response code</strong>, problema con el código de respuesta de la aplicación</p></li>
+<li><p><strong>Request code</strong>, una solicitud de una aplicación</p></li>
+<li><p><strong>Undecoded</strong>, disecto incompleto o los datos, no se pueden decodificar.</p></li>
+<li><p><strong>Reassembled</strong>, problemas con el reensamblado de paquetes</p></li>
+<li><p><strong>Protocol Violation</strong>, violación de las especificaciones del protocolo</p></li>
+<li><p><strong>Malformed</strong>, paquete con un formato incorrecto</p></li>
+</ul>
+</div>
+<div class="section" id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Información con una explicación adicional</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Deplegando el árbol del grupo correspondiente, tendremos acceso a los paquetes y haciendo click, wireshark, nos llevara al panel del listado de paquetes con ese paquete seleccionado. Estará coloreado de igual forma.</p>
+<p>Podemos crear una columna con la información de extperto</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="estadisticas.html" class="btn btn-neutral float-right" title="Estadísticas en Wireshark" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tcp.html" class="btn btn-neutral float-left" title="Protocolo TCP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

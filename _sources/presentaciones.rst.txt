@@ -9,6 +9,7 @@ Archivos pdf con las presentaciones
 - `Filtrado <_static/documentacion/presentaciones/filtrado.pdf>`_
 - `Arquitectura IP <_static/documentacion/presentaciones/ip.pdf>`_
 - `Protocolo TCP <_static/documentacion/presentaciones/tcp.pdf>`_
+- `Menú Analyze <_static/documentacion/presentaciones/tcp.pdf>`_
 - `Wireshark y las estadisticas <_static/documentacion/presentaciones/estadisticas.pdf>`_
 - `Aplicaciones <_static/documentacion/presentaciones/aplicaciones.pdf>`_
 

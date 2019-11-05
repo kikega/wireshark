@@ -1,0 +1,23 @@
+===================
+Laboratorio Analyze
+===================
+
+Laboratorio 1
+-------------
+
+Abrir el archivo de filtrado de los laboratorios 3 y 4 de la parte de **Filtrado** e intentar resolverlos utilizando esta facilidad
+
+Buscar nombres de usuario en una conexión FTP y el usuario administrador
+
+- `Archivo de descarga FTP <_static/laboratorios/filtrado/filtrado_lab3.pcapng>`_
+
+Buscar una conversación TCP que se descargen archivos ".exe" y seleccioamos sólo esa conversación
+
+- `Descarga de archivo <_static/laboratorios/filtrado/filtrado_lab4.pcapng>`_"
+
+Laboratorio 2
+-------------
+
+Ver en este archivo de captura con Expert Info y analizar los errores que se van encontrando
+
+- `Archivo HTTP con errores <_static/laboratorios/analyze/lab_2.pcapng>`_
