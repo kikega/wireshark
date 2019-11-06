@@ -30,6 +30,8 @@ Wireshark, analizador de redes
     lab_tcp
     lab_analyze
     lab_estadisticas
+    lab_voip
+    lab_aplicaciones
 
 .. toctree::
     :maxdepth: 1

@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="next" title="Documentación" href="presentaciones.html" />
+    <link rel="next" title="Laboratorios SIP" href="lab_voip.html" />
     <link rel="prev" title="Laboratorio Analyze" href="lab_analyze.html" /> 
 </head>
 
@@ -111,8 +111,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#laboratorio-3">Laboratorio 3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#laboratorio-4">Laboratorio 4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#laboratorio-5">Laboratorio 5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-6">Laboratorio 6</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="lab_voip.html">Laboratorios SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_aplicaciones.html">Laboratorios Aplicaciones</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Documentación:</span></p>
 <ul>
@@ -205,12 +208,26 @@
 <div class="section" id="laboratorio-4">
 <h2>Laboratorio 4<a class="headerlink" href="#laboratorio-4" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Crear un gráfico IO para comprobar el momento en el que cae el rendimiento. Ver la lista de paquetes en el momento en que aparece el problema. ¿Cual es la causa del problema?</p>
+<p>Comparar tráfico con flags TCP (retransmisiones, ACKs duplicados, perdida de paquetes).</p>
 <p><a class="reference external" href="_static/laboratorios/estadistica/lab_4.pcapng">Bajo rendimiento</a></p>
 </div>
 <div class="section" id="laboratorio-5">
 <h2>Laboratorio 5<a class="headerlink" href="#laboratorio-5" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>En el siguiente archivo, vamos a ver errores que afectan al rendimiento, desde IO Graph, comparar tráfico con flags TCP (retransmisiones, ACKs duplicados, perdida de paquetes).</p>
+<p>En el siguiente archivo, vamos a ver errores que afectan al rendimiento, desde IO Graph.</p>
+<p>Mirar la evolución de los números de secuencia</p>
 <p><a class="reference external" href="_static/laboratorios/estadistica/lab_5.pcapng">TCP con errores</a></p>
+</div>
+<div class="section" id="laboratorio-6">
+<h2>Laboratorio 6<a class="headerlink" href="#laboratorio-6" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El siguiente archivo, contiene tráfico HTTP con problemas.</p>
+<p><a class="reference external" href="_static/laboratorios/estadistica/lab_6.pcapng">HTTP con problemas</a></p>
+<ul class="simple">
+<li><p>Mirar que tipo de problemas tiene y analizar con un gráfico la relación entre el stream y los problemas TCP.</p></li>
+<li><p>Ver la evolución del tráfico enviado</p></li>
+<li><p>Relación con el tamaño de ventana</p></li>
+<li><p>Relación del tiempo de ida y vuelta</p></li>
+<li><p>Exportar los gráficos más representativos como png</p></li>
+</ul>
 </div>
 </div>
 
@@ -222,7 +239,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="presentaciones.html" class="btn btn-neutral float-right" title="Documentación" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="lab_voip.html" class="btn btn-neutral float-right" title="Laboratorios SIP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="lab_analyze.html" class="btn btn-neutral float-left" title="Laboratorio Analyze" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

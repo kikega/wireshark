@@ -31,11 +31,28 @@ Laboratorio 4
 
 Crear un gráfico IO para comprobar el momento en el que cae el rendimiento. Ver la lista de paquetes en el momento en que aparece el problema. ¿Cual es la causa del problema? 
 
+Comparar tráfico con flags TCP (retransmisiones, ACKs duplicados, perdida de paquetes).
+
 `Bajo rendimiento <_static/laboratorios/estadistica/lab_4.pcapng>`_
 
 Laboratorio 5
 -------------
 
-En el siguiente archivo, vamos a ver errores que afectan al rendimiento, desde IO Graph, comparar tráfico con flags TCP (retransmisiones, ACKs duplicados, perdida de paquetes).
+En el siguiente archivo, vamos a ver errores que afectan al rendimiento, desde IO Graph.
+
+Mirar la evolución de los números de secuencia
 
 `TCP con errores <_static/laboratorios/estadistica/lab_5.pcapng>`_
+
+Laboratorio 6
+-------------
+
+El siguiente archivo, contiene tráfico HTTP con problemas.
+
+`HTTP con problemas <_static/laboratorios/estadistica/lab_6.pcapng>`_
+
+- Mirar que tipo de problemas tiene y analizar con un gráfico la relación entre el stream y los problemas TCP.
+- Ver la evolución del tráfico enviado
+- Relación con el tamaño de ventana
+- Relación del tiempo de ida y vuelta
+- Exportar los gráficos más representativos como png

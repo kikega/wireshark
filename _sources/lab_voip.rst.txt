@@ -1,0 +1,26 @@
+================
+Laboratorios SIP
+================
+
+Laboratorio 1
+-------------
+
+Ver el mecanismo de una llamada VoIP, y las estadísticas sobre dicha llamada.
+
+Ver que filtros podemos utilizar para buscar mensaje de llamada y códigos de error
+
+- `Llamada SIP <_static/laboratorios/voip/lab_1.pcapng>`_
+
+¿Qué le pasa a este archivo?
+
+- `Llamada errónea <_static/laboratorios/voip/lab_2.pcapng>`_
+
+Laboratorio 2
+-------------
+
+Crear un perfil especifico para el análisis de tráfico VoIP
+
+- Reglas de coloreado
+- Detección de errores de señalización.
+- Añadir una columna para diferenciar la calidad de servicio
+- Establecer una columna para el Timestamp
