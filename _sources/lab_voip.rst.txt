@@ -13,7 +13,7 @@ Ver que filtros podemos utilizar para buscar mensaje de llamada y códigos de er
 
 ¿Qué le pasa a este archivo?
 
-- `Llamada errónea <_static/laboratorios/voip/lab_2.pcapng>`_
+- `Llamada errónea <_static/laboratorios/voip/lab_2.pcap>`_
 
 Laboratorio 2
 -------------
