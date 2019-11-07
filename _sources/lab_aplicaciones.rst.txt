@@ -2,4 +2,38 @@
 Laboratorios Aplicaciones
 =========================
 
+Laboratorio 1 - Protocolo DNS
+-----------------------------
 
+Estudio del protocolo DNS. ¿Qué pasa en estos archivos?, ¿Qué está resolviendo el segundo archivo?
+
+- `Problema DNS 1 <_static/laboratorios/aplicaciones/dns-lab_1.pcapng>`_
+- `Problema DNS 2 <_static/laboratorios/aplicaciones/dns-lab_2.pcapng>`_
+- `Problema DNS 3 <_static/laboratorios/aplicaciones/dns-lab_3.pcapng>`_
+
+Laboratorio 2 - Protocolo HTTP
+------------------------------
+
+¿Qué pasa en esta petición HTTP? ¿Qué le indica el servidor al cliente?
+
+- `Problema HTTP 1 <_static/laboratorios/aplicaciones/http-lab_1.pcapng>`_
+
+Laboratorio 3 - Protocolo FTP
+-----------------------------
+
+Analizar elcontenido del archivo y ver si es posible obtener una copia de lo descargado
+
+- `Descarga FTP <_static/laboratorios/aplicaciones/ftp-lab_1.pcapng>`_
+
+Qué le pasa a esta sesión FTP
+
+- `Problema FTP 2 <_static/laboratorios/aplicaciones/ftp-lab_2.pcapng>`_
+
+Laboratorio 4 - Aplicaciones
+----------------------------
+
+Crear un perfil para la detección de problemas y errores para TCP, HTTP, DNS y FTP, se debe incluir
+
+- Reglas de coloreado
+- Detección de códigos de error
+- Detalles particulares de cada protocolo.
