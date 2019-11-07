@@ -14,7 +14,7 @@ Estudio de la fragmentación
 
 - En el segundo archivo, ¿qué diferencia significativa hay entre los dos archivos?
 
-`Fragmentación 2 <_static/laboratorios/ip/lab_1b.pcapng>`_
+`Fragmentación 2 <_static/laboratorios/ip/lab_1b.pcap>`_
 
 Laboratorio 2
 -------------
@@ -26,7 +26,7 @@ Familiarizarse con la estructura del protocolo
 ¿Qué ocurre en los siguientes archivos?
 
 - `ARP Gratuito <_static/laboratorios/ip/lab_2b.pcapng>`_
-- `ARP Storm <_static/laboratorios/ip/lab_2c.pcapng>`_
+- `ARP Storm <_static/laboratorios/ip/lab_2c.pcap>`_
 - `ARP Sweep <_static/laboratorios/ip/lab_2d.pcapng>`_
 
 En esta captura, ¿cuantas maquinas hay en la red?
