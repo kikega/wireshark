@@ -1,9 +1,8 @@
-=============
-Documentación
-=============
+==============
+Presentaciones
+==============
 
-Archivos pdf con las presentaciones
------------------------------------
+Presentaciones del curso
 
 - `Introducción <_static/documentacion/presentaciones/introduccion.pdf>`_
 - `Filtrado <_static/documentacion/presentaciones/filtrado.pdf>`_
@@ -14,11 +13,4 @@ Archivos pdf con las presentaciones
 - `Voz sobre IP <_static/documentacion/presentaciones/voip.pdf>`_
 - `Aplicaciones <_static/documentacion/presentaciones/aplicaciones.pdf>`_
 
-Documentación
--------------
 
-- `Guia usuario <_static/documentacion/user-guide-v.3.1.pdf>`_
-- `Mastering <_static/documentacion/mastering-w.pdf>`_
-- `Essential <_static/documentacion/essential-w.pdf>`_
-- `Analysis <_static/documentacion/analysis-w.pdf>`_
-- `Troubleshooting <_static/documentacion/troubleshooting-w.pdf>`_

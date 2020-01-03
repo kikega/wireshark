@@ -35,7 +35,8 @@ Wireshark, analizador de redes
 
 .. toctree::
     :maxdepth: 1
-    :caption: Documentación:
+    :caption: Estudio:
     
-    presentaciones        
+    presentaciones
+    doc        
     
