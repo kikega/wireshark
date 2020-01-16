@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Índice &mdash; documentación de Wireshark - 1</title>
+  <title>Protocolo RTP &mdash; documentación de Wireshark - 1</title>
   
 
   
@@ -37,8 +36,10 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
-    <link rel="index" title="Índice" href="#" />
-    <link rel="search" title="Búsqueda" href="search.html" /> 
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Menú Analyze" href="analyze.html" />
+    <link rel="prev" title="Protocolo SIP" href="sip.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,7 +87,7 @@
             
             
               <p class="caption"><span class="caption-text">Contenido:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
@@ -95,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Protocolo RTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
 <li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
 </ul>
@@ -159,12 +160,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Índice</li>
+      <li>Protocolo RTP</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/rtp.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -176,11 +179,57 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-<h1 id="index">Índice</h1>
-
-<div class="genindex-jumpbox">
- 
+  <div class="section" id="protocolo-rtp">
+<h1>Protocolo RTP<a class="headerlink" href="#protocolo-rtp" title="Enlazar permanentemente con este título">¶</a></h1>
+<p><a class="reference external" href="https://tools.ietf.org/pdf/rfc3550.pdf">Protocolo RDP. RFC3550</a></p>
+<p>RTP, es un protocolo de aplicación sobre UDP que permite el transporte de paquetes de información en tiempo real, tales como voz y video sobre una red IP.</p>
+<p>RTP no proporciona calidad de servicio, sin embargo, detecta las siguientes situaciones:</p>
+<ul class="simple">
+<li><p>Perdida de paquetes</p></li>
+<li><p>Retardo variable en el transporte (Jitter)</p></li>
+<li><p>Llegada de paquetes fuera de secuencia</p></li>
+<li><p>Enrutamiento asimétrico</p></li>
+</ul>
+<p>RTP soporta cifrado del medio</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>RTP define un formato de paquete estándar para el envio de audio y video sobre Internet</p>
+</div>
+<p>La función principal de RTP, es implementar los números de secuencia de paquetes IP para reanudar la información de voz o de vídeo. De manera más general, RTP permite:</p>
+<ul class="simple">
+<li><p>Identificar el tipo de información transmitida</p></li>
+<li><p>Agregarle marcadores temporales y números de secuencia a la información transmitida</p></li>
+<li><p>Controlar la llegada de los paquetes a destino</p></li>
+</ul>
+<img alt="_images/rtp-cabecera.png" class="align-center" src="_images/rtp-cabecera.png" />
+<ul>
+<li><p>V, Versión de RTP</p></li>
+<li><p>P ()Padding), bit que indica que al final del paquete hay bytes de relleno que no forman parte de la carga útil</p></li>
+<li><p>X (Extensión), indica que hay una extensión en las cabeceras que posibilita implementaciones para añadir información</p></li>
+<li><p>CC (CSRC Count), indica el número de identificadores CSRC que siguen al encabezado fijo</p></li>
+<li><p>M (Market), bit se uso particular por algunos protocolos de media</p></li>
+<li><p>Payload Type, Tipo de información contenida</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>0, G.711 Ley-u</p></li>
+<li><p>3, GSM</p></li>
+<li><p>4, G.723</p></li>
+<li><p>8, G.711 Ley-a</p></li>
+<li><p>18, G.729</p></li>
+<li><p>26, JPEG (vídeo)</p></li>
+<li><p>31, H.261 (vídeo)</p></li>
+<li><p>34, H.263 (vídeo)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Sequence Number, número de secuencia para detectar pérdida de paquetes. El número de paquete es incrementado en 1 por cada paquete enviado</p></li>
+<li><p>Timestamp, marca de tiemp paa descartar paquetes muy retrasados. Refleja el instante de muestreo del primer byte de carga útil</p></li>
+<li><p>SSRC (Sinchronization Source Identifier), identifica la fuente de sincronización. Este identificador, debe elegirse al azar, con la intención de que no haya dos fuentes de sincronización dentro de la misma sesión RTP que tenga el mismo identificador</p></li>
+<li><p>CSRC (Contributor Identifier), identifica las fuentes contribuyentes para la carga útil cotenida en este paquete. El número de identificadores viene dado por el campo CC (sólo se pueden identificar 15 fuentes)</p></li>
+</ul>
+<p>La perdida de paquetes, se determina analizando el campo número de secuencia, observando que se ha producido un salto en la secuencia.</p>
+<p>El retardo variable o jitter, se puede corregir analizando el campo Timestamp de la cabecera.</p>
+<p>En la RFC3550, también e define el protocolo RTCP, que permite a los participantes en una sesión RTP, intercambiar informes, estadísticas e información relacionadas con la identidad de los participantes</p>
 </div>
 
 
@@ -188,6 +237,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="analyze.html" class="btn btn-neutral float-right" title="Menú Analyze" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sip.html" class="btn btn-neutral float-left" title="Protocolo SIP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Protocolo SIP &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Protocolo RTP" href="rtp.html" />
+    <link rel="prev" title="Protocolo TCP" href="tcp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Protocolo SIP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#documentacion-y-rfcs">Documentación y RFCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#descripcion-general-de-sip">Descripción general de SIP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#descrpipcion-de-la-operacion">Descrpipción de la operación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#estructura-del-protocolo">Estructura del protocolo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mensajes-sip">Mensajes SIP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requests-peticiones">Requests (Peticiones)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#responses-respuestas">Responses (Respuestas)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#campos-de-cabecera">Campos de cabecera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cuerpo-del-mensaje">Cuerpo del mensaje</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comportamiento-de-user-agent">Comportamiento de User Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#registros">Registros</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#construyendo-la-solicitud-de-registro">Construyendo la solicitud de registro</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#consulta-de-capacidades">Consulta de capacidades</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dialogo">Diálogo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iniciando-una-sesion">Iniciando una sesión</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#terminar-una-sesion">Terminar una sesión</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#servidor-proxy">Servidor Proxy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transacciones">Transacciones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#campos-de-la-cabecera-header-fileds">Campos de la cabecera (Header Fileds)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accept">Accept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#alert-info">Alert-Info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#allow">Allow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#authentication-info">Authentication-Info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#call-id">Call-ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contact">Contact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#content-encoding">Content-Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#content-length">Content-Length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#content-type">Content-Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cseq">CSeq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from">From</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#max-forwards">Max-Forwards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#proxy-aythorization">Proxy-Aythorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#route">Route</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#to">To</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-agent">User-Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#via">Via</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#codigos-de-respuesta">Códigos de respuesta</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#informativas-1xy">Informativas (1xy)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aceptacion">Aceptación</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redireccion">Redirección</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#errores-dbido-al-cliente">Errores dbido al cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-debido-a-fallo-en-el-servidor">Error debido a fallo en el servidor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-global">Error Global</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolo-sdp">Protocolo SDP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uso-de-autenticacion-http">Uso de autenticación HTTP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_tcp.html">Laboratorios protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_analyze.html">Laboratorio Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_voip.html">Laboratorios SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_aplicaciones.html">Laboratorios Aplicaciones</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Protocolo SIP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/sip.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="protocolo-sip">
+<h1>Protocolo SIP<a class="headerlink" href="#protocolo-sip" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="documentacion-y-rfcs">
+<h2>Documentación y RFCs<a class="headerlink" href="#documentacion-y-rfcs" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/documentacion/rfc/rfc3261-sip.pdf">Especificación del protocolo SIP. RFC3261</a></p></li>
+<li><p><a class="reference external" href="_static/documentacion/rfc/rfc2327.pdf">Especificación del protocolo SDP. RFC2327</a></p></li>
+</ul>
+</div>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Hay muchas aplicaciones en Internet que require la creación y gestión de una sesión, donde una sesión, es considerada un intercambio de datos entre un grupo de participantes.</p>
+<p>El protocolo <strong>SIP</strong>, permite que los endpoints (agentes de usuario), se descubran entre sí y acuerden una caracterización de una sesión que les gustaría compartir. Para localizar posibles participantes de una sesión, SIP permite la cración de una infraestructura de red a lo que los agentes de usuario, pueden enviar registros, invitaciones a sesiones y otras solicitudes.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>SIP es una herramienta de uso general, para crear, modificar y finalizar sesiones que funcionan independientemente de los protocolos de transporte y sin depender del tipo de sesión que se está estableciendo</p>
+</div>
+</div>
+<div class="section" id="descripcion-general-de-sip">
+<h2>Descripción general de SIP<a class="headerlink" href="#descripcion-general-de-sip" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SIP es un protocolo de control de la capa de aplicación, que puede establecer, modificar y finalizar sesiones multimedia, como llamadas de telefonía por Internet. También puede invitar a los participantes a sesiones ya existentes, como conferencias multicast</p>
+<p>SIP soporta, para el establecimiento y terminación de comunicaciones multimedia:</p>
+<ul class="simple">
+<li><p><strong>User location</strong>, determinación del sistema final que se utilizará para la comunicación</p></li>
+<li><p><strong>User availability</strong>, detrminación de la parte llamada a participar en las comunicaciones</p></li>
+<li><p><strong>User capabilities</strong>, determinación de los medios y parámetros que se utilizarán</p></li>
+<li><p><strong>Session setup</strong>, establecimiento de parámetros de sesión tanto en la parte llamanda como en la parte llamante</p></li>
+<li><p><strong>Session management</strong>, inclute transferencia y finalización de sesiones, modificaciones de parámetros de sesión e invocación de servicios</p></li>
+</ul>
+<p>SIP, debe usarse junto a otros protocolos para proporcionar servicios completos a los usuarios, de forma que construye una arquitectura multimedia</p>
+<ul class="simple">
+<li><p>RTP y RTCP</p></li>
+<li><p>SDP</p></li>
+<li><p>RTSP</p></li>
+</ul>
+<img alt="_images/sip-arquitectura.png" class="align-center" src="_images/sip-arquitectura.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El protocolo SIP, permite establecer sesiones multimedia entre puntos extrfemos (Agentes de usuario).</p>
+<p>Las principales funciones que realiza son:</p>
+<ul class="simple">
+<li><p>Localización de un agente de usuario</p></li>
+<li><p>Contacto con un agente de usuario para indicar la voluntad de establecer una sesión</p></li>
+<li><p>Intercambio de información del medio sobre el que se va a establecer la sesión</p></li>
+<li><p>Modificación del medio existente en las sesiones</p></li>
+<li><p>Liberación de medios empleados en las sesiones</p></li>
+<li><p>Permite la petición y entrega de información de presencia (Un agente de presencia SIP, es un dispositivo capaz de rcibir peticiones de suscripción a la notificación de eventos y generar las correspondientes notificaciones de estado de dichos eventos), así como de mensajería instantánea</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="descrpipcion-de-la-operacion">
+<h2>Descrpipción de la operación<a class="headerlink" href="#descrpipcion-de-la-operacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Las funciones básicas de la operación SIP, comprenden:</p>
+<ul class="simple">
+<li><p>Registro de usuario</p></li>
+<li><p>Localización de un punto final</p></li>
+<li><p>Señal de deseo de comunicarse</p></li>
+<li><p>Negociación de parámetros de sesión</p></li>
+</ul>
+<img alt="_images/sip-operativa.png" class="align-center" src="_images/sip-operativa.png" />
+<p>SIP se basa en un modelo de transacción de solitud y respuesta similar a HTTP, cada transacción, consiste en una solicitud que invoca a un método o función en el servidor y al menos, una respuesta.</p>
+<p>Los detalles de la sesión, como el tipo de medio o codec, no se describen mediante SIP, el cuerpo del mensaje, contiene una descripción de la sesión en el protocolo SDP (Sesion Description Protocol)</p>
+</div>
+<div class="section" id="estructura-del-protocolo">
+<h2>Estructura del protocolo<a class="headerlink" href="#estructura-del-protocolo" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SIP, está estructurado en capas, lo que significa que su comportamiento, se describe en términos de un conjunto de etapas independientes. Cuando decimos que un elemento contiene una capa, queremos decir, que cumple con el conjunto de reglas definidas para esa capa.</p>
+<ul class="simple">
+<li><p>La capa mas baja de SIP, es su sintaxis y codificación</p></li>
+<li><p>La segunda capa, es la capa de transporte. Define cómo un cliente, envía solicitudes y reibe respuestas y como un servidor, recibe solicitudes y envía respuestas</p></li>
+<li><p>La tercera capa, es una transacción. Una transacción, es una solicitud enviada por un cliente, junto con todas las respuestas a esa solicitud</p></li>
+</ul>
+<p>Cada una de las entidades SIP, excepto el proxy sin estado, es un usuario de transacción (UT). Cuando  una UT desea enviar una solicitud, crea una instancia de transacción de cliente y le pasa la solicitud junto con la dirección IP de destino, el puerto y el transporte al que enviar la solicitud. Una UT que crea una transacción de cliente, también puede cancelarla, cuando un liente cancela una transacción, solicita que el servidor detenga el procesamiento , vuelva al estado que existía antes de que se iniciara la transacción y genere una respuesta de error específica a esa transacción</p>
+<p>Los elementos sip, se denomina Agentes de Usuario, tanto del cliente, como del servidor (UAS y UAC)</p>
+</div>
+<div class="section" id="mensajes-sip">
+<h2>Mensajes SIP<a class="headerlink" href="#mensajes-sip" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SIP es un protocolo basado en texto que usa el juego de caracteres UTF-8 y consiste en una solicitud de un cliente a un servidor o una respuesta de un servidor a un cliente. Ambos tipos de mensajes, consisten en una línea de inicio, uno o mas campos de encabezado, una línea vacía que indica el final de los campos de encabezado y un cuerpo de mensaje.</p>
+<img alt="_images/sip-mensajes.png" class="align-center" src="_images/sip-mensajes.png" />
+<p>La línea de inici0, encabezado y la línea vacía, deben terminarse mediante una secuencia de salto de línea y retorno de carro (CRLF)</p>
+<div class="section" id="requests-peticiones">
+<h3>Requests (Peticiones)<a class="headerlink" href="#requests-peticiones" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Las solicitudes SIP se distinguen por tener una línea de solicitud para una línea de inicio, contiene un nombre de método, un URI de solicitud y la versión del protocolo, separados por un caracter de espacio</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Los métodos, son considerados como los verbos del protocolo</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span><span class="o">-</span><span class="n">Line</span><span class="p">:</span> <span class="n">INVITE</span> <span class="n">sip</span><span class="p">:</span><span class="mi">16543</span><span class="nd">@192</span><span class="o">.</span><span class="mf">168.10</span><span class="o">.</span><span class="mi">11</span> <span class="n">SIP</span><span class="o">/</span><span class="mf">2.0</span>
+</pre></div>
+</div>
+<p>La especificación del método, define varios métodos:</p>
+<ul class="simple">
+<li><p><strong>REGISTER</strong>, notifica al servidor su dirección IP y su dirección URI</p></li>
+<li><p><strong>INVITE</strong>, invita a un usuario a participar de una sesión</p></li>
+<li><p><strong>ACK</strong>, se ha recibido una respuesta desde un servidor a INVITE</p></li>
+<li><p><strong>OPTIONS</strong>, permite a un usuario interrogar a otro sobre sus capacidades.</p></li>
+<li><p><strong>BYE</strong>, se usa para terminar una sesión</p></li>
+<li><p><strong>CANCEL</strong>, se usa para cancelar una petición previamente enviada</p></li>
+<li><p><strong>INFO</strong>, se usa para enviar información de señalización</p></li>
+<li><p><strong>UPDATE</strong>, permite actualizar características de una sesión</p></li>
+</ul>
+<p>Posteriormente, se han ampliado el número de métodos, definidos en RFCs separados</p>
+<ul class="simple">
+<li><p><strong>REFER</strong>, usado por un agente de usuario para solicitar a otro el acceso a un recurso URI o URL. Este método indica al receptor, que debe contactar con una tercera parte, usando la información de contacto.</p></li>
+<li><p><strong>SUBSCRIBE</strong>, usado por un agente de usuario a fin de establecer una suscripción o solicitud para que el UA, envíe información sobre un evento en particular (contenida en el evento NOTIFY)</p></li>
+<li><p><strong>NOTIFY</strong>, utilizado por un UA para informar de los cambios en el estado de un evento para el que existe una suscripción</p></li>
+<li><p><strong>MESSAGE</strong>, usado para transportar mensajes instantáneos</p></li>
+<li><p><strong>UPDATE</strong>, sirve para cambiar las características de una sesión establecida o refrescarla</p></li>
+<li><p><strong>INFO</strong>, lo usa un agente de usuario para enviar información de señalización de la llamda a otro usuario con el que se ha establecido la sesión (envío DTMF)</p></li>
+<li><p><strong>PRACK</strong>, se utiliza para aceptar una respuesta provisional que se ha trnasmitido de manera fiable</p></li>
+<li><p><strong>PUBLISH</strong>, es un método para la publicación de estado de eventos. Es similar al método REGISTER, en el sentido de que permite crear, modificar y borrar el estado en otra entidad que gestiona dicho estado en nombre del usuario</p></li>
+</ul>
+<p>El request-URI, indica el usuasrio o servicio al que se dirige la solicitud.</p>
+<p>Los mensajes de solicitus y respuesta incluyen la versión SIP en uso.</p>
+</div>
+<div class="section" id="responses-respuestas">
+<h3>Responses (Respuestas)<a class="headerlink" href="#responses-respuestas" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Las respuestas SIP se distinguen de las solicitudes al tener una línea como una línea de inicio. Una línea de estado, consta de la versión del protocolo seguida de un código de estado numérico y su frase textual asociada, con cada elemento separado por un caracter de espacio</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Status</span><span class="o">-</span><span class="n">Line</span><span class="p">:</span> <span class="n">SIP</span><span class="o">/</span><span class="mf">2.0</span> <span class="mi">100</span> <span class="n">Trying</span>
+</pre></div>
+</div>
+<p>El código de estado, es un código de resultado entero de tres dígitos que indica el resultado de un intento de comprender y satisfacer una solicitud, la frase, tiene la intención de dar una breve descripción textual del código de estado</p>
+<ul class="simple">
+<li><p><strong>1xx</strong> → Provisional</p></li>
+<li><p><strong>2xx</strong> → Aceptación</p></li>
+<li><p><strong>3xx</strong> → Redirección</p></li>
+<li><p><strong>4xx</strong> → Error de petición</p></li>
+<li><p><strong>5xx</strong> → Error de servidor</p></li>
+<li><p><strong>6xx</strong> → Fallos globales</p></li>
+</ul>
+</div>
+<div class="section" id="campos-de-cabecera">
+<h3>Campos de cabecera<a class="headerlink" href="#campos-de-cabecera" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cada campo de encabezado, cosnta de un nombre de campo seguido de dos puntos y el valor del campo. El orden de los cambos de encabezado, no es significativo.</p>
+<img alt="_images/sip-headers.png" class="align-center" src="_images/sip-headers.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Sin embargo, se recomienda que los campos de encabezado que se necesitan para el procesamiento del proxy (Via, Route, Record-Route, Proxy-Require, Max-Forwards, y Proxy-Authorization) aparezcan en la parte superior del mensaje para facilitar el análisis rápido.</p>
+</div>
+<p>Algunos campos de encabezado, sólo tienen sentido en solicitudes o respuestas, si aparece un campo de encabezado en un mensaje que no coincide con su categoría, debe ignorarse.</p>
+</div>
+<div class="section" id="cuerpo-del-mensaje">
+<h3>Cuerpo del mensaje<a class="headerlink" href="#cuerpo-del-mensaje" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Las solicitudes, pueden tener cuerpos de mensaje, la interpretación, depende del método de solicitud</p>
+<img alt="_images/sip-body.png" class="align-center" src="_images/sip-body.png" />
+</div>
+</div>
+<div class="section" id="comportamiento-de-user-agent">
+<h2>Comportamiento de User Agent<a class="headerlink" href="#comportamiento-de-user-agent" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un agente de usuario, representa un sistema final. Contiene un cliente de agente (UAC) que genera solicitudes y un servidor de agente (UAS), que responde a ellas. Los procedimientos UAC y UAS, dependen de si la solicitud está fuera o dentro de un diálogo y según el método de la solicitud.</p>
+<p>Una solicitud SIP válida formulada por un UAC, debe contener  como mínimo, los siguientes campos de encabezado, que son los bloques fundamentales de un mensaje SIP</p>
+<ul class="simple">
+<li><p><strong>To</strong>, este campo de encabezado, especifica el destinatario deseado de la solicitud o la dirección de registro del usuario o recurso que es el objetivo de esta solicitud.</p></li>
+<li><p><strong>From</strong>, este campo, indica la identidad lógica del iniciador de la solicitud, posiblemente, la dirección de registro del usuario</p></li>
+<li><p><strong>CSeq</strong>, sirve como una forma de identificar y ordenar transacciones. Consiste en un número de secuencia y un método, el método, debe coincidir con el de la solicitud.</p></li>
+<li><p><strong>Call-ID</strong>, actúa como un identificador único para agrupar una serie de mensajes, debe ser el mismo para todas las solicitudes y respuestas enviadas por un UA en un diálogo</p></li>
+<li><p><strong>Max-Forwards</strong>, sirve para limitar la cantidad de saltos que puede transitar una solicitud camnino a su destino. Consiste en un número entero que es decrementado por 1 en cada salto, si llega a 0 antes de que la solicitud llegue a su destino, será rechazado con un 483 (Too Many Hops) como respuesta de error. Un UAC debe insertar un campo Max-Forwards en cada solicitud que origina, con un valor de 70, este valor, se eligió para ue sea lo suficicntemente grande como para garantizar que una solictud, no se descarte en ninguna red SIP cuando no haya bucles.</p></li>
+<li><p><strong>Via</strong>, este campo, indica el trasmporte utilizado para la transacción e identifica dónde se enviará la respuesta</p></li>
+</ul>
+<p>Estos campos de encabezado son adicionales a la línea de solicitud obligatoria, que contiene el método, Request-URI y la versión SIP</p>
+<p>En algunos casos, la respuesta no será un mensaje SIP, sino un mensaje de error o una redirección, en este caso, los clientes, deben usar los campos URI en el encabezado de contacto para formular una o más solicitudes nuevas basadas en la redirección recibida.</p>
+<p>Ciertos códigos de respuesta 4xx, requieren un procesamiento UA específico, independientemente del método, como por ejemplo errores 401 (no autorizado) 0 407 (se requiere autenticación de proxy), el UAC debe seguir los procedimientos de autenticación para volver a intentar la solicitud con credenciales.</p>
+</div>
+<div class="section" id="registros">
+<h2>Registros<a class="headerlink" href="#registros" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SIP ofrece capacidad de descubrimiento, si un usuario desea iniciar una conversación con otro, debe consultar con un servidor proxy, que son los responsables de recibir una solicitud y determinar dónde enviarla en función del conocimiento de la ubicación del usuario.</p>
+<p>El registro, crea enlaces en un servicio de ubicación para un dominio particular que asocia un URI de dirección de registro con una dirección de contacto.</p>
+<p>El registro, implica enviar una solicitud <strong>REGISTER</strong> a un UAS conocido como registrador, que actúa como el frontend del servicio de ubicación del dominiio, este servicio, es consultado por un servidor proxy, que es el responsable de las solicitudes de enrutamiento para ese dominio (generalmente, es la misma maquina)</p>
+<div class="section" id="construyendo-la-solicitud-de-registro">
+<h3>Construyendo la solicitud de registro<a class="headerlink" href="#construyendo-la-solicitud-de-registro" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Una petición <strong>REGISTER</strong> puede agregar un nuevo enlace entre una dirección de registro y una de contacto</p>
+<p>Los siguientes campos deben incluirse en una petición <strong>REGISTER</strong></p>
+<ul class="simple">
+<li><p>Request-URI</p></li>
+<li><p>To</p></li>
+<li><p>From</p></li>
+<li><p>Call-ID</p></li>
+<li><p>CSeq</p></li>
+<li><p>Contact</p></li>
+</ul>
+<img alt="_images/sip-register.png" class="align-center" src="_images/sip-register.png" />
+</div>
+</div>
+<div class="section" id="consulta-de-capacidades">
+<h2>Consulta de capacidades<a class="headerlink" href="#consulta-de-capacidades" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El método SIP <strong>OPTIONS</strong>, permite que un UA consulte a otro o a un servidor proxy en cuanto a sus capacidades, esto permite que un cliente, descubra información sobre los métodos admitidos, ,tipos de contenido, extensiones, codecs, etc, sin tener que llamar al destino</p>
+<img alt="_images/sip-options.png" class="align-center" src="_images/sip-options.png" />
+</div>
+<div class="section" id="dialogo">
+<h2>Diálogo<a class="headerlink" href="#dialogo" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un concepto clave para un agente de usuario, es el de diálogo, que epresenta una relación SIP punto a punto entre dos agentes de usuario que persiste durante algún tiempo. Se identifica un diálogo en cada UA con una ID de diálogo, que consta de un valor de Call-ID, una etiqueta local (el campo From) y una remota (el campo To).</p>
+<p>El mecanismo para terminar los diálogos, es específico del método. El método <strong>BYE</strong> finaliza una sesión y el diálogo asociado a ella</p>
+</div>
+<div class="section" id="iniciando-una-sesion">
+<h2>Iniciando una sesión<a class="headerlink" href="#iniciando-una-sesion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cuando un agente de usuario desea iniciar una sesión, formula una solicitud <strong>INVITE</strong>, la cual, solicita al servidor que establezca una sesión, los UAS deberán consultar al usuario si acepta la invitación, en caso afirmativo, enviará una respuesta 2xx, en caso negativo, se enviará una respuesta 3xx, 4xx, 5xx o 6xx, dependiendo del motivo del rechazo. Antes de enviar una respuesta final, el UAS, también puede enviar respuestas provisionales (1xx) para informar al UAC del progreso de contacto con el usuario llamado.</p>
+<img alt="_images/sip-invite.png" class="align-center" src="_images/sip-invite.png" />
+<p>Existen reglas especiales para el cuerpo del mensaje, el cual, contien una descripción de la sesión. Está, indica los medios de comunicación deseados (audio, video, etc), los parámetros de esos medios (los tipos de codec) y las direcciones para recibir los medios, el otro UA, responde con otra descripción de sesión, que indica qué medios de comunicación se aceptan    . En esta especificación, las ofertas y respuestas, pueden aparecer en las solicitudes y respuestas INVITE y en ACK</p>
+<img alt="_images/sip-invite-body.png" class="align-center" src="_images/sip-invite-body.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Un escenario común ocurre cuando la persona que llama no está dispuesta. Una respuesta 486 (Busy Here), será devuelta en ese escenario</p>
+</div>
+<p>Una vez que recibe una respuesta final, el UAC necesita enviar un ACK por cada respuesta final que recibe.</p>
+<p>Una respuesta 2xx a un <strong>INVITE</strong>, establece una sesión y también crea un diálogo entre los dos agentes de usuario</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Durante una sesión, se pueden modificar parámetros de la misma (direcciones, puertos, agregar un medio de transmisión, etc.), esto, se logra enviando una solictud <strong>RE-INVITE</strong></p>
+</div>
+</div>
+<div class="section" id="terminar-una-sesion">
+<h2>Terminar una sesión<a class="headerlink" href="#terminar-una-sesion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La solicitud <strong>BYE</strong> se usa para terminar una sesión específica o un intento de sesión. Cuando se recibe en un diálogo, cualquier sesión asociada a ese diálogo, debe terminar.</p>
+<p>Si la respuesta para <strong>BYE</strong> es 481 (llamada o transacción no existe), 408 (tiempo de espera de solictud) o bo se recibe ninguna respuesta, el UAC, debe considerar la sesión y el diálogo terminado</p>
+</div>
+<div class="section" id="servidor-proxy">
+<h2>Servidor Proxy<a class="headerlink" href="#servidor-proxy" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los servidores <strong>Proxy</strong> son elementos que enrutan las solicitudes SIP a los servidores de agente de usuario y las respuestas SIP a los clientes de agente de usuario. Una solicitud, puede atravesar varios servidores proxy en su camino a un UAS. Cada uno, tomará las decisiones de enrutamiento, modificando la solictud antes de enviarla al siguiente ekemento.</p>
+<p>Las respuestas se enviaran a través del mismo conjunto de proxies, pero en orden inverso</p>
+<img alt="_images/sip-proxy.png" class="align-center" src="_images/sip-proxy.png" />
+</div>
+<div class="section" id="transacciones">
+<h2>Transacciones<a class="headerlink" href="#transacciones" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SIP es un protocolo transaccional, las interacciones entre componentes tienen lugar en una serie de mensajes independientes. Especificamente, una transacción SIP, consiste en una sola solicitud y cualquier respuesta a esa solicitud</p>
+<p>Las transacciones tienen un lado del cliente y un lado del servidor. El lado del cliente se conoce como una transacción del cliente y el lado del servidor como una transacción del servidor. La transacción del cliente envía la solicitud y la transacción del servidor envía la respuesta. Las transacciones de cliente y servidor son funciones lógicas que están integradas en cualquier número de elementos.</p>
+<p>La transacción INVITE, es un apretón de manos de tres vías, la transacción cliente envía un INVITE, el servidor envía respuestas y el cliente, termina con un ACK. Para transportes poco confiables (UDP), la transacción del cliente, retransmite las solicitudes en un intervalo que comienza en T1 segundos y se duplica despues de cada retransmisión.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>T1 es una estimación del tiempo de ida y vuelta (RTT) y su valor predeterminado es 500 ms.</p>
+</div>
+<p>Después de recibior una respuesta 1xx, cualquier retransmisión cesa por completo y el cliente espera nuevas respuestas.</p>
+<p>Finalmente, la transacción del servidor, decide enviar una respuesta final. Para cada respuesta final que se recibe en la transacción de cliente, se envía un ACK, cuyo propósito es apagar las retransmisiiones de la respuesta.</p>
+</div>
+<div class="section" id="campos-de-la-cabecera-header-fileds">
+<h2>Campos de la cabecera (Header Fileds)<a class="headerlink" href="#campos-de-la-cabecera-header-fileds" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="accept">
+<h3>Accept<a class="headerlink" href="#accept" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si no hay un ancabezado Accept, el servidor debe asumir un valor predeterminado de <strong>application/sdp</strong></p>
+</div>
+<div class="section" id="alert-info">
+<h3>Alert-Info<a class="headerlink" href="#alert-info" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cuando está presente, especifica un tono de llamda alternativo. Un uso típico, es que un proxy inserte este campo de encabezado para proporcionar una característica de timbre distinta</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Alert-Info: &lt;http://www.example.com/sounds/moo.wav&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="allow">
+<h3>Allow<a class="headerlink" href="#allow" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Enumera el conjunto de métodos admmitidos por el UA que genera el mensaje. La ausencia de Allow Header, no debe interpretarse como que el UA no admite métodos, sino que no está proporcionando información sobre qué métodos admite</p>
+</div>
+<div class="section" id="authentication-info">
+<h3>Authentication-Info<a class="headerlink" href="#authentication-info" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Proporciona autenticación mútua con <strong>HTTP-Digest</strong></p>
+</div>
+<div class="section" id="call-id">
+<h3>Call-ID<a class="headerlink" href="#call-id" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Identifica de forma exclusivo una invitación particular o todos los registros de un cliente en particular. Una conferencia multimedia, puede dar lugar a llamadas con diferentes Call-ID.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Call</span><span class="o">-</span><span class="n">ID</span><span class="p">:</span> <span class="n">f81d4fae</span><span class="o">-</span><span class="mi">7</span><span class="n">dec</span><span class="o">-</span><span class="mi">11</span><span class="n">d0</span><span class="o">-</span><span class="n">a765</span><span class="o">-</span><span class="mi">00</span><span class="n">a0c91e6bf6</span><span class="nd">@biloxi</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="contact">
+<h3>Contact<a class="headerlink" href="#contact" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Proporciona un URI cuyo significado depende del tipo de solicitud o respuesta en la que se encuentra. Puede contener un nombre para mostrar, un URI con parámetros de URI y parámetros de encabezado.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Contact</span><span class="p">:</span> <span class="s2">&quot;Anonymous&quot;</span> <span class="o">&lt;</span><span class="n">sip</span><span class="p">:</span><span class="n">anonymous</span><span class="nd">@10</span><span class="o">.</span><span class="mf">168.3</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">5060</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="content-encoding">
+<h3>Content-Encoding<a class="headerlink" href="#content-encoding" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se utiliza como un modificador del tipo de medio. Cuando está presente, su valor indica qué codificaciones de contenido adicionales se han aplicado al cuerpo de la entidad y, por lo tanto, qué mecanismos de decodificación deben aplicarse para obtener el tipo de medio al que hace referencia el campo.</p>
+</div>
+<div class="section" id="content-length">
+<h3>Content-Length<a class="headerlink" href="#content-length" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Indica el tamaño del cuerpo del mensaje, en número decimal de octetos</p>
+</div>
+<div class="section" id="content-type">
+<h3>Content-Type<a class="headerlink" href="#content-type" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Indica el tipo de medio del cuerpo del mensaje enviado al destinatario, debe estar presente si el cuerpo no está vacío</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">sdp</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cseq">
+<h3>CSeq<a class="headerlink" href="#cseq" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Incluye un número de secuencia decimal y el método de la solicitud, sirve para proporcionar un medio para identificar transacciones de manera única y para diferencias entre nuevas solicitudes y retransmisiones de solicitudes</p>
+</div>
+<div class="section" id="from">
+<h3>From<a class="headerlink" href="#from" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Indica el iniciador de la solicitud, el sistema debe utilizar el nombre para mostrar «Anonymous» si la identidad del cliente debe permanecer oculta</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">From</span><span class="p">:</span> <span class="s2">&quot;Anonymous&quot;</span> <span class="o">&lt;</span><span class="n">sip</span><span class="p">:</span><span class="n">anonymous</span><span class="nd">@anonymous</span><span class="o">.</span><span class="n">invalid</span><span class="p">:</span><span class="mi">5060</span><span class="o">&gt;</span><span class="p">;</span><span class="n">tag</span><span class="o">=</span><span class="n">Teldat_3223827664</span><span class="o">-</span><span class="mi">279049229</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="max-forwards">
+<h3>Max-Forwards<a class="headerlink" href="#max-forwards" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Debe utilizarse con cualquier método SIP para limitar el número de proxies o gateways que pueden reenviar la solicitud al siguiente servidor. El valor inicial recomendado es 70.</p>
+</div>
+<div class="section" id="proxy-aythorization">
+<h3>Proxy-Aythorization<a class="headerlink" href="#proxy-aythorization" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Permite a un cliente identificarse a un proxy que requiere autenticación</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Authorization</span><span class="p">:</span> <span class="n">Digest</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;5802&quot;</span><span class="p">,</span><span class="n">realm</span><span class="o">=</span><span class="s2">&quot;ccmsipline&quot;</span><span class="p">,</span><span class="n">nonce</span><span class="o">=</span><span class="s2">&quot;Udjmknb/Y6fuSQtZM8S4X1+wd+ut/OpV&quot;</span><span class="p">,</span><span class="n">response</span><span class="o">=</span><span class="s2">&quot;6b2e0acc2f0998ac745147bf6d025065&quot;</span><span class="p">,</span><span class="n">uri</span><span class="o">=</span><span class="s2">&quot;sip:10.17.1.93&quot;</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="n">MD5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="route">
+<h3>Route<a class="headerlink" href="#route" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se utiliza para forzar el enrutamiento de una solicitud a través del conjunto de proxies enumerados</p>
+</div>
+<div class="section" id="to">
+<h3>To<a class="headerlink" href="#to" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Especifica el destinatario lógico de la solicitud</p>
+</div>
+<div class="section" id="user-agent">
+<h3>User-Agent<a class="headerlink" href="#user-agent" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Contiene información sobre el UAC que origina la solicitud</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Revelar la versión de software específica del agente de usuario, podría permitir que este se vuelva mas vulnerable contra el software que se sabe que tiene bugs.. Este campo, debe ser una opción configurable</p>
+</div>
+</div>
+<div class="section" id="via">
+<h3>Via<a class="headerlink" href="#via" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Indica la ruta tomada por la solicitud hasta el momento, contiene el protocolo de transporte utilizado, el nombre de host del cliente y posiblemente el número de puerto</p>
+</div>
+</div>
+<div class="section" id="codigos-de-respuesta">
+<h2>Códigos de respuesta<a class="headerlink" href="#codigos-de-respuesta" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="informativas-1xy">
+<h3>Informativas (1xy)<a class="headerlink" href="#informativas-1xy" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se emplea para indicar el progreso de la llamada, evitando las retransmisioines de las peticiones. Son opcionales, es decir, un UAS puede enviar una respuesta final sin tener que haber enviado previamente una respuesta provisional.</p>
+<p>Mientras que las respuesta finales, tienen que recibir un ACK, las provisionales no tienen porque ser reconocidas, excepto cuando se usa el método <strong>PRACK</strong> de trabnsmisión fiable</p>
+<ul class="simple">
+<li><p><strong>100 Triying</strong>, indica que algún tipo de acción se está llevando a cabo para procesar la llamada.</p></li>
+<li><p><strong>180 Ringing</strong>, indica que el INVITE ha sido recibido por el agente de usuario y se le está dando señal de llamada. A partir de esta respuesta, el UAC generará su propio tono de llamada, salvo que se reciba el campo «Alert-Info»</p></li>
+<li><p><strong>181 Call is being forwarded</strong>, indica que la llamada está siendo desviada a otro terminal</p></li>
+<li><p><strong>182 Call queued</strong>, indica que el INVITE se ha recibido y que se procesará en una cola</p></li>
+</ul>
+</div>
+<div class="section" id="aceptacion">
+<h3>Aceptación<a class="headerlink" href="#aceptacion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Estas respuestas, indican que la petición ha sido aceptada</p>
+<ul class="simple">
+<li><p><strong>200 OK</strong>, esta respuesta tiene dos usos, acepta una invitación de sesión INVITE, en cuyo caso contendrá unh cuerpo de mensaje con las propiedades del medio y el segundo, como respuesta a otras peticiones, indicando que se ha recibido con exito.</p></li>
+<li><p><strong>202 Accepted</strong>, indica que el UAS ha recibido y comprendido la petición, pero que no ha sido autorizada o procesada por el servidor.</p></li>
+</ul>
+</div>
+<div class="section" id="redireccion">
+<h3>Redirección<a class="headerlink" href="#redireccion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La respuesta de redireción es enviada por un UAS que actúa como servidor redirect, dirigiendo al cliente a un contacto elegido entre un conjunto de direcciones URI alternativas.</p>
+<p>Un UAS puede enviar esta respuesta de esta clase, en caso de que esten implementados los servicios de desvío de llamada.</p>
+<ul class="simple">
+<li><p><strong>300 Multiples choices</strong>, redirección que contiene múltiples direcciones de contacto</p></li>
+<li><p><strong>301 Moved Permanently</strong>, indica la nueva direcciój URI de la parte llamada</p></li>
+<li><p><strong>302 MOved Temporarily</strong>, la dirección URI incluida en esta respuesta, tiene una validez temporal indicado en la cabecera «Expires»</p></li>
+<li><p><strong>305 Use Proxy</strong>, contiene la dirección URI que apunta a un servidor que tiene información autorizada sobre la parte llamante, es decir, el recurso requerido, debe accederse a través del servidor proxy</p></li>
+<li><p><strong>380 Alternative service</strong>, la llamada falló, pero las alternativas son detalladas en el cuerpo del mensaje (por ejemplo, desvío al buzón de voz)</p></li>
+</ul>
+</div>
+<div class="section" id="errores-dbido-al-cliente">
+<h3>Errores dbido al cliente<a class="headerlink" href="#errores-dbido-al-cliente" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Respuesta usada por un servidor que indica que la petición no puede ser formulada tal y como se ha remitido, el cliente no debe volver a intentar la misma petición sin modificación.</p>
+<ul class="simple">
+<li><p><strong>400 Bad Request</strong>, la solicitud no pudo ser entendida, debido a un error de sintaxis</p></li>
+<li><p><strong>401 Unauthorized</strong>, la solictud requiere de autenticación de usuario</p></li>
+<li><p><strong>403 Forbidden</strong>, el servidor entiene la petición y está correctamente formulada, pero la rechaza</p></li>
+<li><p><strong>404 Not Found</strong>, el usuario identificado en la dirección URI no existe en el dominio identificado</p></li>
+<li><p><strong>405 Method Not Allowed</strong>, el método especificado no está permitido</p></li>
+<li><p><strong>407 Proxy Authentication Required</strong>, la solicitud requiere autenticación de usuario</p></li>
+<li><p><strong>415 Unsupported media type</strong>, indica que el tipo de medio contenido en la petición, no se soporta</p></li>
+<li><p><strong>420 Bad extension</strong>, la extensión especificada, no se soporta en el agente de usuario</p></li>
+<li><p><strong>480 Temporarily Unavailable</strong>, la petición ha alcanzado el destino correcto, pero no está disponible por alguna razón</p></li>
+<li><p><strong>486 Busy Here</strong>, destinatario está ocupado</p></li>
+<li><p><strong>488 Not Acceptable Here</strong>, indica que algunos aspectos de la descripción de la sesión, no son aceptables</p></li>
+</ul>
+</div>
+<div class="section" id="error-debido-a-fallo-en-el-servidor">
+<h3>Error debido a fallo en el servidor<a class="headerlink" href="#error-debido-a-fallo-en-el-servidor" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Esta clase de respuestas se usarán para indicar que la petición no mse puede procesar debido a un fallo en el propio servidor</p>
+<ul class="simple">
+<li><p><strong>500 Server Internal Error</strong>, se envía cuando el servidor se ha encontrado con un fallo inesperado, que no le permite procesar la petición</p></li>
+<li><p><strong>501 Not Implemented</strong>, el UAS no reconoce el método requerido</p></li>
+<li><p><strong>502 Bad Gateway</strong>, un proxy que está actuando como gateway de otra red e indica que existe algún problema en la otra red que impide procesar la petición</p></li>
+<li><p><strong>503 Service Unavailable</strong>, indica que el servicio requerido, no está disponible temporalmente</p></li>
+<li><p><strong>504 Server Timeout</strong>, indica que la petición ha fallado debido al vencimiento de un temporizador</p></li>
+<li><p><strong>Version Not Supported</strong>, el servidor ha rechazado la petición, debido a la versión SIP implementada en la petición</p></li>
+<li><p><strong>513 Message Too Large</strong>, el tamaño de la petición, es demasiado grande para ser procesado</p></li>
+</ul>
+</div>
+<div class="section" id="error-global">
+<h3>Error Global<a class="headerlink" href="#error-global" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Esta respuesta, indica que el servidor sabe que la petición fallará</p>
+<ul class="simple">
+<li><p><strong>600 Busy Everywhere</strong>, versión definitiva de la respuesta 486 (ocupado), pero a cualquier posible dirección del usuario identificado en el Request-URI.</p></li>
+<li><p><strong>603 Declien</strong>, indica que no acepta la llamada porque no quiere o porque no puede</p></li>
+<li><p><strong>604 Does Not Exist Anywhere</strong>, suimilar a 404, pero el servidor tiene información autizada para indicar que el usuario no puede ser localizado en ninguna dirección.</p></li>
+<li><p><strong>606 Not acceptable</strong>, indica que algún aspecto de la sesión requerida, no es aceptable por el UAS y en consecuencia, no se puede estblecar la sesión.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="protocolo-sdp">
+<h2>Protocolo SDP<a class="headerlink" href="#protocolo-sdp" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El protocolo SDP, trata de un lenguaje para la descripción del medio de comunicación.</p>
+<p>SDP, contiene la siguiente información sobre el medio empleado en la sesión</p>
+<ul class="simple">
+<li><p>Dirección IP</p></li>
+<li><p>Número de puerto usado para el protocolo de transporte</p></li>
+<li><p>Tipo de medio (audio, video, etc.)</p></li>
+<li><p>Esquema de codificación del medio.</p></li>
+</ul>
+<p>Adicionalmente, SDP incluye también</p>
+<ul class="simple">
+<li><p>Sujeto de la sesión</p></li>
+<li><p>Hora de inicio y fin</p></li>
+<li><p>Información de contacto relacionada con la sesión</p></li>
+</ul>
+<p>Un mensaje SDP está compuesto de un conjunto de campos, cuyos nombres, está abreviados a una sola letra y se colocan siguiendo un orden establecido para facilitar el análisis.</p>
+<p>SDP no es fácilmente extnesible, la única manera de añadir nuevas capacidades, es definiendo nuevos atributos</p>
+<p>SIP usa los campos de conexión, medio y atributos, para establecer sesiones entre agentes de usuario. Dado que el tipo de medio y el codec que se usa en una determinada sesión, son parte de la negociación de la conexión, SIP, podrá usar SDP para especificar múltiples alternativas de tipos de medios y aceptar o rechazar algunos de ellos.</p>
+<img alt="_images/sip-sdp.png" class="align-center" src="_images/sip-sdp.png" />
+</div>
+<div class="section" id="uso-de-autenticacion-http">
+<h2>Uso de autenticación HTTP<a class="headerlink" href="#uso-de-autenticacion-http" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SIP proporciona un mecanismo de autenticación basado en desafíos y sin estado que se basa en la autenticación HTTP. El mecanismo de autenticación <strong>Digest</strong> proporciona autenticación de mensajes y protección de reproducción, sin integridad ni confidencialidad de mensajes.</p>
+<p>El marco de autenticación SIP, es muy similar al de HTTP (<a class="reference external" href="https://tools.ietf.org/pdf/rfc2617.pdf">RFC 2617</a>). En SIP, un UAS utiliza la respuesta 401 (no autorizao para cuestionar la identidad de un UAC)</p>
+<p>En general, la autenticación SIP es significativa para un ámbito específico, un dominio de protección. Por lo tanto, para la autenticación implicita, cada domino de protección, tiene su propio conjunto de nombres de usuario y contraseñas. Del mismo modo, los UAC que representan a muchos enlaces (gateways PSTN), pueden tenr su propio nombre de usuario y contraseña específicos del dispositivo, en lugar de cuentas para usuarios particulares de su dominio.</p>
+<p>Si bien, un servidor puede desafiar la mayoría de las solicitudes SIP, hay 2, que requieren un manejo especial: ACK y CANCEL</p>
+<p>Cualquier credencial en un INVITE que haya sido aceptado por un servidor, debe ser ser aceptada por ese servidor para el ACK. Los UAC que crean un mensaje ACK, duplicarán todos los valores del campo de cabecera Authorization y Proxy-Authorization que aparecieron en el INVITE a la que corresponde el ACK. Los servidores, no deben intentar desafiar un ACK.</p>
+<p>Los servidores, no deben intentar desafiar las solicitudes CANCEL, ya que estas, no se pueden volver a enviar.</p>
+<p>Un UAC, puede ubicar credenciales que no sean válidas o que el servidor desafiante, no las acepte por cualquier razón. En este caso, un servidor puede repetir su desafio o puede responder con 403 (Forbidden). Un UAC, no debe volver a intentar las peticiones con las credenciales que se acaban de rechazar.</p>
+<img alt="_images/sip-digest-401.png" class="align-center" src="_images/sip-digest-401.png" />
+<img alt="_images/sip-digest-401-2.png" class="align-center" src="_images/sip-digest-401-2.png" />
+<p>Cuando un UAC recibe 401, debe, si es posible, volver a originar la solicitud con las credenciales adecuadas, una vez que se hayan proporcionado las credenciales de autenticación, los UA, deberían almacenar en cache las credenciales para un valor de campo y el dominio del campo To, e intentar reutilizar estos valores en la próxima solicitud de ese desstino.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rtp.html" class="btn btn-neutral float-right" title="Protocolo RTP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tcp.html" class="btn btn-neutral float-left" title="Protocolo TCP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
