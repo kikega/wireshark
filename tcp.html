@@ -512,6 +512,13 @@ enviados no tienen por qué concordar con los segmentos recibidos).</p>
 <li><p><strong>TCP Port numbers reused</strong>, establecido cuando tenemos un SYN (no SYN y ACK) y una conversación existente que usa la misma dirección, y el número de secuencia es diferente al inicial de la conversación existente</p></li>
 <li><p><strong>TCP Previous segment not captured</strong>, se establece cuando el número de secuencia actual, es mayor que el siguiente número de secuencia esperado</p></li>
 <li><p><strong>TCP Spurious Retransmission</strong></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Las retransmisioines espurias, son paquetes que se reciben aunque su contenido haya sido reconocido, significa que estamos capturando en el extremos receptor de la conexión y vemos que hay datos que llegan dos veces, lo más probable, es que los ACKs se han perdido en dirección al remitente, como consecuencia, este, piensa que no han llegado y realiza la retransmisión de los mismos.</p>
+<p>A ser posible, se recomienda capturar en los dos extremos de la comunicación, para ver si es posible, determknar el punto de perdida de los paquetes.</p>
+</div>
+<ul class="simple">
 <li><p><strong>TCP Retransmission</strong></p></li>
 <li><p><strong>TCP Windows full</strong>, se establece cuando el tamaño del egmento no es 0, sabemos el tamaño de la ventana en dirección inversa y el tamaño de nuestro segmento, excede del tamaño de ventana en la receptor</p></li>
 <li><p><strong>TCP Window update</strong></p></li>
