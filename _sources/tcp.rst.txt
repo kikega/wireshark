@@ -326,6 +326,13 @@ Desde preferencias del protocolo **Edit -> Preference -> Protocols -> TCP**
 - **Show TCPsummary in protocol tree**. Marque esta opción si desea que la línea resumen TCP, se muestre en el arbol de protocolos
 - Validate the TCP checksum if possible. Esta característica, puede ralentizar el rendimiento, en la mayoría de los casos, no es recomendable
 - **Allow subdisector to reasemble streams**. Esta opción, es para el análisis de flujo
+
+.. note::
+
+    TCP allow subdissector to reassemble TCP streams, hace posible que Wireshark, recopile una secuencia contígua de segmentos TCP y los entregue al protocolo de nivel superior para reconstruir un mensaje completo. Todos, menos el segmento final, se marcaran con "TCP segment of reassembled PDU" en la lista de paquetes.
+    
+    Deshabilite esta opción para reducir el consumo de memoria y la sobrecarga de procesamiento, si solo está interesado en elanálisis delnúmero de secuencia, pero tenga en cuenta, que los protocolos de nivel superior, pueden diseccionarse erróneamente (HTTP podría mostrarse como continuación)
+
 - **Analyze TCP sequence numbers**. Cuando se establece, Wireshark, analiza los números de secuencia y rastrea fenómenos como retransmisiones, ACKs dupllicados, etc. Es una de las características importantes de Wireshark
 - **Relative sequence numbers**. Cuando está configurado, Wireshark, mostrará cada conexión TCO que comienza, con el número de secuencia igual a 0.
 
