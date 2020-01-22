@@ -7,7 +7,15 @@ Laboratorio 1
 
 Ver el mecanismo de una llamada VoIP, y las estadísticas sobre dicha llamada.
 
-Ver que filtros podemos utilizar para buscar mensaje de llamada y códigos de error
+Buscar la veriable de servicios diferenciados y agregarla como columna
+
+Ver que filtros podemos utilizar para buscar mensaje de registro (REGISTER), como de llamada (INVITE) y códigos de error
+
+Ver el contenido del mensaje SDP, ¿que codecs se solicitan?. ¿En qué mensaje de respuesta va la descripción de la sesión?
+
+Ver cuantas llamadas hay en el archivo capturado, analizar con elflujograma
+
+Ver estadisticas RTP y SIP
 
 - `Llamada SIP <_static/laboratorios/voip/lab_1.pcapng>`_
 

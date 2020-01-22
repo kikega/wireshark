@@ -54,3 +54,8 @@ La perdida de paquetes, se determina analizando el campo número de secuencia, o
 El retardo variable o jitter, se puede corregir analizando el campo Timestamp de la cabecera.
 
 En la RFC3550, también e define el protocolo RTCP, que permite a los participantes en una sesión RTP, intercambiar informes, estadísticas e información relacionadas con la identidad de los participantes
+
+.. image:: _static/imagenes/rtp-wshark.png
+    :align: center
+    
+
