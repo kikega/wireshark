@@ -17,6 +17,7 @@ Wireshark, analizador de redes
     arp
     icmp
     tcp
+    dns
     sip
     rtp
     analyze

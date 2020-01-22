@@ -1,0 +1,118 @@
+========================
+Domain Name Server - DNS
+========================
+
+Documentación y RFCs
+--------------------
+
+- `DNS Coceptos e instalación RFC1034 <_static/documentacion/rfc/rfc1034-dns.pdf>`_
+- `DNS Implementación y especificación. RFC1035 <_static/documentacion/rfc/rfc1035.pdf>`_
+
+Historia
+--------
+
+El mapeo de direcciones a nombres de host, estaban gestionadas en un solo fichero **hosts.txt** por <NIC (Network Information Center) y eran distribuidos a todos los hosts por FTP.
+
+- La carga de salida FTP en los servidores NIC era considerable.
+- Los hosts fueron sustituidos por redes locales y las organizaciones, administraban localmente sus propios nombres y direcciones, pero tenían que esperar a NIC para que hosts.txt estuviera actualizado.
+- Al volverse más sofisticadas las aplicaciones en Internet, se creo la necesidad de tener un servicio de nombres de proposito general
+
+Objetivos del diseño de DNS
+---------------------------
+
+Los objetivos del diseño en su estructura son:
+
+- El objetivo principal, es un espacio de nombres consistente que sea utilizado para referirse alos recursos.
+- La capacidad de la base de datos y las actualizaciones, debe ser mantenida de forma distribuida, con caches locales para mejorar el rendimiento
+- Las transacciones entre servidores de nombres, deben ser independientes del sistema de comunicaciones que las hace posible
+
+Suposiciones sobre el uso
+-------------------------
+
+- El tamaño total de la base de datos, será proporcional al número de hosts que utilicen el sistema
+- El sistema debe adaptarse a los cambios rápidos de datos que así lo requieran
+- Cada organización que tenga responsabilidad para un conjunto de dominios, deberá tener servidores de nombres redundantes
+- Los clientes del sistema de dominios, deberán identificar a los servidores de nombres de confianza
+- El acceso a la onformación, es más crítico que las actualizaciones
+- Puede existir un servidor de nombres realizando consultas que solo puedan ser respondidas por algún otro servidor, se podrá hacer de forma recursiva o de forma iterativa (la preferida)
+
+El sistema de dominios, asume que todos los datos originados en los ficheros maestros, se distribuyen a los hosts del sistema de dominios, estos, son actualizados por administradores de sistema locales. Los programas de usuario, acceden a los servidores de nombres, a través de programas estándar, llamados **resoltores**.
+
+El formato estándar de los ficheros maestros, permite que pueda ser intercambiado entre hosts via ftp, mail u otro mecanismos.
+
+Los servidores de nombres de cada host y los resolutores, son configurados por un administrador local y utiliza los ficheros maestros o copias, para cargar sus zonas. En el casode los resolutores, los datos de configuración, identifican a los servidores de nombres que deben ser primarios
+
+El administrador de sistemas, ofrece:
+
+- La definición de los límites de zona
+- Los ficheros maestros de datos
+- Actualizaciones de ficheros maestros
+- Establecimiento de las políticas deseadas de refresco
+
+El sistema de dominios ofrece:
+
+- Formatos estándar para datos de recursos
+- Modos estándar para consultar la base de datos
+- Métodos estándar para refescar los datos locales
+
+Elementos de un DNS
+-------------------
+
+- El espacio de nombres de dominio y registro de recursos, son especificaciones para un árbol estructurado de espacio de nombres  y datos asociados con los nombres
+- Servidores de nombre, que son programas de servidor, donde se aloja la información de la estructura de un árbol de dominio y la establece. Los servidores de nombres, conocen las partes del árbol de dominio para las cuales, tienen información completa y son la autoridad para esas partes del espacio de nombres. Lainformación autorizada, se organiza dentro de unidades llamadas zonas, y esas zonas, pueden distribuirse automáticamente en los servidores de nombres, para ofrecer un servicio redundante para los datos de la zona.
+- Resolutores, son los programas que extraen información de servidores en respuestas a consultas de los clientes. Los resolutores, deben tener acceso, al menos, a un servidor de nombres, que puede responder directamente la consulta, o proseguir con la consulta, utilizando referencias a otros servidores de nombres
+
+Espacio de nombres de dominio y registros de recursos
+-----------------------------------------------------
+
+Especificaciones y terminología
+*******************************
+
+El espacio de nombres de dominio, es una estructura de árbol. Cada nodo y hoja en el árbol, corresponde a un conjunto de recursos.
+
+El nombre de dominio de un nodo, es la lista de etiquetas en la ruta del nodo a la raíz del árbol
+
+Registros de recursos
+*********************
+
+Un nombre de dominio identifica a un nodo. El conjunto de información del recurso asociado con un nombre particular, está compuesto por distintos registros de recursos (RRs),
+
+Cuando hablamos de un RR específico, asumimos que tiene lo siguiente:
+
+- Propietario, en nombre de dominio donde se encuentra
+- Tipo, especifica el tipo de recurso
+
+    - A, dirección de host
+    - CNAME, nombre canónico de un alias
+    - MX, identifica elservidor de correo para el dominio
+    - NS, el servidor de nombres con autoridad para el dominio
+    - PTR, puntero a otra parte del espacio de nombres del dominiio
+    - SOA, identifica el comienzo de la zona de autoridad
+    
+- Clase, IN para Internet
+- TTL, tiempo de vida del RR en caché, antes de ser eliminado
+- RDATA, los datos que dependen de la clase que describe el recurso
+
+.. note::
+
+    El TTL no se aplica a los datos autorizados en las zonas, estos, tienen un TTL controlado por las políticas de refresco de la zona
+    
+Consultas
+*********
+
+Las consultas, son mensajes que son enviados a un servidor de nombres para obtener una respuesta, se transportan en datagramas UDP o sobre conexiones TCP, la respuesta del servidor de nombres, puede ser la respuesta en sí, referencias a otro conjunto de servidores o algún error.
+
+Las consultas y respuestas, tienen un formato de mensaje estándar. Una consulta estándar, especifica un nombre de dominio destino (QNAME), un tipo de consulta (QTYPE) y una clase de consulta (QCLASS) y pregunta por los RRs que coincidan (query)
+
+Consultas inversas
+******************
+
+Los servidores de nombres, también pueden realizar consultas inversas que mapean un recurso particular a un nombre de dominio.
+
+.. note::
+
+    La implementación de este servicio en el servidor de nombres, es opcional, pero todos los servidores de nombres, deben ser capaces, al menos, de entender una consulta inversa y devolver una respuesta de error en caso de que no sopprte ese tipo de consultas.
+    
+.. danger::
+
+    CONTINUARA.....

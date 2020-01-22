@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Domain Name Server - DNS &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Protocolo SIP" href="sip.html" />
+    <link rel="prev" title="Protocolo TCP" href="tcp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Domain Name Server - DNS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#documentacion-y-rfcs">Documentación y RFCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#historia">Historia</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#objetivos-del-diseno-de-dns">Objetivos del diseño de DNS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#suposiciones-sobre-el-uso">Suposiciones sobre el uso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#elementos-de-un-dns">Elementos de un DNS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#espacio-de-nombres-de-dominio-y-registros-de-recursos">Espacio de nombres de dominio y registros de recursos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#especificaciones-y-terminologia">Especificaciones y terminología</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#registros-de-recursos">Registros de recursos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#consultas">Consultas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#consultas-inversas">Consultas inversas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_interfaz.html">Laboratorios Configuración Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_filtrado.html">Laboratorios paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_ip.html">Laboratorios arquitectura IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_tcp.html">Laboratorios protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_analyze.html">Laboratorio Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_estadisticas.html">Laboratorios de estadísticas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_voip.html">Laboratorios SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab_aplicaciones.html">Laboratorios Aplicaciones</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Domain Name Server - DNS</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/dns.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="domain-name-server-dns">
+<h1>Domain Name Server - DNS<a class="headerlink" href="#domain-name-server-dns" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="documentacion-y-rfcs">
+<h2>Documentación y RFCs<a class="headerlink" href="#documentacion-y-rfcs" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/documentacion/rfc/rfc1034-dns.pdf">DNS Coceptos e instalación RFC1034</a></p></li>
+<li><p><a class="reference external" href="_static/documentacion/rfc/rfc1035.pdf">DNS Implementación y especificación. RFC1035</a></p></li>
+</ul>
+</div>
+<div class="section" id="historia">
+<h2>Historia<a class="headerlink" href="#historia" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El mapeo de direcciones a nombres de host, estaban gestionadas en un solo fichero <strong>hosts.txt</strong> por &lt;NIC (Network Information Center) y eran distribuidos a todos los hosts por FTP.</p>
+<ul class="simple">
+<li><p>La carga de salida FTP en los servidores NIC era considerable.</p></li>
+<li><p>Los hosts fueron sustituidos por redes locales y las organizaciones, administraban localmente sus propios nombres y direcciones, pero tenían que esperar a NIC para que hosts.txt estuviera actualizado.</p></li>
+<li><p>Al volverse más sofisticadas las aplicaciones en Internet, se creo la necesidad de tener un servicio de nombres de proposito general</p></li>
+</ul>
+</div>
+<div class="section" id="objetivos-del-diseno-de-dns">
+<h2>Objetivos del diseño de DNS<a class="headerlink" href="#objetivos-del-diseno-de-dns" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los objetivos del diseño en su estructura son:</p>
+<ul class="simple">
+<li><p>El objetivo principal, es un espacio de nombres consistente que sea utilizado para referirse alos recursos.</p></li>
+<li><p>La capacidad de la base de datos y las actualizaciones, debe ser mantenida de forma distribuida, con caches locales para mejorar el rendimiento</p></li>
+<li><p>Las transacciones entre servidores de nombres, deben ser independientes del sistema de comunicaciones que las hace posible</p></li>
+</ul>
+</div>
+<div class="section" id="suposiciones-sobre-el-uso">
+<h2>Suposiciones sobre el uso<a class="headerlink" href="#suposiciones-sobre-el-uso" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><p>El tamaño total de la base de datos, será proporcional al número de hosts que utilicen el sistema</p></li>
+<li><p>El sistema debe adaptarse a los cambios rápidos de datos que así lo requieran</p></li>
+<li><p>Cada organización que tenga responsabilidad para un conjunto de dominios, deberá tener servidores de nombres redundantes</p></li>
+<li><p>Los clientes del sistema de dominios, deberán identificar a los servidores de nombres de confianza</p></li>
+<li><p>El acceso a la onformación, es más crítico que las actualizaciones</p></li>
+<li><p>Puede existir un servidor de nombres realizando consultas que solo puedan ser respondidas por algún otro servidor, se podrá hacer de forma recursiva o de forma iterativa (la preferida)</p></li>
+</ul>
+<p>El sistema de dominios, asume que todos los datos originados en los ficheros maestros, se distribuyen a los hosts del sistema de dominios, estos, son actualizados por administradores de sistema locales. Los programas de usuario, acceden a los servidores de nombres, a través de programas estándar, llamados <strong>resoltores</strong>.</p>
+<p>El formato estándar de los ficheros maestros, permite que pueda ser intercambiado entre hosts via ftp, mail u otro mecanismos.</p>
+<p>Los servidores de nombres de cada host y los resolutores, son configurados por un administrador local y utiliza los ficheros maestros o copias, para cargar sus zonas. En el casode los resolutores, los datos de configuración, identifican a los servidores de nombres que deben ser primarios</p>
+<p>El administrador de sistemas, ofrece:</p>
+<ul class="simple">
+<li><p>La definición de los límites de zona</p></li>
+<li><p>Los ficheros maestros de datos</p></li>
+<li><p>Actualizaciones de ficheros maestros</p></li>
+<li><p>Establecimiento de las políticas deseadas de refresco</p></li>
+</ul>
+<p>El sistema de dominios ofrece:</p>
+<ul class="simple">
+<li><p>Formatos estándar para datos de recursos</p></li>
+<li><p>Modos estándar para consultar la base de datos</p></li>
+<li><p>Métodos estándar para refescar los datos locales</p></li>
+</ul>
+</div>
+<div class="section" id="elementos-de-un-dns">
+<h2>Elementos de un DNS<a class="headerlink" href="#elementos-de-un-dns" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><p>El espacio de nombres de dominio y registro de recursos, son especificaciones para un árbol estructurado de espacio de nombres  y datos asociados con los nombres</p></li>
+<li><p>Servidores de nombre, que son programas de servidor, donde se aloja la información de la estructura de un árbol de dominio y la establece. Los servidores de nombres, conocen las partes del árbol de dominio para las cuales, tienen información completa y son la autoridad para esas partes del espacio de nombres. Lainformación autorizada, se organiza dentro de unidades llamadas zonas, y esas zonas, pueden distribuirse automáticamente en los servidores de nombres, para ofrecer un servicio redundante para los datos de la zona.</p></li>
+<li><p>Resolutores, son los programas que extraen información de servidores en respuestas a consultas de los clientes. Los resolutores, deben tener acceso, al menos, a un servidor de nombres, que puede responder directamente la consulta, o proseguir con la consulta, utilizando referencias a otros servidores de nombres</p></li>
+</ul>
+</div>
+<div class="section" id="espacio-de-nombres-de-dominio-y-registros-de-recursos">
+<h2>Espacio de nombres de dominio y registros de recursos<a class="headerlink" href="#espacio-de-nombres-de-dominio-y-registros-de-recursos" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="especificaciones-y-terminologia">
+<h3>Especificaciones y terminología<a class="headerlink" href="#especificaciones-y-terminologia" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El espacio de nombres de dominio, es una estructura de árbol. Cada nodo y hoja en el árbol, corresponde a un conjunto de recursos.</p>
+<p>El nombre de dominio de un nodo, es la lista de etiquetas en la ruta del nodo a la raíz del árbol</p>
+</div>
+<div class="section" id="registros-de-recursos">
+<h3>Registros de recursos<a class="headerlink" href="#registros-de-recursos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Un nombre de dominio identifica a un nodo. El conjunto de información del recurso asociado con un nombre particular, está compuesto por distintos registros de recursos (RRs),</p>
+<p>Cuando hablamos de un RR específico, asumimos que tiene lo siguiente:</p>
+<ul>
+<li><p>Propietario, en nombre de dominio donde se encuentra</p></li>
+<li><p>Tipo, especifica el tipo de recurso</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>A, dirección de host</p></li>
+<li><p>CNAME, nombre canónico de un alias</p></li>
+<li><p>MX, identifica elservidor de correo para el dominio</p></li>
+<li><p>NS, el servidor de nombres con autoridad para el dominio</p></li>
+<li><p>PTR, puntero a otra parte del espacio de nombres del dominiio</p></li>
+<li><p>SOA, identifica el comienzo de la zona de autoridad</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Clase, IN para Internet</p></li>
+<li><p>TTL, tiempo de vida del RR en caché, antes de ser eliminado</p></li>
+<li><p>RDATA, los datos que dependen de la clase que describe el recurso</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El TTL no se aplica a los datos autorizados en las zonas, estos, tienen un TTL controlado por las políticas de refresco de la zona</p>
+</div>
+</div>
+<div class="section" id="consultas">
+<h3>Consultas<a class="headerlink" href="#consultas" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Las consultas, son mensajes que son enviados a un servidor de nombres para obtener una respuesta, se transportan en datagramas UDP o sobre conexiones TCP, la respuesta del servidor de nombres, puede ser la respuesta en sí, referencias a otro conjunto de servidores o algún error.</p>
+<p>Las consultas y respuestas, tienen un formato de mensaje estándar. Una consulta estándar, especifica un nombre de dominio destino (QNAME), un tipo de consulta (QTYPE) y una clase de consulta (QCLASS) y pregunta por los RRs que coincidan (query)</p>
+</div>
+<div class="section" id="consultas-inversas">
+<h3>Consultas inversas<a class="headerlink" href="#consultas-inversas" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los servidores de nombres, también pueden realizar consultas inversas que mapean un recurso particular a un nombre de dominio.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La implementación de este servicio en el servidor de nombres, es opcional, pero todos los servidores de nombres, deben ser capaces, al menos, de entender una consulta inversa y devolver una respuesta de error en caso de que no sopprte ese tipo de consultas.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Peligro</p>
+<p>CONTINUARA…..</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sip.html" class="btn btn-neutral float-right" title="Protocolo SIP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tcp.html" class="btn btn-neutral float-left" title="Protocolo TCP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
