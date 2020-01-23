@@ -32,3 +32,12 @@ Crear un perfil especifico para el análisis de tráfico VoIP
 - Detección de errores de señalización.
 - Añadir una columna para diferenciar la calidad de servicio
 - Establecer una columna para el Timestamp
+
+Otros laboratorios
+------------------
+
+Ver que pasa en estos ficheros de captura
+
+- `Error con un método SIP <_static/laboratorios/voip/lab_3.pcapng>`_
+- `Termnal no se registra de forma aleatoria <_static/laboratorios/voip/lab_4.pcapng>`_
+- `Terminal no se registra <_static/laboratorios/voip/lab_5.pcapng>`_

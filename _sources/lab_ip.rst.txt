@@ -43,15 +43,19 @@ Laboratorio 3
 
 Secuencia correcta de una petición IP a un servidor DHCP. ¿Qué parametros solicita el cliente al servidor?, ¿Le devuelve el servidor todo lo solicitado?, ¿Está el servidor DHCP en la misma red?
 
-`Arranque DHCP <_static/laboratorios/ip/lab_3a.pcapng>`_
+- `Arranque DHCP <_static/laboratorios/ip/lab_3a.pcapng>`_
     
 Problema con un servidor DHCP
 
-`Problema servidor DHCP <_static/laboratorios/ip/lab_3b.pcapng>`_
+- `Problema servidor DHCP <_static/laboratorios/ip/lab_3b.pcapng>`_
 
 Cliente rechaza una dirección que le ofrece un servidor
 
-`Decline DHCP <_static/laboratorios/ip/lab_3c.pcapng>`_
+- `Decline DHCP <_static/laboratorios/ip/lab_3c.pcapng>`_
+
+Problema de DHCP en una máquina que cuelga de SILAN
+
+- `Terminal no se loga <_static/laboratorios/ip/dhcp-nok.pcapng>`_
 
 Laboratorio 4
 -------------
