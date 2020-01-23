@@ -18,6 +18,10 @@ Laboratorio 2 - Protocolo HTTP
 
 - `Problema HTTP 1 <_static/laboratorios/aplicaciones/http-lab_1.pcapng>`_
 
+¿Observar la descarga de un recurso en esta petición HTTP? ¿Se puede obtener una copoia de la descarga? Y si desmarcamos la opción **Allow subdissector to reassemble TCP streams**, ¿Qué pasa?
+
+- `Descarga HTTP <_static/laboratorios/aplicaciones/http-lab_2.pcapng>`_
+
 Laboratorio 3 - Protocolo FTP
 -----------------------------
 
