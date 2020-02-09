@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Configuración DECT Ascom &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Gigaset IP DECT C530" href="gigaset.html" />
+    <link rel="prev" title="Configuración Audiocode" href="audiocode.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Wireshark:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Protocolos</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">Domain Name Server - DNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Ibercom IP:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="silan.html">Switching SILAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ibercom_ip.html">Servicio Ibercom IP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Terminales</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="audiocode.html">Configuración Audiocode</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuración DECT Ascom</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cucm-consideraciones-iniciales">CUCM consideraciones iniciales</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#instalacion-en-cucm">Instalación en CUCM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#instalacion-de-cisco-option-packagen-cop">Instalación de Cisco Option Packagen (cop)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sip-profile">SIP Profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensiones">Extensiones</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuracion-de-la-estacion-base">Configuración de la estación base</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parametros-generales">Parámetros generales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cambio-de-parametros-de-red">Cambio de parámetros de red</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cambio-de-contrasena">Cambio de contraseña</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#servidor-ntp">Servidor NTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licencia">licencia</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuracion-sistema-dect">Configuración sistema DECT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuracion-master">Configuración master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modo-master-activo">Modo master activo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nombre-de-sistema">Nombre de sistema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conexion-con-pbx">Conexión con PBX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resto-de-parametros-de-sistema">Resto de parámetros de sistema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#asignacion-de-pari">Asignación de PARI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#asignacion-de-sari">Asignación de SARI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#servicios-suplementarios">Servicios suplementarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activacion-de-radio">Activación de radio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sincronismo-de-radio">Sincronismo de radio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identificacion-de-usuario-en-registro-sip">Identificación de usuario en registro SIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuracion-del-resto-de-antenas-solo-para-funcion-radio">Configuración del resto de antenas sólo para función radio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Sincronismo de radio</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuracion-de-usuarios-dect">Configuración de usuarios DECT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#alta-de-terminales">Alta de terminales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#registro-anonimo">Registro anónimo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gigaset.html">Gigaset IP DECT C530</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediatrix.html">Configuración de Mediatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dap_controller.html">IP DECT - DAP Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip_touch.html">Terminales IP TOUCH</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_wireshark.html">Laboratorios Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Configuración DECT Ascom</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/dect_ascom.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="configuracion-dect-ascom">
+<h1>Configuración DECT Ascom<a class="headerlink" href="#configuracion-dect-ascom" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="cucm-consideraciones-iniciales">
+<h2>CUCM consideraciones iniciales<a class="headerlink" href="#cucm-consideraciones-iniciales" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El modo de trabajo que se ha validado, requiere la instalación de un fichero <strong>cop</strong> de terminales en <strong>CUCM</strong>, así como una licencia específica en el gateway <strong>IP-DET</strong> para poder ofrecer ciertos servicios suplementarios de Cisco.</p>
+</div>
+<div class="section" id="instalacion-en-cucm">
+<h2>Instalación en CUCM<a class="headerlink" href="#instalacion-en-cucm" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="instalacion-de-cisco-option-packagen-cop">
+<h3>Instalación de Cisco Option Packagen (cop)<a class="headerlink" href="#instalacion-de-cisco-option-packagen-cop" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para disponer de un <strong>Phone Type</strong> específico, hay que instalr el paquete <strong>cmterm-Ascom_IP_Dect_9.0v1-SIP.cop</strong>.</p>
+<p>El Phone Type que incluye es <strong>Ascom IP-DECT Device</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Es necesario reiniciar el servicio CallManager de los <strong>subscribers</strong> que registren terminales DECT.</p>
+</div>
+</div>
+<div class="section" id="sip-profile">
+<h3>SIP Profile<a class="headerlink" href="#sip-profile" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se creará un SIP profile con los valores por defecto para futuras modificaciones de sus parámetros, el nombre será <strong>SIP Profile Ascom SIP-DECT</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Device
+    -&gt; Device Settings
+        --&gt; SIP Profile
+</pre></div>
+</div>
+</div>
+<div class="section" id="extensiones">
+<h3>Extensiones<a class="headerlink" href="#extensiones" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Dar de alta las extensiones con <strong>Phone Type = Ascom IP-DECT Device</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Device
+    -&gt; Phone
+</pre></div>
+</div>
+<p>El termnal DECT se registrará en CUCM con una MAC ficticia, está se construirá con los dígitos del número de extensión, rellenando por la izquierda con el caracter «E» (para la extensión 7011, la MAC sería EE:EE:EE:EE:70:11)</p>
+<p>En la sección <strong>Protocol specific information</strong></p>
+<ul class="simple">
+<li><p><strong>Device Security Profile</strong> = Ascom IP-DECT Device-Standar SIP Non-Secure Profile</p></li>
+<li><p><strong>Rerouting Calling Search Space</strong>, debe permitirse, los desvíos se utilizarán desde el terminales</p></li>
+<li><p><strong>SIP Profile</strong> = SIP Profile Ascom SIP-DECT</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="configuracion-de-la-estacion-base">
+<h2>Configuración de la estación base<a class="headerlink" href="#configuracion-de-la-estacion-base" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="parametros-generales">
+<h3>Parámetros generales<a class="headerlink" href="#parametros-generales" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En la configuración de fábrica, la IPBS intenta obtener la dirección IP por DHCP, en caso contrario, utiliza la dirección <strong>192.168.0.1</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Para establecer los parámetros de fábrica, pulsar reset durante 10 segundos, esperar que se ponga el led verde y a continuación, apagar y volver a encender el gateway.</p>
+</div>
+<p>El usuario es <strong>admin</strong> y el password <strong>changeme</strong></p>
+</div>
+<div class="section" id="cambio-de-parametros-de-red">
+<h3>Cambio de parámetros de red<a class="headerlink" href="#cambio-de-parametros-de-red" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Desactivar el cliente DHCP</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>LAN
+    -&gt; <span class="nv">DHCP</span> <span class="o">=</span> Mode disabled
+    -&gt; IP
+        IP Adress
+        Network Mask
+        Default gateway
+        DNS Server
+</pre></div>
+</div>
+<p>En el caso de que deba etiquetar tráfico VLAN</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>LAN
+    -&gt; VLAN
+        ID: VLAN de voz
+        Priority-RTP Data: Prioridad de voz, tendrá valor <span class="m">5</span>
+        Priority-RTP Signalling: Prioridad de señalización, valor <span class="m">5</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Una vez cambiado parámetros de red, se hará un reset para reiniciar el gateway</p>
+</div>
+<p>Para que el tráfico de telefonía del gateway entre por la cola multimedia de VNP IP, deberá marcarse la cabecera TOS de IP.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>IP
+    -&gt; Settings
+        ToS Priority-RTP <span class="nv">Data</span> <span class="o">=</span> 0xb8
+        ToS Prioriry-RTP <span class="nv">Signalling</span> <span class="o">=</span> 0xb8
+        Number of <span class="nv">ports</span> <span class="o">=</span> <span class="m">16384</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cambio-de-contrasena">
+<h3>Cambio de contraseña<a class="headerlink" href="#cambio-de-contrasena" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La contraseña se cambiará en</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>General
+    -&gt; Admin
+</pre></div>
+</div>
+</div>
+<div class="section" id="servidor-ntp">
+<h3>Servidor NTP<a class="headerlink" href="#servidor-ntp" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Configuramos</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>General
+    -&gt; NTP
+        Servidor principal
+        Servidor secundario
+        Timezone
+</pre></div>
+</div>
+</div>
+<div class="section" id="licencia">
+<h3>licencia<a class="headerlink" href="#licencia" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para registrar el GW como un terminal «Ascom IP-DECT device» en CUCM, es necesario introducir una clave de licencia (no sería necesario si se configura como «Third-party SIP device»)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>General
+    -&gt; License
+        License <span class="nv">key</span> <span class="o">=</span> lave de licencia
+</pre></div>
+</div>
+<p>En el apartado <strong>License status</strong> debe mostrar <strong>valid</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Hacer reset</p>
+</div>
+</div>
+</div>
+<div class="section" id="configuracion-sistema-dect">
+<h2>Configuración sistema DECT<a class="headerlink" href="#configuracion-sistema-dect" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un IPBS puede trabajar como master, standby o slave. Siempre tiene que haber un master, que es el que se conecta a la PBX y al mismo tiempo, activar la fjunción <strong>PARI Master</strong> para asignar el valor PARI al resto de antenas esclavas y disponer de handover</p>
+<div class="section" id="configuracion-master">
+<h3>Configuración master<a class="headerlink" href="#configuracion-master" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El sistema DECT necesita un servidor LDAP, si es externo, se configura en</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>LDAP
+    -&gt; Replicator
+</pre></div>
+</div>
+<p>En caso de no existir, el propio master deberá hacer las funciones LDAP</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>LDAP
+    -&gt; Server
+</pre></div>
+</div>
+<p>Se necesita usuario y contraseña. Existe un usuario por defecto <strong>ldap-guest</strong></p>
+</div>
+<div class="section" id="modo-master-activo">
+<h3>Modo master activo<a class="headerlink" href="#modo-master-activo" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se configurará el parámetro mode como active</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; Master
+</pre></div>
+</div>
+</div>
+<div class="section" id="nombre-de-sistema">
+<h3>Nombre de sistema<a class="headerlink" href="#nombre-de-sistema" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Un sistema DECT tendrá que ser reconocido por el resto de antenas esclavas y los terminales</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; System
+        System name DECT123
+        Password:
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Hacer reset</p>
+</div>
+</div>
+<div class="section" id="conexion-con-pbx">
+<h3>Conexión con PBX<a class="headerlink" href="#conexion-con-pbx" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; Master
+        Master ID: <span class="m">0</span>
+        Enable PARI <span class="k">function</span>: Activado
+    -&gt; IP PBX
+        Protocolo SIP
+        Proxy: Dirección IP del subscriber
+        Alt. Proxy: Dirección IP del subscriber o SRST si falla el principal
+        Allow DTMF troughtRTP: Activado
+        Registration Time-to-live: <span class="m">120</span> <span class="o">(</span><span class="m">180</span> si el número de terminales fuera alto<span class="o">)</span>
+        Register with number: Activado
+        KPML support: Activado
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Si existiera mobility master, se configuraría aquí su nombre, contraseña y dirección IP.</p>
+<p>Hacer reset</p>
+</div>
+</div>
+<div class="section" id="resto-de-parametros-de-sistema">
+<h3>Resto de parámetros de sistema<a class="headerlink" href="#resto-de-parametros-de-sistema" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; System
+        Subscriptions: With system Activado
+        Authentication code: ódigo que utilizarán los terminales en el proceso de registro <span class="o">(</span><span class="m">4</span> a <span class="m">8</span> dígitos<span class="o">)</span>
+        Tones: Spain
+        Default language: Spanish
+        Frecuency: Europe
+        Enabled carrier: Se activarán todos, del <span class="m">0</span> al <span class="m">9</span>
+        Local R-Key handing: Activado
+        odec: G729A con frame a <span class="m">30</span> master
+</pre></div>
+</div>
+</div>
+<div class="section" id="asignacion-de-pari">
+<h3>Asignación de PARI<a class="headerlink" href="#asignacion-de-pari" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El PARI identifica unívocamente un sistema DECT.</p>
+<p>Para saber los sistemas existentes, se puede hacer un scaneo desde</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Diagnostics
+    -&gt; RFP scan
+</pre></div>
+</div>
+<p>El sistema, asigna automáticamente un valor de PARI</p>
+</div>
+<div class="section" id="asignacion-de-sari">
+<h3>Asignación de SARI<a class="headerlink" href="#asignacion-de-sari" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En entornos multisistema, en el que el PARI de la estación base y el del terminal no concuerdan, se hace comprobación por el SARI.</p>
+<p>El valor, debería ser proporcionado por el fabricante junto con la antena, pero se puede crear uno del siguiente modo:</p>
+<ul class="simple">
+<li><p><strong>SARI = 31 + once dígitos aleatorios + un dígito de checksum de 0 a 9 + asterisco</strong></p></li>
+</ul>
+</div>
+<div class="section" id="servicios-suplementarios">
+<h3>Servicios suplementarios<a class="headerlink" href="#servicios-suplementarios" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los servicios suplementarios de desvío y no molesten funcionan de forma local, independientemente de lo que haya sido programado en CUCM, en caso de programarse en ambos sitios, prevalecera el de CUCM.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; Suppl. servicio
+        MWI Mode: User dependent interrogate number
+        MWI Notify number: Número de buzón de voz
+</pre></div>
+</div>
+<p>En caso de existir buzón de voz, se debe habilitar la notificación de mensajes al terminal</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Hacer reset</p>
+</div>
+</div>
+<div class="section" id="activacion-de-radio">
+<h3>Activación de radio<a class="headerlink" href="#activacion-de-radio" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La función de radio se activa para registrar terminales</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; radio
+        Name: Nombre del sistema DECT provisionado en DECT-&gt;System
+        Password: ontraseña del sistema DECT provisionado en DECT-&gt;System
+        PAI Master IP Address: Dirección IP de la antena master <span class="o">(</span>la propia<span class="o">)</span>
+        Standby PARI Master IP Address: Dirección IP de la antena standby master en caso de existir
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Una vez conectado la función radio por IP al master, aparece la configuración recibida
+Hacer reset</p>
+</div>
+</div>
+<div class="section" id="sincronismo-de-radio">
+<h3>Sincronismo de radio<a class="headerlink" href="#sincronismo-de-radio" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Al menos, una de las antenas debe ser la fucnte de sincronismo (suele ser la master)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; Air sync
+        Sync mode: master
+        Action on reference failure: Resynchronize every day at <span class="m">00</span>:00
+</pre></div>
+</div>
+</div>
+<div class="section" id="identificacion-de-usuario-en-registro-sip">
+<h3>Identificación de usuario en registro SIP<a class="headerlink" href="#identificacion-de-usuario-en-registro-sip" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El registro de terminales SIP en CUCM requiere el envío del usuario en el header contact</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>VoIP
+    -&gt; SIP
+        Add instance ID to the user registration with te IP-PBX: When registered Tones
+        Alternative Proxy: SIP, TSIP y SIPS
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuracion-del-resto-de-antenas-solo-para-funcion-radio">
+<h3>Configuración del resto de antenas sólo para función radio<a class="headerlink" href="#configuracion-del-resto-de-antenas-solo-para-funcion-radio" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para ampliar el radio de cobertura del sistema, se pueden añadir estaciones base sólo con la funcionalidad de radio (no necesita importar los datos por LDAP del master ni las conexiones con la PBX)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; Master
+        Mode: Off
+    -&gt; radio
+        Name: Nombre del sistema DECT provisionado en DECT-&gt;System del master
+        Password: Contraseña del sistema DECT provisionado en DECT-&gt;System del master
+        PAI Master IP Address: Dirección IP de la antena master
+        Standby PARI Master IP Address: Dirección IP de la antena standby master
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Una vez conectado la función radio por IP al master, aparece la configuración recibida
+Hacer reset</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Sincronismo de radio<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Siempre debe existir al menos una antena que sea fuente de sincronismod e radio</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DECT
+    -&gt; Air sync
+        Sync mode: slave
+</pre></div>
+</div>
+<p>Se puede ver la sincronización entre las antenas con</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Device Overview
+    -&gt; Radios del master
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="configuracion-de-usuarios-dect">
+<h2>Configuración de usuarios DECT<a class="headerlink" href="#configuracion-de-usuarios-dect" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="alta-de-terminales">
+<h3>Alta de terminales<a class="headerlink" href="#alta-de-terminales" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los terminales se provisionan en el master dentro del menú <strong>users</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Cada terminal se identifica por su IPEI/IPDI. Para conocer el valor o para hacer un reinicio de fábrica del terminal, es necesario acceder a un menú especial al que se accede desde el menú llamadas -&gt; Duración de llamadas y pulsar &gt;*&lt;&lt;*&lt; y se accede a este menú oculto.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Users -&gt; New
+    User Type: User
+    Long Name: Obligatorio, nombre que identifica al usuario
+    Display Name: Nombre a enviar en las llamadas <span class="o">(</span>depende del modelo<span class="o">)</span>
+    Name: Nombre de usuario
+    Number: Obligatorio, número de extensión
+    Auth Name, Password, Confirm password: Sólo si se registra como Third party SIP
+    IPEI/IPDI: Identificador único del terminal DECT, puede dejarse en blanco, pero hay que hacer registro anónimo del terminal
+    IDLE Display: Texto en la pantalla del terminal cuando está en reposo <span class="o">(</span>si se deja en blanco, usa Display Name<span class="o">)</span>
+    Auth Code: Código de autorización de <span class="m">4</span> dígitos para el resgistro del terminal <span class="o">(</span>si se deja en blanco, se crea uno aleatorio, <span class="m">1234</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Una vez creado el usuario, se muestra en el menú Users-&gt;User como no subscrito.</p>
+</div>
+</div>
+<div class="section" id="registro-anonimo">
+<h3>Registro anónimo<a class="headerlink" href="#registro-anonimo" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El registro anónimo es juna forma de registrar terminales sin conocer su IPEI/IPDI. Para ello, el parámetro Subscriptions de DECT-&gt;System en el master debe tener el valor With System AC.</p>
+<p>El terminal DECT deberá hacer una subscripción <strong>over air subscription</strong> al sistema DECT creado, poner el nombre del sistema y pulsar <strong>Sig</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Nombre del sistema DECT123
+</pre></div>
+</div>
+<p>A continuación, introducir los valores</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>PARK: PARK 3rd pty que aparece en Users-&gt;User
+AC: Introducir el valor Authentication ode de DECT-&gt;System
+
+<span class="c1"># Pulsar Sig</span>
+</pre></div>
+</div>
+<p>La pregunta ¿activar protección? es si se permite o no, cambiar la subscripción desde el terminal una vez registrado.</p>
+<p>A continuación, muestra el texto <strong>Anunciar por favor</strong> indicando que está listo para hacer el registro desde el propio terminal</p>
+<p>En Users-&gt;Anonymous del master, aparecerá el terminal suscrito con su IPEI/IPDI.</p>
+<p>A continuación, hay que hacer el registro desde el propio terminal</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*&lt;aster ID&gt;*&lt;extension&gt;*&lt;código autorización de usuario&gt;#
+<span class="c1"># Ejemplo</span>
+*0*7011*1234#
+</pre></div>
+</div>
+<p>Si el registro se realiza correctamente, aparecerá en la pantalla <strong>idla display</strong></p>
+<p>Y en la pantalla Users-&gt;User, paraecerá el terminal registrado.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gigaset.html" class="btn btn-neutral float-right" title="Gigaset IP DECT C530" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="audiocode.html" class="btn btn-neutral float-left" title="Configuración Audiocode" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

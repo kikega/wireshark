@@ -1,0 +1,89 @@
+====================
+Gigaset IP DECT C530
+====================
+
+La configuración de red por defecto es por DHCP  y el password de acceso **0000**
+
+Elegimos la línea a configurar
+------------------------------
+
+.. image:: _static/imagenes/3-linea.png
+	:align: center
+	
+Configuramos los datos de la extensión
+--------------------------------------
+
+El password, debe ser **0000**
+	
+.. image:: _static/imagenes/4-ext.png
+	:align: center
+	
+Configuramos los datos del Call Server
+--------------------------------------
+
+Para acceder a los datos del **Call Server**, tenemos que pulsar en el botón **Show Advanced Settings**
+
+.. image:: _static/imagenes/5-tftserver.png
+	:align: center
+	
+.. image:: _static/imagenes/6-tftserver2.png
+	:align: center
+	
+.. note::
+
+	En casos en los que exista redundancia espacial, para que se resuelva la IP main, el DHCP debe asignar al terminal el DNS1 y DNS2 con las IPs de la CPUA y CPUB. Y en el dispositivo, como TFTP, se pone el nombre del nodo, además de tener activo el servicio DNS (resolvedor de nombres en **netadmin**) en la OXE.
+
+	Si configurara maualmente los DNS en el terminal, pondría las IPs de CPUA y CPUB
+
+.. image:: _static/imagenes/dect-dominio.png
+	:align: center
+
+.. image:: _static/imagenes/dect-servidor.png
+	:align: center
+
+Configuramos datos de numeración
+--------------------------------
+
+.. image:: _static/imagenes/7-number.png
+	:align: center
+	
+Configuramos datos de red y vlan
+--------------------------------
+
+.. image:: _static/imagenes/1-red.png
+	:align: center
+	
+.. image:: _static/imagenes/2-vlan.png
+	:align: center
+
+**En el caso de redundancia espacial, las DNS, son las IP de CPU_A y CPU_B**
+
+.. image:: _static/imagenes/dect-ip-estatico.png
+	:align: center
+
+Hay que configurar la gestión remota desde otras redes
+
+.. image:: _static/imagenes/gigaset-rm.png
+	:align: center
+
+.. note::
+
+	Para que se pueda logar, hay que quitar en la OXE en método **digest** de autenticación. En caso contrario, da un error **401 Autenthication** como respuesta al **REGISTER**
+
+	.. code-block:: bash
+
+		mgr -> SIP -> 
+			Autenticacion: Ninguna
+
+		# Si está configurado como Asimilacion, corresponde a Digest
+
+En caso de que queramos configiurar **Autenticación HTTP Digest**
+
+.. image:: _static/imagenes/dect-digest.png
+	:align: center
+
+Configuración del servidor NTP
+------------------------------
+
+.. image:: _static/imagenes/dect-ntp.png
+	:align: center

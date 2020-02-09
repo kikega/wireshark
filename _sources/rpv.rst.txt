@@ -1,0 +1,507 @@
+======================================
+Servicios de Redes Privadas de Cliente
+======================================
+
+Concepto de VPN
+---------------
+
+Existen muchas maneras de crear VPNs sobre entornos IP compartidos, como por ejemplo los túneles punto a punto o punto multipunto (existen numerosas tecnologías para crear dichos túneles) o las soluciones dinámicas basadas en MPLS VPN que se verán en puntos posteriores.
+
+Las VPN basadas en túneles punto a punto tipo IPSEC, GREoIPSEC transportan los datos de cliente de forma securizada sobre Internet. Dichas VPN funcionan encapsulando el paquete IP original, que normalmente usa direccionamiento privado (RFC 1918), en un nuevo paquete IP con direccionamiento origen y destino público de tal manera que puede ser enrutado por Internet. El paquete original es encapsulado y cifrado proporcionando una comunicación securizada extremo a extremo (Autenticidad, Integridad y Confidencialidad). Observa la gráfica: 
+
+.. image:: _static/imagenes/rpv-concepto.png
+    :align: center
+    
+.. note::
+
+    Una VPN, Virtual Private Network, es un espacio de direccionamiento y datos privado sobre un entorno IP Público
+    
+Algunos ejemplos de tipos de túneles punto a punto son:
+
+- **GRE** que encapsula el paquete original (normalmente con direccionamiento privado) en un nuevo paquete IP con direccionamiento público (pero no cifra). Este tipo de túneles pueden transportar paquetes IP Multicast.
+- **IPsec** encapsula y cifra el paquete original proporcionando una comunicación securizada extremo a extremo. No es compatible con IP Multicast.
+- **GREinsideIPsec** la combinación de las 2 tecnologías anteriores proporciona un método de transporte cifrado sobre entornos IP Públicos que además es capaz de transportar paquetes IP Multicast.
+- Las soluciones de **túneles multipunto** tienen la capacidad de establecer un transporte sobre varios destinos de forma simultánea y dinámica. Algunos ejemplos de este tipo de tecnologías son:
+
+    - **DMVPN** construye VPNs multi-destino con posibilidad de cifrado y transporte de multicast. Es la base de la tecnología SD-WAN de Cisco.
+    - **VXLAN** construye VPNs multi-destino (para transporte de N3 y N2) y es la base de las soluciones SDN en DataCenter.
+    
+- Existen otras soluciones de transporte con túneles IP multipunto para cubrir necesidades concretas como LISTP, OTV, L2TPV3
+
+L3VPN
+-----
+
+En todo caso estas soluciones no tienen la flexibilidad suficiente para crear VPNs (espacios de direccionamiento y datos privados de cliente) en entorno multitenant. Es decir, en entorno en el que deben convivir sobre una misma infraestructura IP compartida, las VPNs de distintos clientes.
+
+Para dotar de una solución flexible a la creación de VPNs en el entorno Empresas sobre una infraestructura IP compartida el `RFC 4364 <https://tools.ietf.org/html/rfc4364>`_ (solución del IETF) describe como la combinación de distintas tecnologías como MPLS (a nivel de transporte) o MultiProtocol-BGP, IS-IS o LDP (a nivel de señalización) da lugar a un método flexible y dinámico de creación y mantenimiento de VPNs sobre un Core IP compartido.Para dotar de una solución flexible a la creación de VPNs en el entorno Empresas sobre una infraestructura IP compartida el RFC 4364 (solución del IETF) describe como la combinación de distintas tecnologías como MPLS (a nivel de transporte) o MultiProtocol-BGP, IS-IS o LDP (a nivel de señalización) da lugar a un método flexible y dinámico de creación y mantenimiento de VPNs sobre un Core IP compartido.
+
+Concepto L3VPN MPLS
+*******************
+
+- Basada en el RFC 4364
+- Dos planos separados (señalización y Forwarding)
+- Señalización con MP-BGP (apoyado en IGP y LDP/RSVP)
+- Forwarding MPLS creación de túneles LSP automáticos
+
+.. image:: _static/imagenes/vpn-l3vpn.png
+    :align: center
+    
+Elementos que componen L3VPN MPLS
+*********************************
+
+El RFC 4364 describe la arquitectura física/lógica para crear MPLS VPNs sobre un core IP compartido. En concreto los elementos que componen la infraestructura necesaria para crear un entorno MPLS VPN son los siguientes
+
+**PES (Provider Edge)**
+
+Son los elementos del borde de la red MPLS VPN que proporcionan conectividad con los routers de cliente. Sobre estos elementos reside la inteligencia de la red de forma distribuida. Su función, como se describirá con más detalle en puntos posteriores es separar los datos y direccionamiento de cliente en distintos espacios lógicos denominados VRFs (virtual routing and forwarding) e informar al resto de los Pes de la red del direccionamiento de cliente mediante sesiones de routing Multi-Protocol internal BGP. El direccionamiento de cliente es aprendido por algún protocolo de routing (BGP, OSPF, EIGRP, RIP, static) contra los routers de cliente. Por último, establecen sesiones de routing IGP (típicamente OSPF o IS-IS) con los Ps (Provider) cuya función es la de transportar la IP loopback que identifica a cada PE (y sobre la cual se establecen las sesiones MP-iBGP) para poder establecer la conectividad entre los PEs que conforman la red. 
+
+.. image:: _static/imagenes/vpn-pes.png
+    :align: center
+    
+**P (LSR)**
+
+Entre los Ps (Providers) establecen sesiones IGP, OSPF o IS-IS en el caso del core de Teleéfonica para transportar la loopback que representa cada PE. Además, se intercambian etiquetas MPLS entre ellos y con los PEs mediante LDP con el propósito de establecer el transporte MPLS extremo a extremo. Estos elementos son los encargados de transportar los paquetes MPLS.
+
+.. image:: _static/imagenes/vpn-plsr.png
+    :align: center
+    
+**Reflectores de rutas**
+
+Dadas las características de iBGP (protocolo de señalización usado para el enrutamiento entre PEs) se hace necesario un elemento extra en la arquitectura VPN. El Reflector de Rutas centraliza las sesiones MP-iBGP entre los Pes de otra manera los PEs deberían estar conectados full-mesh (todos con todos). En la reflexión de iBGP se añaden Path Attributes (router_orignitor y cluster_id) que sirven para evitar que pueda producirse un bucle en iBGP (ya que su comportamiento por defecto es no volver a reanunciar a otro nodo las rutas que ha aprendido por iBGP): router_orignitor y cluster_id.
+
+.. image:: _static/imagenes/vpn-reflectores-rutas.png
+    :align: center
+    
+Señalización L3VPN MPLS (MP-BGP)
+********************************
+
+Podemos dividir el funcionamiento de una VPN MPLS en su plano de señalización y en su plano de forwarding (conmutación).
+
+.. image:: _static/imagenes/vpn-l3vpn-señalizacion.png
+    :align: center
+    
+Para la señalización, como ya se ha mencionado anteriormente, se usa el protocolo MP-iBGP entre los Pes (centralizado a través de los Reflectores de Rutas), IS-IS entre los Pes y los Ps y entre los Ps y LDP para la señalización MPLS
+
+1. **NLRI**: El prefijo que se está anunciando.
+2. **RT**: definido en el export de la VRF a la que pertenece el cliente.
+3. **Site of Origin (SoO)**: Identifica la sede desde la que se ha generado la ruta anunciada.
+4. **Etiqueta MPLS** (desmultiplexación) asignada por el PE a esa VRF (forma parte del NLRI).
+5. El resto de atributos típicos de BGP: MED, Local Preference, AS Path
+
+RFC 4364
+********
+
+La RFC 4364, resuelve las siguientes preguntas:
+
+**¿Como separar las tablas de rutas de cada cliente?**
+
+A cada cliente en el PE se le asigna una VRF, es decir, un plano de rutas individual y exclusivo. Dicha VRF se identifica por su Route-Distinguiser y define las políticas de importación y exportación de rutas.
+
+.. image:: _static/imagenes/vpn-rfc4364.png
+    :align: center
+    
+**¿Cómo saber a qué tabla de rutas pertenece cada ruta recibida?**
+
+El Route Target es una communitie de MP BGP (un atributo que viaja con el anuncio MP BGP) que indica a que VRF pertenece esa ruta. En la política de exportación definida en la vrf se asigna el RT que se inserta en el anuncio de MP-BGP. Los demás Pes aprenderán dicha ruta según su política de importación de RT. En definitiva, si un PE recibe una ruta que pertence a un cliente que también tiene presencia en ese PE entonces aprenderá dicha ruta ya que habrá sido configurado para aprender el RT que viaja insertado en dicha ruta.
+
+En cada vrf se define:
+
+- Import RT: define que Route Targets aprendo.
+- Export RT: define que Route Targets anuncio.
+
+**¿Cómo hacer que las direcciones IP anunciadas sean únicas?**
+
+El Route Distinguiser (64bits), definido en cada VRF, se añade por delante a la dirección IP (32 bits) para crear un nuevo prefijo (96 bits) único que no se solapa con el resto de clientes. La dirección resultante será VPNv4 (RD+IPv4) o VPNv6 (RD+IPv6). Por ejemplo,         en nuestro servicio, el RD para una ruta aprendida por MLAN es 3352:<id_vpn>01 y el RD para una ruta aprendida por VPN-IP es 3352:<id_vpn>00. De esta manera se crea un espacio de direccionamiento VPN único para cada cliente aun cuando su direccionamiento IP se solape.
+
+Forwarding
+**********
+
+**¿Cómo se conmuta un paquete en la red MPLS?**
+
+Gracias a la división del plano de rutas de los PEs en VRFs exclusivas para cada cliente y al MP-BGP se consigue que cada cliente únicamente conozca las rutas propias de ese cliente formando así una VPN. 
+
+Cuando se envía tráfico entran en juego los mecanismos de forwarding basados en MPLS y que se apoyan en todo lo anterior (MP-BGP y VRFs).
+
+Son necesarias (al menos) 2 etiquetas MPLS para hacer el forwarding de los paquetes:
+
+- Una etiqueta que indica el PE destino (Egrees PE label). Los Ps únicamente se fijan en esta etiqueta para hacer conmutar el paquete. Es aprendida por LDP.
+- Una etiqueta (Demultiplexion Label) que indica cual es la VRF destino dentro del PE destino (VPN label). La anuncia el PE destino como parte del update MP-BGP. 
+
+.. image:: _static/imagenes/vpn-ibgp-update.png
+    :align: center
+    
+.. image:: _static/imagenes/vpn-mpls-vpn.png
+    :align: center
+    
+Servicios RPV
+*************
+
+Basado en los puntos anteriores en los que se describe como funciona una arquitectura VPN MPLS los servicios de RPV (Red Privada Virtual) ofrecidos por Telefónica proporcionan conectividad a los clientes del sector Empresas. Esta conectividad entre sedes de Empresas se forma mediante tecnología MPLS VPN dotando a los servicios de RPV de las siguientes características:
+
+- **Seguridad**, Las redes MPLS VPN son seguras por sí mismas sin necesidad, salvo requerimiento de cliente, de tecnologías de cifrado como IPsec. El tráfico de cliente es encapsulado extremo a extremo en un túnel MPLS (LSP) desde el PE origen hasta el PE destino. 
+- **Flexibilidad**, Las redes MPLS VPN son flexibles y dinámicas ya que para añadir una sede nueva a la topología del cliente únicamente hay que definir en el PE correspondiente la VRF de cliente. La señalización subyacente (MultiProtocol-BGP, LDP e IS-IS) proporcionan el plano de control necesario para dotar de conectividad a las nuevas sedes de cliente.
+- **Topología**, La conectividad de las sedes de cliente será Full-Mesh, es decir, las sedes se podrán conectar todas con todas salvo requerimiento específico de cliente. Como proyecto especial se pueden definir topologías Hub&Spoke en las que la conectividad de cliente está centralizada a través de un Punto Central.
+- **Integración**, Los servicios de RPV basados en MPLS VPN permiten distintas tecnologías de acceso para los clientes como se detallará en puntos posteriores. Fibra Directa, Fibra Multiplexada (FTTH), 3g/4g y tecnologías ya descatalogadas como ATM o FR.
+- **Extensión**, Las redes basadas en MPLS VPN pueden extenderse fácilmente a través de Puntos de Interconexión (PoI) para conectar sedes que están en distintos dominios MPLS. Un ejemplo de ello es la extensión MPLS que existe entre la red de Telefónica de España y la red de TIWS para conectar sedes internacionales.
+
+Comercialmente hay dos servicios de RPV de Empresas, VPN-IP y MacroLAN. En siguientes apartados se explicarán las diferencias entre ambos servicios que fundamentalmente radican en la tecnología de acceso
+
+.. image:: _static/imagenes/vpn-mlan-vpnip.png
+    :align: center
+    
+Red de trnasporte
+*****************
+
+El núcleo de transporte de la red MPLS VPN está formada por 8 centros de transporte en los que se disponen de 2 nodos de tránsito (denominados Ps en la arquitectura MPLS VPN). Las características de esta red de transporte son:
+
+- **Alta Disponibilidad**: La red de transporte funciona como una doble malla con redundancia de enlaces y equipos. Los enlaces y equipos están continuamente monitorizados de tal manera que no se supere el 40% de carga en ningún momento para asegurar que, en caso de fallo, se puede reabsorber el tráfico.
+- **Alta Capacidad**: Los enlaces entre centros de transporte son de 10G y 100G estando redundados por triplicado o cuadruplicado.
+- **Red IP única**: Esta red da soporte a los servicios de RPV de Empresas así como a los servicios de Internet Empresas e Internet Residencial. 
+
+.. image:: _static/imagenes/vpn-transporte.png
+    :align: center
+    
+Servicio VPN-IP
+---------------
+
+Caracteristicas del servicio VPN-IP
+***********************************
+
+**EDC gestionado por telefónica**
+
+El EDC (Equipo de Cliente) está monitorizado y gestionado en modo servicio por Telefónica.
+
+**Tecnologías de acceso**
+
+Las tecnologías de acceso que corresponden con el servicio VPN-IP son:
+
+- FTTH
+- ADSL IP
+- ADSL ATM (descatalogado)
+- Acceso Móvil (3g/4g).
+
+**Calidad de servicio**
+
+Se ofrecen 4 tipos de clases de servicio orientadas a distintos grados de criticidad del tráfico de cliente en cuanto a retardo, jitter y priorización. Las clases de servicio son:
+
+- Multimedia
+- Oro
+- Plata
+- Bronce
+
+**SLA**
+
+El servicio VPN-IP, al ser un servicio gestionado de RPV ofrece una serie de SLAs, algunas de ellas son las siguientes:
+
+- Plazo de Entrega de Oficina
+- Disponibilidad de Oficina
+- Pérdida de Paquetes
+- Retardo de Tránsito en red IP
+- Jitter EN RED IP
+- Tiempo medio de respuesta a averías
+
+Arquitectura
+************
+
+- Las rutas de cliente se exportan hacia la red con un RT definido en función del VPN ID (otorgado por los sistemas).
+- La vrf de cliente en el PE aprende las rutas que importan el RT definido (en función del VPN ID) para ese cliente.
+
+.. image:: _static/imagenes/rpv-vpnip.png
+    :align: center
+    
+Tipos de acceso
+***************
+
+En cuanto a los tipos de tecnologías de acceso que ofrece el servicio VPN-IP tenemos:
+
+**ADSL sobre IP**
+
+En este tipo de acceso se establece la conectividad IP entre el router de cliente y el PE (denominado BRAS en estas tipologías) sobre una conectividad punto a punto PPP. 
+
+El nodo de entrada a la central se denomina DSLAM-IP y la conectividad entre el DSLAM IP y el PE/BRAS se proporciona sobre la red Ethernet de acceso Metropolitano.
+
+.. image:: _static/imagenes/rpv-vpnip-adsl.png
+    :align: center
+    
+**ADSL2+ sobre IP**
+
+Además de cambiar la tecnología de conectividad entre el router de cliente y el DSLAM a ADSL2+ se cambia la suite de protocolos de conectividad entre el DSLAM-IP y el PE. 
+
+En ADSL se basa en conexiones PPP y en ADSL2+ se basa en QinQ también sobre la red de acceso Metropolitana.
+
+.. image:: _static/imagenes/rpv-vpnip-adsl2.png
+    :align: center
+    
+**FTTH**
+
+Con este modelo de conectividad, en el que se alcanzan hasta velocidades de 300Mbps simétricos el router de cliente se conecta a la ONT que hace de pasarela eléctrica-óptica entre el router de cliente y la conectividad contra la central basada en fibra multiplexada GPON. 
+
+La OLT es el punto de entrada a la red Ethernet de acceso metropolitana que conecta con la red de transporte IP.
+
+.. image:: _static/imagenes/rpv-vpnip-ftth.png
+    :align: center
+    
+**Accesos móviles**
+
+Otra de las modalidades de conectividad del servicio VPN-IP son los accesos radio celulares. Con accesos de tipo 3G/4G no se pueden dar garantías de caudal ni priorizar cierto tráfico frente a otro mediante la implementación de distintas calidades de servicio.
+
+.. image:: _static/imagenes/rpv-vpnip-movil.png
+    :align: center
+    
+Equipamiento y tipos de aceso
+*****************************
+
+El servicio de VPN-IP se ofrece sobre 3 fabricantes distintos:
+
+- Cisco.
+- Teldat.
+- One Access.
+
+El Manual Comercial de EDCs desglosa los modelos de router disponibles por cada tipo de acceso, así como las características técnicas de cada uno de ellos. La referencia de los EDCs homologados en VPN-IP se puede encontrar en el Manual Comercial de EDCs.
+
+.. image:: _static/imagenes/rpv-vpnip-equipos.png
+    :align: center
+    
+Escenarios
+**********
+
+Los escenarios admitidos en el servicio VPN-IP cubren las distintas necesidades de cliente en cuanto a Disponibilidad y Balanceo de tráfico entre distintos accesos.
+
+**EDC y único acceso**
+
+.. image:: _static/imagenes/rpv-vpnip-1.png
+    :align: center
+    
+**EDC único y doble acceso en modo principal-back up**: en esta tipología el acceso de back-up absorbe el tráfico en caso de caída del acceso principal
+
+**EDC único y doble acceso en modo balanceo**: en esta disposición el tráfico de cliente se reparte entre ambos accesos. Además, en caso de caída de un acceso el otro absorbe todo el tráfico.
+
+.. image:: _static/imagenes/rpv-vpnip-2.png
+    :align: center
+    
+**EDC doble y doble acceso en modo principal-back up**: en esta tipología además de tener redundancia a nivel de acceso hay redundancia a nivel de EDC
+
+.. image:: _static/imagenes/rpv-vpnip-3.png
+    :align: center
+    
+**EDC doble y doble acceso en modo balanceo**: en este caso, a la topología de balanceo se añade la redundancia de EDC
+
+.. image:: _static/imagenes/rpv-vpnip-4.png
+    :align: center
+    
+Servicio VPN-IP
+***************
+
+Además de las distintas tipologías de acceso se ofrecen otras funcionalidades dentro del servicio VPN-IP:
+
+**Calidad de servicio**
+
+Como se ha descrito en puntos anteriores se ofrecen distintas clases de servicio (multimedia, oro, plata, bronce) además de conformado de tráfico mediante shaping. 
+
+Cada una de las calidades de servicio ofrece un tratamiento diferencial del flujo de tráfico extremo a extremo.
+
+.. image:: _static/imagenes/rpv-vpnip-qos.png
+    :align: center
+    
+**Cifrado**
+
+- Cifrado IPsec extremo a extremo (CE to CE)
+- Modo túnel (cifrando cabeceras, secreto compartido, 3DES
+- Soporte DLSW (encapsulado de SNA-IBM en IP) y XoT (encapsulado de X.25 en TCP)
+
+.. image:: _static/imagenes/rpv-vpnip-cifrado.png
+    :align: center
+    
+**Otras facilidades**
+
+Existen una serie de facilidades especiales definidas dentro de las plantillas de configuraciones especiales del servicio VPN-IP:
+
+- DHCP relay
+- DHCP server
+- Policy Based Routing
+- Listas de acceso
+- GLBP (como protocolo alternativo a HSRP/VRRP)
+- WIFI (solo con CGP)
+
+Macrolan
+--------
+
+.. note::
+
+    El servicio MacroLAN, al igual que el servicio VPN-IP, se basa en crear una VPN MPLS sobre el Core IP permitiendo la conectividad entre las sedes de cliente
+    
+La principal diferencia con el servicio VPN-IP es la tipología del acceso. En el caso de Macrolan se usan Fibra Directa hasta la red de acceso Metropolitana. Otra modalidad es la fibra directa al PE sin transitar por la red Metropolitana Ethernet.
+
+El servicio Macrolan presenta muchas similitudes con el servicio VPN-IP. 
+
+Características de macrolan
+***************************
+
+Algunas de las características que definen este servicio son:
+
+**EDC gestionado**
+
+**Acceso a la red Metropolitana de transporte Ethernet**
+
+Recuerda que en el servicio VPN-IP las conexiones son punto a punto (sobre la rede de acceso Metropolitana) contra el PE de acceso al core IP, 
+
+El servicio MacroLAN se basa en una conectividad multipunto sobre la red de acceso Ethernet, permitiendo que las sedes de cliente (que estén dentro de la misma red Metropolitana) se conecten a nivel Ethernet.
+
+**Topología mallada full-mesh**
+
+Con esta topología, todas las sedes pueden verse entre sí directamente. 
+
+También se admiten topologías Hub&Spoke como proyecto especial.
+
+**Facilidades de redundancia**
+
+Facilidades de redundancia con topologías con único EDC o doble EDC.
+
+**Calidad de servicio**
+
+Al igual que en el servicio VPN-IP, se ofrecen 4 calidades de servicio (Multimedia, Oro, Plata y Bronce) para hacer un tratamiento diferenciado del tráfico de cliente según su nivel de criticidad.
+
+**SLAs**
+
+El servicio ofrece una serie de SLAs.
+
+**Facilidades de cifrado**
+
+Facilidades de cifrado para aquellos clientes que necesiten un nivel extra de seguridad en su conectividad.
+
+Arquitectura
+************
+
+- Las vrf de cliente exportan hacia la red las rutas con RT definido a partir del VPN ID.
+- Las vrf de cliente importan las rutas que tienen el RT (en función del VPN ID) definido para ese cliente.
+
+.. image:: _static/imagenes/rpv-macrolan.png
+    :align: center
+    
+Arquitectura: Red de acceso VPLS
+********************************
+
+.. note::
+
+    La red de Acceso Metropolitana (MAN) proporciona conectividad Ethernet sobre un core MPLS
+    
+A diferencia del core IP de transporte nacional en el que los túneles MPLS transportan paquetes IP, la red de acceso Metropolitana transporta tramas Ethernet sobre conectividad MPLS. En concreto, la tecnología usada para el transporte de Ethernet sobre MPLS es H-VPLS.
+
+La arquitectura de una red H-VPLS se basa en 3 niveles
+
+- PEs de acceso (MTU) que conectan con los routers de cliente.
+- PEs que interconectan el nivel de acceso con el nivel de agregación.
+- PEs de agregación.
+
+La principal diferencia entre el servicio VPN-IP y el servicio MLAN es la red de accesos a la red IP/MPLS.
+
+En MLAN la red de acceso es una red H-VPLS.
+
+VPLS proporciona un servicio de transporte Ethernet sobre un core MPLS.
+
+Soportada en equipamiento de Alcatel-Lucent (ALU) y Huawe
+
+.. image:: _static/imagenes/rpv-mlan.png
+    :align: center
+    
+Actualmente el mapa que corresponde con las distintas redes de acceso Metropolitanas es el representado en la figura. 
+
+Los fabricantes que implementan estas redes metropolitanas son Huawei y Alcatel. 
+
+A día de hoy se está implementando un proceso gradual de transformación de la red en la que las redes Metropolitanas desaparecerán extendiendo el core IP hasta el extremo del router de cliente
+
+.. image:: _static/imagenes/rpv-mlan-mapa.png
+    :align: center
+    
+Elementos del servicio
+**********************
+
+Los elementos que componen la arquitectura del servicio MacroLAN son los siguientes:
+
+**Equipamiento**
+
+Los EDCs homologados para el servicio MacroLAN están detallados en el Manual Comercial de EDCs y cubren velocidades de acceso desde los 10Mbps hasta los 10Gbps para entornos de DataCenter. 
+
+Los fabricantes homologados para el servicio MacroLAN son:
+
+- Cisco
+- Teldat
+- OneAccess
+- HP
+
+**Circuitos de acceso**
+
+Los circuitos de acceso (desde el EDC en domicilio de cliente hasta el nodo de entrada a la MAN (MTU) pueden ser:
+
+- Accesos de Cobre (CobreLAN) de 2,4 y 8Mbps
+- Accesos de Fibra de 10Mbps
+- Accesos de Fibra de 100Mbps
+- Accesos de Fibra de 1Gbps
+- Accesos de Fibra de 10Gbps
+
+Tipos de caudales
+*****************
+
+**Caudal metro**
+
+Es el caudal contratado en salida del EDC hacia la red. Esta caudal es consumido sea cual sea el destino, en la misma red Metro o en otra red Metro con lo que el tráfico debe transitar por el core IP.
+
+**Caudal nacional agregado**
+
+Es el caudal consumido y compartido por los EDCs de cliente de una provincia con destino a otras provincias. Este caudal se configura en sentido entrada en los PEs del Core IP MPLS.
+
+**Caudal nacional exclusivo**
+
+Este caudal se tramita cuando se desea aislar a una sede de cliente, a nivel Metropolitano, del resto de sedes de cliente en la misma provincia. Esto obliga a que todo el tráfico con origen o destino dicha sede, ya sea en la misma o distinta provincia se curse a través del PE
+
+**Caudal CDG agregado**
+
+Este caudal es consumido y compartido por las sedes de una provincia cuyo tráfico se destina a los CDGs. También es consumido por el tráfico originado en el propio CDG
+
+**Caudal CDG exclusivo**
+
+Este caudal es consumido por una sede individual con origen o destino el CDG cuando no se desea que el caudal CDG sea compartido por los EDCs de la misma provincia
+
+.. image:: _static/imagenes/rpv-mlan-elementos2.png
+    :align: center
+    
+Escenarios
+**********
+
+Las topologías de las sedes en cuanto a su nivel de redundancia son los siguientes:
+
+**EDC único y acceso único**
+
+.. image:: _static/imagenes/rpv-mlan-unico.png
+    :align: center
+    
+**EDC doble, principal-backup**
+
+.. image:: _static/imagenes/rpv-mlan-doble.png
+    :align: center
+    
+**EDC único y aceso doble**
+
+.. image:: _static/imagenes/rpv-mlan-unico2.png
+    :align: center
+    
+**EDC doble. Reparto de carga**
+
+.. image:: _static/imagenes/rpv-mlan-doble2.png
+    :align: center
+    
+Calidad de servicio
+*******************
+
+.. image:: _static/imagenes/rpv-mlan-qos.png
+    :align: center
+    
+- Clase plata, clase por defecto orientada al tráfico internet
+- Clase oro, orientada al tráfico internet
+- Clase multimedia. orientada al tráfico sensible a retardo (VoIP), prioriza respecto al resto de clases
+
+.. note::
+
+    Reserva de caudal plata: permite que el cliente pueda hacer una reserva dentro del caudal plata que tuviera contratado para que dicho caudal esté disponible para cursar un determinado tipo de tráfico en caso de congestión del acceso del EDC con la MAN en sentido hacia la MAN
+    
+

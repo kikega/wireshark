@@ -1,0 +1,653 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Laboratorios Wireshark &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Presentaciones" href="presentaciones.html" />
+    <link rel="prev" title="Terminales IP TOUCH" href="ip_touch.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Wireshark:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Protocolos</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">Domain Name Server - DNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Ibercom IP:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="silan.html">Switching SILAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ibercom_ip.html">Servicio Ibercom IP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Terminales</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="audiocode.html">Configuración Audiocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dect_ascom.html">Configuración DECT Ascom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gigaset.html">Gigaset IP DECT C530</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediatrix.html">Configuración de Mediatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dap_controller.html">IP DECT - DAP Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip_touch.html">Terminales IP TOUCH</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Laboratorios Wireshark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#practicas-sobre-la-interfaz">Practicas sobre la interfaz</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-1">Laboratorio 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-2">Laboratorio 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-3">Laboratorio 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-4">Laboratorio 4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-5">Laboratorio 5</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trabajando-con-paquetes-capturados">Trabajando con paquetes capturados</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Laboratorio 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Laboratorio 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Laboratorio 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Laboratorio 4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Laboratorio 5</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#arquitectura-ip">Arquitectura IP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Laboratorio 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Laboratorio 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Laboratorio 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Laboratorio 4</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolo-tcp">Protocolo TCP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Laboratorio 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Laboratorio 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Laboratorio 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Laboratorio 4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Laboratorio 5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-6">Laboratorio 6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-7">Laboratorio 7</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#analisis-menu-analyze">Analisis. Menú Analyze</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Laboratorio 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Laboratorio 2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#estadisticas">Estadísticas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Laboratorio 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Laboratorio 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Laboratorio 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Laboratorio 4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Laboratorio 5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Laboratorio 6</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolo-de-voip-sip">Protocolo de VoIP SIP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Laboratorio 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Laboratorio 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Laboratorio 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolos-de-aplicacion">Protocolos de aplicación</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-1-protocolo-dns">Laboratorio 1 - Protocolo DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-2-protocolo-http">Laboratorio 2 - Protocolo HTTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laboratorio-3-protocolo-ftp">Laboratorio 3 - Protocolo FTP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratorio-4-aplicaciones">Laboratorio 4 - Aplicaciones</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Laboratorios Wireshark</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/lab_wireshark.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="laboratorios-wireshark">
+<h1>Laboratorios Wireshark<a class="headerlink" href="#laboratorios-wireshark" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="practicas-sobre-la-interfaz">
+<h2>Practicas sobre la interfaz<a class="headerlink" href="#practicas-sobre-la-interfaz" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="laboratorio-1">
+<h3>Laboratorio 1<a class="headerlink" href="#laboratorio-1" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Queremos crear una columna con el campo <strong>host</strong> y situarlo al lado de la columna <strong>IP Destino</strong>. Observar el resultado desde el menú <strong>Preferences</strong></p>
+<p><a class="reference external" href="_static/laboratorios/interfaz/lab_1.pcapng">Archivo de captura HTTP</a></p>
+</div>
+<div class="section" id="laboratorio-2">
+<h3>Laboratorio 2<a class="headerlink" href="#laboratorio-2" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Archivo cuyo tráfico se ejecuta sobre un puerto no estándar, hay que seguir el flujo hasta averiguar qué tipo de tráfico es, y después forzar el disector correspondiente.</p>
+<p><a class="reference external" href="_static/laboratorios/interfaz/lab_2.pcapng">Disector correcto</a></p>
+</div>
+<div class="section" id="laboratorio-3">
+<h3>Laboratorio 3<a class="headerlink" href="#laboratorio-3" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Crear un perfil basado en el perfil por defecto, cambiar de perfil y reiniciar Wireshark. ¿Qué perfil es el que utiliza al reiniciar el programa?</p>
+<p>Revisar los ficheros de configuración de cada perfil</p>
+</div>
+<div class="section" id="laboratorio-4">
+<h3>Laboratorio 4<a class="headerlink" href="#laboratorio-4" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Capturar tráfico hacia o desde una dirección IP.</p>
+<p>Crear y salvar un filtro de captura para tráfico HTTP</p>
+</div>
+<div class="section" id="laboratorio-5">
+<h3>Laboratorio 5<a class="headerlink" href="#laboratorio-5" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Capturar archivos con parada automática, definir 1 Mb y el siguiente archivo cada minuto (la condición que se produzca antes, provocará la creación del siguiente archivo), hasta un máximo de 10 archivos</p>
+<p>Comprobar con «File List»</p>
+</div>
+</div>
+<div class="section" id="trabajando-con-paquetes-capturados">
+<h2>Trabajando con paquetes capturados<a class="headerlink" href="#trabajando-con-paquetes-capturados" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="id1">
+<h3>Laboratorio 1<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
+<ul class="simple">
+<li><p>Situar el nombre de host como columna</p></li>
+<li><p>Cómo podemos ver todas las peticiones HTTP que se realizan</p></li>
+<li><p>Qué filtro hay que utilizar si queremos buscar un host en particular</p></li>
+<li><p>Y si queremos ver las consultas DNS</p></li>
+<li><p>Guardar filtro en dfilters, crear un botón genérico y comprobar en archivos de configuración</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/filtrado/filtrado_lab1.pcapng">Archivo de sesion HTTP</a></p>
+</div>
+<div class="section" id="id2">
+<h3>Laboratorio 2<a class="headerlink" href="#id2" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Filtrar errores DNS o errores 404 Response
+Y si se quiere filtrar por cualquier error HTTP</p>
+<p><a class="reference external" href="_static/laboratorios/filtrado/filtrado_lab2.pcapng">Errores HTTP</a></p>
+</div>
+<div class="section" id="id3">
+<h3>Laboratorio 3<a class="headerlink" href="#id3" title="Enlazar permanentemente con este título">¶</a></h3>
+<ul class="simple">
+<li><p>Construya una regla de coloreado para resaltar nombres de usuario y password en FTP</p></li>
+<li><p>Colorear el filtro con fondo rojo y con primer plano en blanco y si el isiario es administrador, cambiar el color del texto</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/filtrado/filtrado_lab3.pcapng">Archivo de descarga FTP</a></p>
+</div>
+<div class="section" id="id4">
+<h3>Laboratorio 4<a class="headerlink" href="#id4" title="Enlazar permanentemente con este título">¶</a></h3>
+<ul class="simple">
+<li><p>Exportar una conversación TCP que se descargen archivos «.exe» y seleccioamos sólo esa conversación</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/filtrado/filtrado_lab4.pcapng">Descarga de archivo</a>»</p>
+</div>
+<div class="section" id="id5">
+<h3>Laboratorio 5<a class="headerlink" href="#id5" title="Enlazar permanentemente con este título">¶</a></h3>
+<ul class="simple">
+<li><p>Ecportar lista de valores de campo HTTP que contenga el nombre de host en formato CSV</p></li>
+<li><p>Se puede utilizar cualquier herramienta para análisis posterior</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/filtrado/filtrado_lab5.pcapng">Exportar archivos</a></p>
+</div>
+</div>
+<div class="section" id="arquitectura-ip">
+<h2>Arquitectura IP<a class="headerlink" href="#arquitectura-ip" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="id6">
+<h3>Laboratorio 1<a class="headerlink" href="#id6" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Estudio de la fragmentación</p>
+<ul class="simple">
+<li><p>Comprobar el funcionamiento de la fragmentación, offset, flags</p></li>
+<li><p>¿Qué tipo de tráfico es?</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_1a.pcapng">Fragmentación 1</a></p>
+<ul class="simple">
+<li><p>En el segundo archivo, ¿qué diferencia significativa hay entre los dos archivos?</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_1b.pcap">Fragmentación 2</a></p>
+</div>
+<div class="section" id="id7">
+<h3>Laboratorio 2<a class="headerlink" href="#id7" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Familiarizarse con la estructura del protocolo</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2a.pcapng">Resolucion ARP</a></p>
+<p>¿Qué ocurre en los siguientes archivos?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_2b.pcapng">ARP Gratuito</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_2c.pcap">ARP Storm</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_2d.pcapng">ARP Sweep</a></p></li>
+</ul>
+<p>En esta captura, ¿cuantas maquinas hay en la red?</p>
+<p><a class="reference external" href="_static/laboratorios/ip/lab_2e.pcapng">ARP Discovery</a></p>
+<p>En los siguientes archivos, ¿qué está pasando?, ¿cuantas maquinas intervienen?, ¿en qué condición?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_2f.pcapng">Ataque ARP 1</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_2g.pcap">Ataque ARP 2</a></p></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>Laboratorio 3<a class="headerlink" href="#id8" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Secuencia correcta de una petición IP a un servidor DHCP. ¿Qué parametros solicita el cliente al servidor?, ¿Le devuelve el servidor todo lo solicitado?, ¿Está el servidor DHCP en la misma red?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_3a.pcapng">Arranque DHCP</a></p></li>
+</ul>
+<p>Problema con un servidor DHCP</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_3b.pcapng">Problema servidor DHCP</a></p></li>
+</ul>
+<p>Cliente rechaza una dirección que le ofrece un servidor</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_3c.pcapng">Decline DHCP</a></p></li>
+</ul>
+<p>Problema de DHCP en una máquina que cuelga de SILAN</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/ip/dhcp-nok.pcapng">Terminal no se loga</a></p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>Laboratorio 4<a class="headerlink" href="#id9" title="Enlazar permanentemente con este título">¶</a></h3>
+<blockquote>
+<div><p>Observar en los siguientes archivos de captura, una petición de eco básica, el motivo de rechazo de un datagrama y los datos que reporta ICMP y la operación clásica de «traceroute»</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_4a.pcapng">Ping</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_4b.pcapng">Destino inalcanzable</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/ip/lab_4c.pcapng">Traceroute</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="protocolo-tcp">
+<h2>Protocolo TCP<a class="headerlink" href="#protocolo-tcp" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="id10">
+<h3>Laboratorio 1<a class="headerlink" href="#id10" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En este archivo de captura, ver el intercambio de mensajes para el establecimiento de una conexión y para la finalización de la misma.</p>
+<p>¿Que pasa con el último archivo de captura?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_1a.pcap">Conexión TCP</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_1b.pcapng">Fin TCP</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_1c.pcapng">Fin TCP huerfano</a></p></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>Laboratorio 2<a class="headerlink" href="#id11" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Estudiar el mecanismo de control de flujo mediante la ventana de recepción</p>
+<ul class="simple">
+<li><p>¿Quien indica el tamaño de ventana 0</p></li>
+<li><p>¿Qué longitud tienen los segmentos de sonda zero?</p></li>
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_2a.pcapng">Problemas de ventana</a></p></li>
+</ul>
+<p>Comprobar el multiplicador para el tamaño de ventana</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_2b.pcapng">Multiplicador de ventana</a></p></li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>Laboratorio 3<a class="headerlink" href="#id12" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Estudiar el mecanismo de las retransmisiones y comprobar el temporizador entre ellas. ¿Que se supone que debe pasar?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_3.pcapng">Retransmisiones TCP</a></p></li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>Laboratorio 4<a class="headerlink" href="#id13" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Comprobar el funcionamiento de SACK</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_4.pcap">TCP SACK</a></p></li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>Laboratorio 5<a class="headerlink" href="#id14" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Comprobar cual es el motivo para que se produzca una retransmisión</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_5.pcap">ACKs duplicados</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-6">
+<h3>Laboratorio 6<a class="headerlink" href="#laboratorio-6" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Trabajar com Timestamp para comprobar retrasos entre tramas, ajustar Time a «Seconds since previous displayed packet» y añadir una columna «Time Delta»</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_6.pcapng">HTTP lento</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-7">
+<h3>Laboratorio 7<a class="headerlink" href="#laboratorio-7" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Estudio de un escaneo de puertos realizado con la herramienta nmap. ¿Que puertos estan abiertos?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/tcp/lab_7.pcap">Exporación de puertos</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="analisis-menu-analyze">
+<h2>Analisis. Menú Analyze<a class="headerlink" href="#analisis-menu-analyze" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="id15">
+<h3>Laboratorio 1<a class="headerlink" href="#id15" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Abrir el archivo de filtrado de los laboratorios 3 y 4 de la parte de <strong>Filtrado</strong> e intentar resolverlos utilizando esta facilidad</p>
+<p>Buscar nombres de usuario en una conexión FTP y el usuario administrador</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/filtrado/filtrado_lab3.pcapng">Archivo de descarga FTP</a></p></li>
+</ul>
+<p>Buscar una conversación TCP que se descargen archivos «.exe» y seleccioamos sólo esa conversación</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/filtrado/filtrado_lab4.pcapng">Descarga de archivo</a>»</p></li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>Laboratorio 2<a class="headerlink" href="#id18" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Ver en este archivo de captura con Expert Info y analizar los errores que se van encontrando</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/analyze/lab_2.pcapng">Archivo HTTP con errores</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="estadisticas">
+<h2>Estadísticas<a class="headerlink" href="#estadisticas" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="id19">
+<h3>Laboratorio 1<a class="headerlink" href="#id19" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Detectar aplicaciones o tráfico sospechoso, cuando se esta preocupado por un problema de seguridad, busque protocolos sospechosos debajo de IP, TCP o UDP.</p>
+<ul class="simple">
+<li><p>Seleccionar Statistics -&gt; Protocolo Hierarchy, en el archivo de ejemplo, tenemos algo de tráfico IRC y de datos en la sección TCP.</p></li>
+<li><p>Botón-derecho en IRC y seleccionamos “Apply as Filter -&gt; Selected” para examinarlo mejor, busque nombres de usuario y el servidor IRC objetivo, haga lo mismo con la sección de datos.</p></li>
+</ul>
+<p><a class="reference external" href="_static/laboratorios/estadistica/lab_1.pcapng">Tráfico sospechoso</a></p>
+</div>
+<div class="section" id="id20">
+<h3>Laboratorio 2<a class="headerlink" href="#id20" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En el siguiente archivo de captura, ¿cuantas maquinas hay?, buscar la conversación mas activa. ¿Que esta haciendo el usuario?</p>
+<p><a class="reference external" href="_static/laboratorios/estadistica/lab_2.pcapng">Conversaciones</a></p>
+</div>
+<div class="section" id="id21">
+<h3>Laboratorio 3<a class="headerlink" href="#id21" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Hacer un estudio desde la perspectiva de Flow Graph, filtrar por aplicación y vuelve a ver el flujo de datos</p>
+<p><a class="reference external" href="_static/laboratorios/estadistica/lab_3.pcapng">Uso de flow graph</a></p>
+</div>
+<div class="section" id="id22">
+<h3>Laboratorio 4<a class="headerlink" href="#id22" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Crear un gráfico IO para comprobar el momento en el que cae el rendimiento. Ver la lista de paquetes en el momento en que aparece el problema. ¿Cual es la causa del problema?</p>
+<p>Comparar tráfico con flags TCP (retransmisiones, ACKs duplicados, perdida de paquetes).</p>
+<p><a class="reference external" href="_static/laboratorios/estadistica/lab_4.pcapng">Bajo rendimiento</a></p>
+</div>
+<div class="section" id="id23">
+<h3>Laboratorio 5<a class="headerlink" href="#id23" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En el siguiente archivo, vamos a ver errores que afectan al rendimiento, desde IO Graph.</p>
+<p>Mirar la evolución de los números de secuencia</p>
+<p><a class="reference external" href="_static/laboratorios/estadistica/lab_5.pcapng">TCP con errores</a></p>
+</div>
+<div class="section" id="id24">
+<h3>Laboratorio 6<a class="headerlink" href="#id24" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El siguiente archivo, contiene tráfico HTTP con problemas.</p>
+<p><a class="reference external" href="_static/laboratorios/estadistica/lab_6.pcapng">HTTP con problemas</a></p>
+<ul class="simple">
+<li><p>Mirar que tipo de problemas tiene y analizar con un gráfico la relación entre el stream y los problemas TCP.</p></li>
+<li><p>Ver la evolución del tráfico enviado</p></li>
+<li><p>Relación con el tamaño de ventana</p></li>
+<li><p>Relación del tiempo de ida y vuelta</p></li>
+<li><p>Exportar los gráficos más representativos como png</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="protocolo-de-voip-sip">
+<h2>Protocolo de VoIP SIP<a class="headerlink" href="#protocolo-de-voip-sip" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="id25">
+<h3>Laboratorio 1<a class="headerlink" href="#id25" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Ver el mecanismo de una llamada VoIP, y las estadísticas sobre dicha llamada.</p>
+<p>Buscar la veriable de servicios diferenciados y agregarla como columna</p>
+<p>Ver que filtros podemos utilizar para buscar mensaje de registro (REGISTER), como de llamada (INVITE) y códigos de error</p>
+<p>Ver el contenido del mensaje SDP, ¿que codecs se solicitan?. ¿En qué mensaje de respuesta va la descripción de la sesión?</p>
+<p>Ver cuantas llamadas hay en el archivo capturado, analizar con elflujograma</p>
+<p>Ver estadisticas RTP y SIP</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/voip/lab_1.pcapng">Llamada SIP</a></p></li>
+</ul>
+<p>¿Qué le pasa a este archivo?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/voip/lab_2.pcap">Llamada errónea</a></p></li>
+</ul>
+</div>
+<div class="section" id="id26">
+<h3>Laboratorio 2<a class="headerlink" href="#id26" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Crear un perfil especifico para el análisis de tráfico VoIP</p>
+<ul class="simple">
+<li><p>Reglas de coloreado</p></li>
+<li><p>Detección de errores de señalización.</p></li>
+<li><p>Añadir una columna para diferenciar la calidad de servicio</p></li>
+<li><p>Establecer una columna para el Timestamp</p></li>
+</ul>
+</div>
+<div class="section" id="id27">
+<h3>Laboratorio 3<a class="headerlink" href="#id27" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Ver que pasa en estos ficheros de captura</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/voip/lab_3.pcapng">Error con un método SIP</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/voip/lab_4.pcapng">Termnal no se registra de forma aleatoria</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/voip/lab_5.pcapng">Terminal no se registra</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="protocolos-de-aplicacion">
+<h2>Protocolos de aplicación<a class="headerlink" href="#protocolos-de-aplicacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="laboratorio-1-protocolo-dns">
+<h3>Laboratorio 1 - Protocolo DNS<a class="headerlink" href="#laboratorio-1-protocolo-dns" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Estudio del protocolo DNS. ¿Qué pasa en estos archivos?, ¿Qué está resolviendo el segundo archivo?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/aplicaciones/dns-lab_1.pcapng">Problema DNS 1</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/aplicaciones/dns-lab_2.pcapng">Problema DNS 2</a></p></li>
+<li><p><a class="reference external" href="_static/laboratorios/aplicaciones/dns-lab_3.pcapng">Problema DNS 3</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-2-protocolo-http">
+<h3>Laboratorio 2 - Protocolo HTTP<a class="headerlink" href="#laboratorio-2-protocolo-http" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>¿Qué pasa en esta petición HTTP? ¿Qué le indica el servidor al cliente?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/aplicaciones/http-lab_1.pcapng">Problema HTTP 1</a></p></li>
+</ul>
+<p>¿Observar la descarga de un recurso en esta petición HTTP? ¿Se puede obtener una copoia de la descarga? Y si desmarcamos la opción <strong>Allow subdissector to reassemble TCP streams</strong>, ¿Qué pasa?</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/aplicaciones/http-lab_2.pcapng">Descarga HTTP</a></p></li>
+</ul>
+</div>
+<div class="section" id="laboratorio-3-protocolo-ftp">
+<h3>Laboratorio 3 - Protocolo FTP<a class="headerlink" href="#laboratorio-3-protocolo-ftp" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Analizar elcontenido del archivo y ver si es posible obtener una copia de lo descargado</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/aplicaciones/ftp-lab_1.pcapng">Descarga FTP</a></p></li>
+</ul>
+<p>Qué le pasa a esta sesión FTP</p>
+<ul class="simple">
+<li><p><a class="reference external" href="_static/laboratorios/aplicaciones/ftp-lab_2.pcapng">Problema FTP 2</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="laboratorio-4-aplicaciones">
+<h2>Laboratorio 4 - Aplicaciones<a class="headerlink" href="#laboratorio-4-aplicaciones" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Crear un perfil para la detección de problemas y errores para TCP, HTTP, DNS y FTP, se debe incluir</p>
+<ul class="simple">
+<li><p>Reglas de coloreado</p></li>
+<li><p>Detección de códigos de error</p></li>
+<li><p>Detalles particulares de cada protocolo.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="presentaciones.html" class="btn btn-neutral float-right" title="Presentaciones" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ip_touch.html" class="btn btn-neutral float-left" title="Terminales IP TOUCH" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

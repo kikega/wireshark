@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Gigaset IP DECT C530 &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Configuración de Mediatrix" href="mediatrix.html" />
+    <link rel="prev" title="Configuración DECT Ascom" href="dect_ascom.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Wireshark:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Protocolos</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">Domain Name Server - DNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Ibercom IP:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="silan.html">Switching SILAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ibercom_ip.html">Servicio Ibercom IP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Terminales</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="audiocode.html">Configuración Audiocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dect_ascom.html">Configuración DECT Ascom</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gigaset IP DECT C530</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#elegimos-la-linea-a-configurar">Elegimos la línea a configurar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuramos-los-datos-de-la-extension">Configuramos los datos de la extensión</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuramos-los-datos-del-call-server">Configuramos los datos del Call Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuramos-datos-de-numeracion">Configuramos datos de numeración</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuramos-datos-de-red-y-vlan">Configuramos datos de red y vlan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-ntp">Configuración del servidor NTP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mediatrix.html">Configuración de Mediatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dap_controller.html">IP DECT - DAP Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip_touch.html">Terminales IP TOUCH</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_wireshark.html">Laboratorios Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Gigaset IP DECT C530</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/gigaset.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gigaset-ip-dect-c530">
+<h1>Gigaset IP DECT C530<a class="headerlink" href="#gigaset-ip-dect-c530" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>La configuración de red por defecto es por DHCP  y el password de acceso <strong>0000</strong></p>
+<div class="section" id="elegimos-la-linea-a-configurar">
+<h2>Elegimos la línea a configurar<a class="headerlink" href="#elegimos-la-linea-a-configurar" title="Enlazar permanentemente con este título">¶</a></h2>
+<img alt="_static/imagenes/3-linea.png" class="align-center" src="_static/imagenes/3-linea.png" />
+</div>
+<div class="section" id="configuramos-los-datos-de-la-extension">
+<h2>Configuramos los datos de la extensión<a class="headerlink" href="#configuramos-los-datos-de-la-extension" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El password, debe ser <strong>0000</strong></p>
+<img alt="_static/imagenes/4-ext.png" class="align-center" src="_static/imagenes/4-ext.png" />
+</div>
+<div class="section" id="configuramos-los-datos-del-call-server">
+<h2>Configuramos los datos del Call Server<a class="headerlink" href="#configuramos-los-datos-del-call-server" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para acceder a los datos del <strong>Call Server</strong>, tenemos que pulsar en el botón <strong>Show Advanced Settings</strong></p>
+<img alt="_static/imagenes/5-tftserver.png" class="align-center" src="_static/imagenes/5-tftserver.png" />
+<img alt="_static/imagenes/6-tftserver2.png" class="align-center" src="_static/imagenes/6-tftserver2.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>En casos en los que exista redundancia espacial, para que se resuelva la IP main, el DHCP debe asignar al terminal el DNS1 y DNS2 con las IPs de la CPUA y CPUB. Y en el dispositivo, como TFTP, se pone el nombre del nodo, además de tener activo el servicio DNS (resolvedor de nombres en <strong>netadmin</strong>) en la OXE.</p>
+<p>Si configurara maualmente los DNS en el terminal, pondría las IPs de CPUA y CPUB</p>
+</div>
+<img alt="_static/imagenes/dect-dominio.png" class="align-center" src="_static/imagenes/dect-dominio.png" />
+<img alt="_static/imagenes/dect-servidor.png" class="align-center" src="_static/imagenes/dect-servidor.png" />
+</div>
+<div class="section" id="configuramos-datos-de-numeracion">
+<h2>Configuramos datos de numeración<a class="headerlink" href="#configuramos-datos-de-numeracion" title="Enlazar permanentemente con este título">¶</a></h2>
+<img alt="_static/imagenes/7-number.png" class="align-center" src="_static/imagenes/7-number.png" />
+</div>
+<div class="section" id="configuramos-datos-de-red-y-vlan">
+<h2>Configuramos datos de red y vlan<a class="headerlink" href="#configuramos-datos-de-red-y-vlan" title="Enlazar permanentemente con este título">¶</a></h2>
+<img alt="_static/imagenes/1-red.png" class="align-center" src="_static/imagenes/1-red.png" />
+<img alt="_static/imagenes/2-vlan.png" class="align-center" src="_static/imagenes/2-vlan.png" />
+<p><strong>En el caso de redundancia espacial, las DNS, son las IP de CPU_A y CPU_B</strong></p>
+<img alt="_static/imagenes/dect-ip-estatico.png" class="align-center" src="_static/imagenes/dect-ip-estatico.png" />
+<p>Hay que configurar la gestión remota desde otras redes</p>
+<img alt="_static/imagenes/gigaset-rm.png" class="align-center" src="_static/imagenes/gigaset-rm.png" />
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Para que se pueda logar, hay que quitar en la OXE en método <strong>digest</strong> de autenticación. En caso contrario, da un error <strong>401 Autenthication</strong> como respuesta al <strong>REGISTER</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mgr -&gt; SIP -&gt;
+        Autenticacion: Ninguna
+
+<span class="c1"># Si está configurado como Asimilacion, corresponde a Digest</span>
+</pre></div>
+</div>
+</div>
+<p>En caso de que queramos configiurar <strong>Autenticación HTTP Digest</strong></p>
+<img alt="_static/imagenes/dect-digest.png" class="align-center" src="_static/imagenes/dect-digest.png" />
+</div>
+<div class="section" id="configuracion-del-servidor-ntp">
+<h2>Configuración del servidor NTP<a class="headerlink" href="#configuracion-del-servidor-ntp" title="Enlazar permanentemente con este título">¶</a></h2>
+<img alt="_static/imagenes/dect-ntp.png" class="align-center" src="_static/imagenes/dect-ntp.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mediatrix.html" class="btn btn-neutral float-right" title="Configuración de Mediatrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dect_ascom.html" class="btn btn-neutral float-left" title="Configuración DECT Ascom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

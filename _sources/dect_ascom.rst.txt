@@ -1,0 +1,424 @@
+========================
+Configuración DECT Ascom
+========================
+
+CUCM consideraciones iniciales
+------------------------------
+
+El modo de trabajo que se ha validado, requiere la instalación de un fichero **cop** de terminales en **CUCM**, así como una licencia específica en el gateway **IP-DET** para poder ofrecer ciertos servicios suplementarios de Cisco.
+
+Instalación en CUCM
+-------------------
+
+Instalación de Cisco Option Packagen (cop)
+******************************************
+
+Para disponer de un **Phone Type** específico, hay que instalr el paquete **cmterm-Ascom_IP_Dect_9.0v1-SIP.cop**.
+
+El Phone Type que incluye es **Ascom IP-DECT Device**
+
+.. note::
+
+    Es necesario reiniciar el servicio CallManager de los **subscribers** que registren terminales DECT.
+
+SIP Profile
+***********
+
+Se creará un SIP profile con los valores por defecto para futuras modificaciones de sus parámetros, el nombre será **SIP Profile Ascom SIP-DECT**
+
+.. code:: bash
+
+    Device 
+        -> Device Settings 
+            --> SIP Profile
+
+Extensiones
+***********
+
+Dar de alta las extensiones con **Phone Type = Ascom IP-DECT Device**
+
+.. code:: bash
+
+    Device 
+        -> Phone
+
+El termnal DECT se registrará en CUCM con una MAC ficticia, está se construirá con los dígitos del número de extensión, rellenando por la izquierda con el caracter "E" (para la extensión 7011, la MAC sería EE:EE:EE:EE:70:11)
+
+En la sección **Protocol specific information**
+
++ **Device Security Profile** = Ascom IP-DECT Device-Standar SIP Non-Secure Profile
++ **Rerouting Calling Search Space**, debe permitirse, los desvíos se utilizarán desde el terminales
++ **SIP Profile** = SIP Profile Ascom SIP-DECT
+
+Configuración de la estación base
+---------------------------------
+
+Parámetros generales
+********************
+
+En la configuración de fábrica, la IPBS intenta obtener la dirección IP por DHCP, en caso contrario, utiliza la dirección **192.168.0.1**
+
+.. note::
+
+    Para establecer los parámetros de fábrica, pulsar reset durante 10 segundos, esperar que se ponga el led verde y a continuación, apagar y volver a encender el gateway.
+
+El usuario es **admin** y el password **changeme**
+
+Cambio de parámetros de red
+***************************
+
+Desactivar el cliente DHCP
+
+.. code:: bash
+
+    LAN 
+        -> DHCP = Mode disabled
+        -> IP   
+            IP Adress
+            Network Mask
+            Default gateway
+            DNS Server
+
+En el caso de que deba etiquetar tráfico VLAN
+
+.. code:: bash
+
+    LAN 
+        -> VLAN
+            ID: VLAN de voz
+            Priority-RTP Data: Prioridad de voz, tendrá valor 5
+            Priority-RTP Signalling: Prioridad de señalización, valor 5
+
+.. note::
+
+    Una vez cambiado parámetros de red, se hará un reset para reiniciar el gateway
+
+Para que el tráfico de telefonía del gateway entre por la cola multimedia de VNP IP, deberá marcarse la cabecera TOS de IP.
+
+.. code:: bash
+
+    IP 
+        -> Settings 
+            ToS Priority-RTP Data = 0xb8
+            ToS Prioriry-RTP Signalling = 0xb8
+            Number of ports = 16384
+
+Cambio de contraseña
+********************
+
+La contraseña se cambiará en 
+
+.. code:: bash
+
+    General 
+        -> Admin
+
+Servidor NTP
+************
+
+Configuramos
+
+.. code:: bash
+
+    General 
+        -> NTP
+            Servidor principal
+            Servidor secundario
+            Timezone
+
+licencia
+********
+
+Para registrar el GW como un terminal "Ascom IP-DECT device" en CUCM, es necesario introducir una clave de licencia (no sería necesario si se configura como "Third-party SIP device")
+
+.. code:: bash
+
+    General 
+        -> License
+            License key = lave de licencia
+
+En el apartado **License status** debe mostrar **valid**
+
+.. note::
+
+    Hacer reset
+
+Configuración sistema DECT
+--------------------------
+
+Un IPBS puede trabajar como master, standby o slave. Siempre tiene que haber un master, que es el que se conecta a la PBX y al mismo tiempo, activar la fjunción **PARI Master** para asignar el valor PARI al resto de antenas esclavas y disponer de handover
+
+Configuración master
+********************
+
+El sistema DECT necesita un servidor LDAP, si es externo, se configura en 
+
+.. code:: bash
+
+    LDAP 
+        -> Replicator
+
+En caso de no existir, el propio master deberá hacer las funciones LDAP
+
+.. code:: bash
+
+    LDAP 
+        -> Server
+
+Se necesita usuario y contraseña. Existe un usuario por defecto **ldap-guest**
+
+Modo master activo
+******************
+
+Se configurará el parámetro mode como active
+
+.. code:: bash
+
+    DECT 
+        -> Master
+
+Nombre de sistema
+*****************
+
+Un sistema DECT tendrá que ser reconocido por el resto de antenas esclavas y los terminales
+
+.. code:: bash
+
+    DECT 
+        -> System
+            System name DECT123
+            Password:
+
+.. note::
+
+    Hacer reset
+
+Conexión con PBX
+****************
+
+.. code:: bash
+
+    DECT
+        -> Master
+            Master ID: 0
+            Enable PARI function: Activado
+        -> IP PBX   
+            Protocolo SIP
+            Proxy: Dirección IP del subscriber
+            Alt. Proxy: Dirección IP del subscriber o SRST si falla el principal
+            Allow DTMF troughtRTP: Activado
+            Registration Time-to-live: 120 (180 si el número de terminales fuera alto)
+            Register with number: Activado
+            KPML support: Activado
+
+.. note::
+
+    Si existiera mobility master, se configuraría aquí su nombre, contraseña y dirección IP.
+    
+    Hacer reset
+
+Resto de parámetros de sistema
+******************************
+
+.. code:: bash
+
+    DECT
+        -> System
+            Subscriptions: With system Activado
+            Authentication code: ódigo que utilizarán los terminales en el proceso de registro (4 a 8 dígitos)
+            Tones: Spain
+            Default language: Spanish
+            Frecuency: Europe
+            Enabled carrier: Se activarán todos, del 0 al 9
+            Local R-Key handing: Activado
+            odec: G729A con frame a 30 master
+
+Asignación de PARI
+******************
+
+El PARI identifica unívocamente un sistema DECT.
+
+Para saber los sistemas existentes, se puede hacer un scaneo desde
+
+.. code:: bash
+
+    Diagnostics
+        -> RFP scan
+
+El sistema, asigna automáticamente un valor de PARI
+
+Asignación de SARI
+******************
+
+En entornos multisistema, en el que el PARI de la estación base y el del terminal no concuerdan, se hace comprobación por el SARI.
+
+El valor, debería ser proporcionado por el fabricante junto con la antena, pero se puede crear uno del siguiente modo:
+
++ **SARI = 31 + once dígitos aleatorios + un dígito de checksum de 0 a 9 + asterisco**
+
+Servicios suplementarios
+************************
+
+Los servicios suplementarios de desvío y no molesten funcionan de forma local, independientemente de lo que haya sido programado en CUCM, en caso de programarse en ambos sitios, prevalecera el de CUCM.
+
+.. code:: bash
+
+    DECT
+        -> Suppl. servicio
+            MWI Mode: User dependent interrogate number
+            MWI Notify number: Número de buzón de voz
+
+En caso de existir buzón de voz, se debe habilitar la notificación de mensajes al terminal
+
+.. note::
+
+    Hacer reset
+
+Activación de radio
+*******************
+
+La función de radio se activa para registrar terminales
+
+.. code:: bash
+
+    DECT
+        -> radio    
+            Name: Nombre del sistema DECT provisionado en DECT->System
+            Password: ontraseña del sistema DECT provisionado en DECT->System
+            PAI Master IP Address: Dirección IP de la antena master (la propia)
+            Standby PARI Master IP Address: Dirección IP de la antena standby master en caso de existir
+
+.. note::
+
+    Una vez conectado la función radio por IP al master, aparece la configuración recibida
+    Hacer reset
+
+Sincronismo de radio
+********************
+
+Al menos, una de las antenas debe ser la fucnte de sincronismo (suele ser la master)
+
+.. code:: bash
+
+    DECT
+        -> Air sync
+            Sync mode: master
+            Action on reference failure: Resynchronize every day at 00:00
+
+Identificación de usuario en registro SIP
+*****************************************
+
+El registro de terminales SIP en CUCM requiere el envío del usuario en el header contact
+
+.. code:: bash
+
+    VoIP
+        -> SIP
+            Add instance ID to the user registration with te IP-PBX: When registered Tones
+            Alternative Proxy: SIP, TSIP y SIPS
+
+Configuración del resto de antenas sólo para función radio
+**********************************************************
+
+Para ampliar el radio de cobertura del sistema, se pueden añadir estaciones base sólo con la funcionalidad de radio (no necesita importar los datos por LDAP del master ni las conexiones con la PBX)
+
+.. code:: bash
+
+    DECT
+        -> Master
+            Mode: Off
+        -> radio    
+            Name: Nombre del sistema DECT provisionado en DECT->System del master
+            Password: Contraseña del sistema DECT provisionado en DECT->System del master
+            PAI Master IP Address: Dirección IP de la antena master
+            Standby PARI Master IP Address: Dirección IP de la antena standby master
+
+.. note::
+
+    Una vez conectado la función radio por IP al master, aparece la configuración recibida
+    Hacer reset
+
+Sincronismo de radio
+********************
+
+Siempre debe existir al menos una antena que sea fuente de sincronismod e radio
+
+.. code:: bash
+
+    DECT
+        -> Air sync
+            Sync mode: slave
+
+Se puede ver la sincronización entre las antenas con
+
+.. code:: bash
+
+    Device Overview
+        -> Radios del master
+
+Configuración de usuarios DECT
+------------------------------
+
+Alta de terminales
+******************
+
+Los terminales se provisionan en el master dentro del menú **users**
+
+.. note::
+
+    Cada terminal se identifica por su IPEI/IPDI. Para conocer el valor o para hacer un reinicio de fábrica del terminal, es necesario acceder a un menú especial al que se accede desde el menú llamadas -> Duración de llamadas y pulsar >\*<<\*< y se accede a este menú oculto.
+
+.. code:: bash
+
+    Users -> New 
+        User Type: User
+        Long Name: Obligatorio, nombre que identifica al usuario
+        Display Name: Nombre a enviar en las llamadas (depende del modelo)
+        Name: Nombre de usuario
+        Number: Obligatorio, número de extensión
+        Auth Name, Password, Confirm password: Sólo si se registra como Third party SIP
+        IPEI/IPDI: Identificador único del terminal DECT, puede dejarse en blanco, pero hay que hacer registro anónimo del terminal
+        IDLE Display: Texto en la pantalla del terminal cuando está en reposo (si se deja en blanco, usa Display Name)
+        Auth Code: Código de autorización de 4 dígitos para el resgistro del terminal (si se deja en blanco, se crea uno aleatorio, 1234)
+
+.. note::
+
+    Una vez creado el usuario, se muestra en el menú Users->User como no subscrito.
+
+Registro anónimo
+****************
+
+El registro anónimo es juna forma de registrar terminales sin conocer su IPEI/IPDI. Para ello, el parámetro Subscriptions de DECT->System en el master debe tener el valor With System AC.
+
+El terminal DECT deberá hacer una subscripción **over air subscription** al sistema DECT creado, poner el nombre del sistema y pulsar **Sig**
+
+.. code:: bash
+
+    Nombre del sistema DECT123
+
+A continuación, introducir los valores
+
+.. code:: bash
+
+    PARK: PARK 3rd pty que aparece en Users->User
+    AC: Introducir el valor Authentication ode de DECT->System
+
+    # Pulsar Sig
+
+La pregunta ¿activar protección? es si se permite o no, cambiar la subscripción desde el terminal una vez registrado.
+
+A continuación, muestra el texto **Anunciar por favor** indicando que está listo para hacer el registro desde el propio terminal
+
+En Users->Anonymous del master, aparecerá el terminal suscrito con su IPEI/IPDI.
+
+A continuación, hay que hacer el registro desde el propio terminal
+
+.. code:: bash
+
+    *<aster ID>*<extension>*<código autorización de usuario>#
+    # Ejemplo
+    *0*7011*1234#
+
+Si el registro se realiza correctamente, aparecerá en la pantalla **idla display**
+
+Y en la pantalla Users->User, paraecerá el terminal registrado.

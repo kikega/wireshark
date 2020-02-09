@@ -3,6 +3,7 @@ Documentación
 =============
 
 Archivos **pdf** sobre Wireshark
+--------------------------------
 
 - `Guia usuario <_static/documentacion/user-guide-v.3.1.pdf>`_
 - `Sintaxis BPF <_static/documentacion/BPF-sintax.pdf>`_
@@ -10,3 +11,13 @@ Archivos **pdf** sobre Wireshark
 - `Essential <_static/documentacion/essential-w.pdf>`_
 - `Analysis <_static/documentacion/analysis-w.pdf>`_
 - `Troubleshooting <_static/documentacion/troubleshooting-w.pdf>`_
+
+Documentación curso Hosted IP
+-----------------------------
+
+Alcatel
+*******
+
+- `DECT 8332 <_static/documentacion/alcatel/8232.pdf>`_
+- `Mediatrix <_static/documentacion/alcatel/mediatrix.pdf>`_
+- `Audiocode <_static/documentacion/alcatel/audiocode.pdf>`_

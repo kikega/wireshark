@@ -3,15 +3,34 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Wireshark, analizador de redes
-==============================
+Redes, Wireshark y entorno Ibercom
+==================================
 
 .. toctree::
     :maxdepth: 1
-    :caption: Contenido:
+    :caption: Linux:
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Wireshark:
 
     introduccion
     filtrado
+    analyze
+    estadisticas
+       
+.. toctree::
+    :maxdepth: 1
+    :caption: Redes:
+        
+    direccionamiento
+    switching
+    routing
+    
+.. toctree::
+    :maxdepth: 1
+    :caption: Protocolos
+    
     ip
     dhcp
     arp
@@ -20,21 +39,30 @@ Wireshark, analizador de redes
     dns
     sip
     rtp
-    analyze
-    estadisticas
     
 .. toctree::
     :maxdepth: 1
-    :caption: Laboratorios:
+    :caption: Ibercom IP:
     
-    lab_interfaz
-    lab_filtrado
-    lab_ip
-    lab_tcp
-    lab_analyze
-    lab_estadisticas
-    lab_voip
-    lab_aplicaciones
+    silan
+    ibercom_ip
+    
+.. toctree::
+    :maxdepth: 1
+    :caption: Terminales    
+    
+    audiocode
+    dect_ascom
+    gigaset
+    mediatrix
+    dap_controller
+    ip_touch
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Laboratorios
+    
+    lab_wireshark
 
 .. toctree::
     :maxdepth: 1

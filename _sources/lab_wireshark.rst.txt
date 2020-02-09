@@ -1,0 +1,383 @@
+======================
+Laboratorios Wireshark
+======================
+
+Practicas sobre la interfaz
+---------------------------
+
+Laboratorio 1
+*************
+
+Queremos crear una columna con el campo **host** y situarlo al lado de la columna **IP Destino**. Observar el resultado desde el menú **Preferences**
+
+`Archivo de captura HTTP <_static/laboratorios/interfaz/lab_1.pcapng>`_
+
+Laboratorio 2
+*************
+
+Archivo cuyo tráfico se ejecuta sobre un puerto no estándar, hay que seguir el flujo hasta averiguar qué tipo de tráfico es, y después forzar el disector correspondiente. 
+
+`Disector correcto <_static/laboratorios/interfaz/lab_2.pcapng>`_
+
+Laboratorio 3
+*************
+
+Crear un perfil basado en el perfil por defecto, cambiar de perfil y reiniciar Wireshark. ¿Qué perfil es el que utiliza al reiniciar el programa? 
+
+Revisar los ficheros de configuración de cada perfil
+
+Laboratorio 4
+*************
+
+Capturar tráfico hacia o desde una dirección IP.
+
+Crear y salvar un filtro de captura para tráfico HTTP
+
+Laboratorio 5
+*************
+
+Capturar archivos con parada automática, definir 1 Mb y el siguiente archivo cada minuto (la condición que se produzca antes, provocará la creación del siguiente archivo), hasta un máximo de 10 archivos
+
+Comprobar con "File List"
+
+Trabajando con paquetes capturados
+----------------------------------
+
+Laboratorio 1
+*************
+
+- Situar el nombre de host como columna
+- Cómo podemos ver todas las peticiones HTTP que se realizan
+- Qué filtro hay que utilizar si queremos buscar un host en particular
+- Y si queremos ver las consultas DNS
+- Guardar filtro en dfilters, crear un botón genérico y comprobar en archivos de configuración
+
+`Archivo de sesion HTTP <_static/laboratorios/filtrado/filtrado_lab1.pcapng>`_
+
+Laboratorio 2
+*************
+
+Filtrar errores DNS o errores 404 Response
+Y si se quiere filtrar por cualquier error HTTP
+
+`Errores HTTP <_static/laboratorios/filtrado/filtrado_lab2.pcapng>`_
+
+Laboratorio 3
+*************
+
+- Construya una regla de coloreado para resaltar nombres de usuario y password en FTP
+- Colorear el filtro con fondo rojo y con primer plano en blanco y si el isiario es administrador, cambiar el color del texto
+
+`Archivo de descarga FTP <_static/laboratorios/filtrado/filtrado_lab3.pcapng>`_
+
+Laboratorio 4
+*************
+
+- Exportar una conversación TCP que se descargen archivos ".exe" y seleccioamos sólo esa conversación
+
+`Descarga de archivo <_static/laboratorios/filtrado/filtrado_lab4.pcapng>`_"
+
+Laboratorio 5
+*************
+
+- Ecportar lista de valores de campo HTTP que contenga el nombre de host en formato CSV
+- Se puede utilizar cualquier herramienta para análisis posterior
+
+`Exportar archivos <_static/laboratorios/filtrado/filtrado_lab5.pcapng>`_
+
+Arquitectura IP
+---------------
+
+Laboratorio 1
+*************
+
+Estudio de la fragmentación
+
+- Comprobar el funcionamiento de la fragmentación, offset, flags
+- ¿Qué tipo de tráfico es?
+
+`Fragmentación 1 <_static/laboratorios/ip/lab_1a.pcapng>`_
+
+- En el segundo archivo, ¿qué diferencia significativa hay entre los dos archivos?
+
+`Fragmentación 2 <_static/laboratorios/ip/lab_1b.pcap>`_
+
+Laboratorio 2
+*************
+
+Familiarizarse con la estructura del protocolo
+
+`Resolucion ARP <_static/laboratorios/ip/lab_2a.pcapng>`_
+    
+¿Qué ocurre en los siguientes archivos?
+
+- `ARP Gratuito <_static/laboratorios/ip/lab_2b.pcapng>`_
+- `ARP Storm <_static/laboratorios/ip/lab_2c.pcap>`_
+- `ARP Sweep <_static/laboratorios/ip/lab_2d.pcapng>`_
+
+En esta captura, ¿cuantas maquinas hay en la red?
+
+`ARP Discovery <_static/laboratorios/ip/lab_2e.pcapng>`_
+
+En los siguientes archivos, ¿qué está pasando?, ¿cuantas maquinas intervienen?, ¿en qué condición?
+
+- `Ataque ARP 1 <_static/laboratorios/ip/lab_2f.pcapng>`_
+- `Ataque ARP 2 <_static/laboratorios/ip/lab_2g.pcap>`_
+
+Laboratorio 3
+*************
+
+Secuencia correcta de una petición IP a un servidor DHCP. ¿Qué parametros solicita el cliente al servidor?, ¿Le devuelve el servidor todo lo solicitado?, ¿Está el servidor DHCP en la misma red?
+
+- `Arranque DHCP <_static/laboratorios/ip/lab_3a.pcapng>`_
+    
+Problema con un servidor DHCP
+
+- `Problema servidor DHCP <_static/laboratorios/ip/lab_3b.pcapng>`_
+
+Cliente rechaza una dirección que le ofrece un servidor
+
+- `Decline DHCP <_static/laboratorios/ip/lab_3c.pcapng>`_
+
+Problema de DHCP en una máquina que cuelga de SILAN
+
+- `Terminal no se loga <_static/laboratorios/ip/dhcp-nok.pcapng>`_
+
+Laboratorio 4
+*************
+
+ Observar en los siguientes archivos de captura, una petición de eco básica, el motivo de rechazo de un datagrama y los datos que reporta ICMP y la operación clásica de "traceroute" 
+ 
+- `Ping <_static/laboratorios/ip/lab_4a.pcapng>`_
+- `Destino inalcanzable <_static/laboratorios/ip/lab_4b.pcapng>`_
+- `Traceroute <_static/laboratorios/ip/lab_4c.pcapng>`_
+
+Protocolo TCP
+-------------
+
+Laboratorio 1
+*************
+
+En este archivo de captura, ver el intercambio de mensajes para el establecimiento de una conexión y para la finalización de la misma.
+
+¿Que pasa con el último archivo de captura? 
+
+- `Conexión TCP <_static/laboratorios/tcp/lab_1a.pcap>`_
+- `Fin TCP <_static/laboratorios/tcp/lab_1b.pcapng>`_
+- `Fin TCP huerfano <_static/laboratorios/tcp/lab_1c.pcapng>`_
+
+Laboratorio 2
+*************
+
+Estudiar el mecanismo de control de flujo mediante la ventana de recepción
+
+- ¿Quien indica el tamaño de ventana 0
+- ¿Qué longitud tienen los segmentos de sonda zero?
+
+- `Problemas de ventana <_static/laboratorios/tcp/lab_2a.pcapng>`_
+
+Comprobar el multiplicador para el tamaño de ventana
+
+- `Multiplicador de ventana <_static/laboratorios/tcp/lab_2b.pcapng>`_
+
+Laboratorio 3
+*************
+
+Estudiar el mecanismo de las retransmisiones y comprobar el temporizador entre ellas. ¿Que se supone que debe pasar?
+
+- `Retransmisiones TCP <_static/laboratorios/tcp/lab_3.pcapng>`_
+
+Laboratorio 4
+*************
+
+Comprobar el funcionamiento de SACK
+
+- `TCP SACK <_static/laboratorios/tcp/lab_4.pcap>`_
+
+Laboratorio 5
+*************
+
+Comprobar cual es el motivo para que se produzca una retransmisión
+
+- `ACKs duplicados <_static/laboratorios/tcp/lab_5.pcap>`_
+
+Laboratorio 6
+*************
+
+Trabajar com Timestamp para comprobar retrasos entre tramas, ajustar Time a "Seconds since previous displayed packet" y añadir una columna "Time Delta"
+
+- `HTTP lento <_static/laboratorios/tcp/lab_6.pcapng>`_
+
+Laboratorio 7
+*************
+
+Estudio de un escaneo de puertos realizado con la herramienta nmap. ¿Que puertos estan abiertos?
+
+- `Exporación de puertos <_static/laboratorios/tcp/lab_7.pcap>`_
+
+Analisis. Menú Analyze
+----------------------
+
+Laboratorio 1
+*************
+
+Abrir el archivo de filtrado de los laboratorios 3 y 4 de la parte de **Filtrado** e intentar resolverlos utilizando esta facilidad
+
+Buscar nombres de usuario en una conexión FTP y el usuario administrador
+
+- `Archivo de descarga FTP <_static/laboratorios/filtrado/filtrado_lab3.pcapng>`_
+
+Buscar una conversación TCP que se descargen archivos ".exe" y seleccioamos sólo esa conversación
+
+- `Descarga de archivo <_static/laboratorios/filtrado/filtrado_lab4.pcapng>`_"
+
+Laboratorio 2
+*************
+
+Ver en este archivo de captura con Expert Info y analizar los errores que se van encontrando
+
+- `Archivo HTTP con errores <_static/laboratorios/analyze/lab_2.pcapng>`_
+
+Estadísticas
+------------
+
+Laboratorio 1
+*************
+
+Detectar aplicaciones o tráfico sospechoso, cuando se esta preocupado por un problema de seguridad, busque protocolos sospechosos debajo de IP, TCP o UDP.
+ 
+- Seleccionar Statistics -> Protocolo Hierarchy, en el archivo de ejemplo, tenemos algo de tráfico IRC y de datos en la sección TCP.
+- Botón-derecho en IRC y seleccionamos “Apply as Filter -> Selected” para examinarlo mejor, busque nombres de usuario y el servidor IRC objetivo, haga lo mismo con la sección de datos.
+    
+`Tráfico sospechoso <_static/laboratorios/estadistica/lab_1.pcapng>`_
+
+Laboratorio 2
+*************
+
+En el siguiente archivo de captura, ¿cuantas maquinas hay?, buscar la conversación mas activa. ¿Que esta haciendo el usuario? 
+ 
+`Conversaciones <_static/laboratorios/estadistica/lab_2.pcapng>`_
+
+Laboratorio 3
+*************
+
+Hacer un estudio desde la perspectiva de Flow Graph, filtrar por aplicación y vuelve a ver el flujo de datos
+
+`Uso de flow graph <_static/laboratorios/estadistica/lab_3.pcapng>`_
+
+Laboratorio 4
+*************
+
+Crear un gráfico IO para comprobar el momento en el que cae el rendimiento. Ver la lista de paquetes en el momento en que aparece el problema. ¿Cual es la causa del problema? 
+
+Comparar tráfico con flags TCP (retransmisiones, ACKs duplicados, perdida de paquetes).
+
+`Bajo rendimiento <_static/laboratorios/estadistica/lab_4.pcapng>`_
+
+Laboratorio 5
+*************
+
+En el siguiente archivo, vamos a ver errores que afectan al rendimiento, desde IO Graph.
+
+Mirar la evolución de los números de secuencia
+
+`TCP con errores <_static/laboratorios/estadistica/lab_5.pcapng>`_
+
+Laboratorio 6
+*************
+
+El siguiente archivo, contiene tráfico HTTP con problemas.
+
+`HTTP con problemas <_static/laboratorios/estadistica/lab_6.pcapng>`_
+
+- Mirar que tipo de problemas tiene y analizar con un gráfico la relación entre el stream y los problemas TCP.
+- Ver la evolución del tráfico enviado
+- Relación con el tamaño de ventana
+- Relación del tiempo de ida y vuelta
+- Exportar los gráficos más representativos como png
+
+Protocolo de VoIP SIP
+---------------------
+
+Laboratorio 1
+*************
+
+Ver el mecanismo de una llamada VoIP, y las estadísticas sobre dicha llamada.
+
+Buscar la veriable de servicios diferenciados y agregarla como columna
+
+Ver que filtros podemos utilizar para buscar mensaje de registro (REGISTER), como de llamada (INVITE) y códigos de error
+
+Ver el contenido del mensaje SDP, ¿que codecs se solicitan?. ¿En qué mensaje de respuesta va la descripción de la sesión?
+
+Ver cuantas llamadas hay en el archivo capturado, analizar con elflujograma
+
+Ver estadisticas RTP y SIP
+
+- `Llamada SIP <_static/laboratorios/voip/lab_1.pcapng>`_
+
+¿Qué le pasa a este archivo?
+
+- `Llamada errónea <_static/laboratorios/voip/lab_2.pcap>`_
+
+Laboratorio 2
+*************
+
+Crear un perfil especifico para el análisis de tráfico VoIP
+
+- Reglas de coloreado
+- Detección de errores de señalización.
+- Añadir una columna para diferenciar la calidad de servicio
+- Establecer una columna para el Timestamp
+
+Laboratorio 3
+*************
+
+Ver que pasa en estos ficheros de captura
+
+- `Error con un método SIP <_static/laboratorios/voip/lab_3.pcapng>`_
+- `Termnal no se registra de forma aleatoria <_static/laboratorios/voip/lab_4.pcapng>`_
+- `Terminal no se registra <_static/laboratorios/voip/lab_5.pcapng>`_
+
+Protocolos de aplicación
+------------------------
+
+Laboratorio 1 - Protocolo DNS
+*****************************
+
+Estudio del protocolo DNS. ¿Qué pasa en estos archivos?, ¿Qué está resolviendo el segundo archivo?
+
+- `Problema DNS 1 <_static/laboratorios/aplicaciones/dns-lab_1.pcapng>`_
+- `Problema DNS 2 <_static/laboratorios/aplicaciones/dns-lab_2.pcapng>`_
+- `Problema DNS 3 <_static/laboratorios/aplicaciones/dns-lab_3.pcapng>`_
+
+Laboratorio 2 - Protocolo HTTP
+******************************
+
+¿Qué pasa en esta petición HTTP? ¿Qué le indica el servidor al cliente?
+
+- `Problema HTTP 1 <_static/laboratorios/aplicaciones/http-lab_1.pcapng>`_
+
+¿Observar la descarga de un recurso en esta petición HTTP? ¿Se puede obtener una copoia de la descarga? Y si desmarcamos la opción **Allow subdissector to reassemble TCP streams**, ¿Qué pasa?
+
+- `Descarga HTTP <_static/laboratorios/aplicaciones/http-lab_2.pcapng>`_
+
+Laboratorio 3 - Protocolo FTP
+*****************************
+
+Analizar elcontenido del archivo y ver si es posible obtener una copia de lo descargado
+
+- `Descarga FTP <_static/laboratorios/aplicaciones/ftp-lab_1.pcapng>`_
+
+Qué le pasa a esta sesión FTP
+
+- `Problema FTP 2 <_static/laboratorios/aplicaciones/ftp-lab_2.pcapng>`_
+
+Laboratorio 4 - Aplicaciones
+----------------------------
+
+Crear un perfil para la detección de problemas y errores para TCP, HTTP, DNS y FTP, se debe incluir
+
+- Reglas de coloreado
+- Detección de códigos de error
+- Detalles particulares de cada protocolo.

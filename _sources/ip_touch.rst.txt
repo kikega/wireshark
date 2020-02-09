@@ -1,0 +1,15 @@
+===================
+Terminales IP TOUCH
+===================
+
+Terminales WiFi 8118/8128
+-------------------------
+
+- Cuando se enciende, se queda intentando registro
+- Pulsar **40022** y se accede al menú de configuración
+
+.. note::
+
+	En **mgr**, el tipo de terminal es **Mobile IPTouch**
+	
+

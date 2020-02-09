@@ -1,0 +1,410 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Switching SILAN &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Servicio Ibercom IP" href="ibercom_ip.html" />
+    <link rel="prev" title="Protocolo RTP" href="rtp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Wireshark:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Protocolos</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">Domain Name Server - DNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Ibercom IP:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Switching SILAN</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#arquitectura-y-aspectos-de-la-solucion">Arquitectura y aspectos de la solución</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modalidades-de-servicio">Modalidades de servicio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arquitectura-de-la-modalidad-basica">Arquitectura de la modalidad básica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arquitectura-de-la-modalidad-avanzada-prestada-en-servicio">Arquitectura de la modalidad avanzada prestada en servicio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modalidad-avanzada-en-equipo-de-cliente">Modalidad avanzada en equipo de cliente</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#arquitectura-de-interconexion">Arquitectura de interconexión</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escaenarios-de-la-modalidaad-basica">Escaenarios de la modalidaad básica</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escenario-edc-simple-con-un-o-mas-switches">Escenario EDC simple con un o más switches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#edcenario-edc-doble-con-dos-o-mas-switches">Edcenario EDC doble con dos o más switches</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escaenarios-de-modalidad-avanzada">Escaenarios de modalidad avanzada</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escenario-edc-simple-con-cuatro-switches">Escenario EDC simple con cuatro switches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#escenario-edc-doble-con-dos-o-mas-switches">Escenario EDC doble con dos o más switches</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escenarios-de-modalidad-avanzada-con-equipo-de-cliente">Escenarios de modalidad avanzada con equipo de cliente</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escenario-simple-con-varios-switches">Escenario simple con varios switches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#escenario-doble-con-varios-switches">Escenario doble con varios switches</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escenarios-de-stacking">Escenarios de stacking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ibercom_ip.html">Servicio Ibercom IP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Terminales</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="audiocode.html">Configuración Audiocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dect_ascom.html">Configuración DECT Ascom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gigaset.html">Gigaset IP DECT C530</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediatrix.html">Configuración de Mediatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dap_controller.html">IP DECT - DAP Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip_touch.html">Terminales IP TOUCH</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_wireshark.html">Laboratorios Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Switching SILAN</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/silan.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="switching-silan">
+<h1>Switching SILAN<a class="headerlink" href="#switching-silan" title="Enlazar permanentemente con este título">¶</a></h1>
+<p><a class="reference external" href="_static/documentacion/servicio-silan.pdf">Servicio de industrialización de LAN. Silan</a></p>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SILAN, Servicio e Industrialización de LAN</p>
+<p>SILAN, proporciona una solución de conectividad de área local para aquellos clientes que disponen de los servicios MacroLAN y VPN-IP, con la finalidad de que estos clientes, no tengan que disponer de una infraestructura propia para interconectar sus dispositivos.</p>
+<p>Este servicio, abarca 4 tipos de LAN de cliente:</p>
+<ul class="simple">
+<li><p><strong>LAN Cliente</strong>. Conectividad de equipos finales de cliente (PCs, teléfonos IP, servidores, etc.) a switches de TESA</p></li>
+<li><p><strong>LAN Ibercom</strong>. Conectividad de los elementos de telefonía de Ibercom IP (Call Servers y Media Gateways)</p></li>
+<li><p><strong>LAN Wifi</strong>. Conectividad inalámbrica a dispositivos de usuario</p></li>
+<li><p><strong>SILAN integrado en EDC</strong>. Conectividad de dispositivos de cliente a los puertos del EDC</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El servicio SILAN, es un servicio gestionado, por lo que los switches del servicio, serán administrados y monitorizados en remoto desde las dependencias de Telefónica.</p>
+</div>
+</div>
+<div class="section" id="arquitectura-y-aspectos-de-la-solucion">
+<h2>Arquitectura y aspectos de la solución<a class="headerlink" href="#arquitectura-y-aspectos-de-la-solucion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los dispositivos de cliente, se van a conectar a los puertos de los switches del servicio. El número de puertos de los que va a disponer el cliente, dependerá del número y densidad de puertos de los switches que se desplieguen en una sede determinada, hasta la fecha, se contempla la conectividad de hasta 8 switches.</p>
+<p>Para la alimentación de dispositivos finales, se utiliza el estándar PoE 802.3af</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Si la conectividad entre switches es superior a 90 m, se utilizará fibra óptica.</p>
+</div>
+<p>No se permite conectar en los switches del servicio, otros switches de cliente que alteren la topoplogía de la LAN. También se cuidará el aspecto de que en los switches, no se puedan conectar servidores de DHCP no legítimos.</p>
+<p>En los switches, se contempla la utilización de mecanismos de calidad de servicio para asegurar la gestionabilidad de estos en el caso de que se produjese congestión en la LAN.</p>
+<div class="section" id="modalidades-de-servicio">
+<h3>Modalidades de servicio<a class="headerlink" href="#modalidades-de-servicio" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Dentro del servicio, se definen tres modalidades:</p>
+<ul class="simple">
+<li><p><strong>LAN Ibercom</strong>, destinada a la conectividad de los elementos de la solución Ibercom IP en los puntos centrales</p></li>
+<li><p><strong>LAN cliente básica</strong>, clientes que sólo disponen de una VLAN de datos y pueden tener una solución de voz, así como facilidades WiFi. En esta modalidad, los equipos de SILAN tan solo van a realizar funcionaes de conmutación de nivel 2, esta gama de switches, se denominan switches de acceso.</p></li>
+<li><p><strong>LAN cliente avanzada</strong>, el cliente dispone de varias VLANs, en esta modalidad, la conmutación del tráfico entre las distintas VLANs, se realiza en otro elemento diferente al EDC, que se denomina switch de distribución, que puede ser de telefónica o de cliente</p></li>
+</ul>
+</div>
+<div class="section" id="arquitectura-de-la-modalidad-basica">
+<h3>Arquitectura de la modalidad básica<a class="headerlink" href="#arquitectura-de-la-modalidad-basica" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En esta modalidad, se definen una serie de VLANs estándar para soportar los distintos tipos de tráfico del cliente de voz y datos, así como la gestión de los equipos de la LAN.</p>
+<p>Para esta modalidad, se definen las siguientes VLANs</p>
+<ul class="simple">
+<li><p><strong>VLAN_DATOS</strong>, pensado para soportar todo el tráfico de datos del cliente, no se aplicará mecanismos de priorización de tráfico. El identificador es <strong>20</strong></p></li>
+<li><p><strong>VLAN_VOZ</strong>, pensado para transportar VoIP, aquí, se aplican mecanismos de priorización de tráfico, con el fin de evitar retardos del tráfico ToIP. El identificador es <strong>21</strong></p></li>
+<li><p><strong>VLAN_GESTION</strong>, pensado para el tráfico de gestión de los switches de la LAN, se aplican mecanismos de priorización para garantizar la gestionabilidad de los equipos. El identificador es <strong>30</strong></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Los puertos que se entregan hacia cliente, proporcionan la VLAN 20 en modo nativo, es decir, sin etiquetar y la VLAN 1 etiquetada.</p>
+</div>
+</div>
+<div class="section" id="arquitectura-de-la-modalidad-avanzada-prestada-en-servicio">
+<h3>Arquitectura de la modalidad avanzada prestada en servicio<a class="headerlink" href="#arquitectura-de-la-modalidad-avanzada-prestada-en-servicio" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La conmutación de tráfico entre las VLANs de cliente, se realizará en switches de distribución. Se definen las siguientes VLANs</p>
+<ul class="simple">
+<li><p><strong>VLAN_DATOS</strong>, trnasporta el tráfico de datos del cliente (todas sus VLANs) entre los switches de distribución y el EDC, no se aplica priorización y no se propaga hacia los switches de acceso y no se conectan dispositivos finales de cliente. Identificador VLAN <strong>20</strong></p></li>
+<li><p><strong>vlan_voz</strong>, pensado para transportar tráfico de VoIP, se aplican mecanismos de priorización. El identificador de VLAN es <strong>21</strong></p></li>
+<li><p><strong>VLAN_GESTION</strong>, transporta todo el tráfico de gestión de los switches de la LAN, se aplican mecanismos de reserva de caudal para garantizar la gestión de los equipos</p></li>
+<li><p><strong>VLANs de cliente</strong>, VLANs adicionales para transportar todo el tráfico de datos de cliente entre los switches de acceso y los de distribución. Los identificadores, podrán ser cualquiera mayor que <strong>30</strong></p></li>
+</ul>
+<p>En esta modalidad, el switch de distribución, va a poder ofrecer la funcionalidad de DHCP para las VLANs de cliente</p>
+</div>
+<div class="section" id="modalidad-avanzada-en-equipo-de-cliente">
+<h3>Modalidad avanzada en equipo de cliente<a class="headerlink" href="#modalidad-avanzada-en-equipo-de-cliente" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En esta modalidad, la conmutación del tráfico de las VLANs de clikente, se realizará en un equipo de cliente.</p>
+<ul class="simple">
+<li><p><strong>VLAN_DATOS</strong>, transporta todo el tráfico entre el equipo de cliente y el EDC, se ha de dar de alta en todos los enlaces existentes entre el EDC y el switch de cliente. Sobre esta VLAN, no se van a conectar equipos finales de cliente. El identofocador es <strong>20</strong></p></li>
+<li><p><strong>VLAN_VOZ</strong>, pensada para conectar dispositivos de telefponía, el identificador es <strong>21</strong></p></li>
+<li><p><strong>VLAN_GESTION</strong>, para transportar el tráfico de gestión de los switches de la LAN, el identificador es <strong>30</strong>.</p></li>
+<li><p><strong>VLANs de cliente</strong>, transporta todo el tráfico de datos de cliente entre los switches de acceso y el equipo de cliente. Los identificadores serán cualquiera mayor que <strong>30</strong></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="arquitectura-de-interconexion">
+<h2>Arquitectura de interconexión<a class="headerlink" href="#arquitectura-de-interconexion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La arquitectura de interconexión que se ha elegido tiene como propósito cubrir un número limitado de puestos de usuarios para oficinas de tamaño pequeño/mediano, con el menor coste posible, el mayor número de puertos de usuario disponibles y que proporcione redundancia de caminos.</p>
+<p>Para la interconexión, se van a seguir las siguientes normas</p>
+<ul class="simple">
+<li><p>Todas las VLAN del servicio, se van a pasar mediante un puerto en modo trunk</p></li>
+<li><p>Las interconexiones entre switches son independientes de las velocidades de sus puertos de acceso, peritiendo que se puedan combinar switches del mismo fabricante con puertos 100/1000. Las soluciones de LAN, son monofabricante, es decir, en una misma sede, solo existiran switches del mismo fabricante</p></li>
+<li><p>La interconexión del EDC con los switches de acceso se realiza mediante un único puerto configurado en modo trunk, donde se permitiran las VLAN de datos, voz y gestión</p></li>
+</ul>
+<img alt="_images/sw-interconexion.png" class="align-center" src="_images/sw-interconexion.png" />
+</div>
+<div class="section" id="escaenarios-de-la-modalidaad-basica">
+<h2>Escaenarios de la modalidaad básica<a class="headerlink" href="#escaenarios-de-la-modalidaad-basica" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="escenario-edc-simple-con-un-o-mas-switches">
+<h3>Escenario EDC simple con un o más switches<a class="headerlink" href="#escenario-edc-simple-con-un-o-mas-switches" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En los escenarios de modalidad básica existe la opción de que el propio EDC de la RPV haga de servidor de DHCP para la VLAN de Datos y/o la VLAN de Voz. Cuando estamos en un escenario de EDC simple el servidor de DHCP, como es lógico, residirá en el único EDC de la RPV.</p>
+<img alt="_images/silan-basico-3sw.png" class="align-center" src="_images/silan-basico-3sw.png" />
+</div>
+<div class="section" id="edcenario-edc-doble-con-dos-o-mas-switches">
+<h3>Edcenario EDC doble con dos o más switches<a class="headerlink" href="#edcenario-edc-doble-con-dos-o-mas-switches" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En los escenarios con dos EDCs lo mínimo que se soportan son dos switches.</p>
+<p>En los escenarios de EDC doble no podremos tener activo el servidor de DHCP en los dos EDCs configurado con el mismo pool de direcciones. En este caso en el EDC primario lo configuraremos para que excluya la asignación de la segunda mitad de la subred y el EDC secundario lo configuraremos para que se excluya la asignación de la primera mitad de la subred, en ambos casos vamos a configurar que por DHCP se dé el mismo default-gateway, que va a ser la dirección virtual del grupo de HSRP, VRRP de la VLAN correspondiente.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Para evitar que ante la caída de un EDC durante un intervalo de tiempo prolongado algunos dispositivos se pudiesen quedar sin dirección IP, se recomienda sobredimensionar el pool de direcciones de DHCP para que este contenga el doble de direcciones asignables que el número de dispositivos estimados.</p>
+</div>
+<img alt="_images/silan-2edc-4sw.png" class="align-center" src="_images/silan-2edc-4sw.png" />
+</div>
+</div>
+<div class="section" id="escaenarios-de-modalidad-avanzada">
+<h2>Escaenarios de modalidad avanzada<a class="headerlink" href="#escaenarios-de-modalidad-avanzada" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="escenario-edc-simple-con-cuatro-switches">
+<h3>Escenario EDC simple con cuatro switches<a class="headerlink" href="#escenario-edc-simple-con-cuatro-switches" title="Enlazar permanentemente con este título">¶</a></h3>
+<img alt="_images/silan-avanzado-edc-4sw.png" class="align-center" src="_images/silan-avanzado-edc-4sw.png" />
+</div>
+<div class="section" id="escenario-edc-doble-con-dos-o-mas-switches">
+<h3>Escenario EDC doble con dos o más switches<a class="headerlink" href="#escenario-edc-doble-con-dos-o-mas-switches" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En escenarios de VPN-IP con EDC doble con reparto de carga, se dividian las redes en dos mitades anunciandose por el EDC principal la mitad de la red sin modificación de métrica y la segunda mitad, con métrica penalizada, haciendose al revés en el EDC secundario. Por otro lado, se crean dos grupos HSRP, donde en estado normal, el primero de ellos, permanece activo el EDC principal, mientras que el segundo permanece en standby y al reves en el EDC secundario.</p>
+<p>Así, la mitad de los dispositivos de la LAN apuntaban como gateway por defecto a uno de los grupos HSRP y la otra mitad al otro.</p>
+<p>Cuando nos movemos en un modelo con varias VLANs de cliente, el método de reparto de carga por VLAN, se realiza de forma que la mitad de las VLANs va a entrar/salir por un EDC y la otra mitad, por el otro. Para conseguir esto, el switch conectado al EDC principal, anunciará por RIP con métrica normal las redes de la mitad de las VLAN y con métrica penalizada hacia el otro EDC la otra mitad de VLANs. El switch conectado al EDC secundario, hará lo contrario. Los EDC redistribuiran las redes por BGP hacia los PE respetandose las penalizaciones hechas en el protocolo RIP.</p>
+<p>En el EDC existiran dos grupos HSRP para una VLAN, el primer grupo, estará activo en el EDC principal y standby en el secndario y viceversa en el EDC secundario. El switch conectado al EDC principal tendrá como ruta por defecto la dirección virtual del primer grupo HSRP y el switch conectado al EDC secundario, tendrá como ruta por defeco la dirección virtual del segundo grupo HSRP.</p>
+<p>Los dispositivos finales, van a tener siempre configurada la dirección virtual del HSRP correspondiente a su VLAN</p>
+<img alt="_images/silan-edc-doble-2sw.png" class="align-center" src="_images/silan-edc-doble-2sw.png" />
+</div>
+</div>
+<div class="section" id="escenarios-de-modalidad-avanzada-con-equipo-de-cliente">
+<h2>Escenarios de modalidad avanzada con equipo de cliente<a class="headerlink" href="#escenarios-de-modalidad-avanzada-con-equipo-de-cliente" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="escenario-simple-con-varios-switches">
+<h3>Escenario simple con varios switches<a class="headerlink" href="#escenario-simple-con-varios-switches" title="Enlazar permanentemente con este título">¶</a></h3>
+<img alt="_images/silan-swcliente.png" class="align-center" src="_images/silan-swcliente.png" />
+</div>
+<div class="section" id="escenario-doble-con-varios-switches">
+<h3>Escenario doble con varios switches<a class="headerlink" href="#escenario-doble-con-varios-switches" title="Enlazar permanentemente con este título">¶</a></h3>
+<img alt="_images/silan-doble-swcliente.png" class="align-center" src="_images/silan-doble-swcliente.png" />
+</div>
+</div>
+<div class="section" id="escenarios-de-stacking">
+<h2>Escenarios de stacking<a class="headerlink" href="#escenarios-de-stacking" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Dentro del servicio se han definido una serie de escenarios de stacking. La tecnología de stacking, permite apilar switches de tal forma, que un conjunto de estos, se vean como si fuese un único switch</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Esta tecnología, permite crecer en número de puertos, reduciendo la complejidad de provisión y gestionando todos los elementos como si de uno solo se tratase</p>
+</div>
+<img alt="_images/silan-stacking.png" class="align-center" src="_images/silan-stacking.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ibercom_ip.html" class="btn btn-neutral float-right" title="Servicio Ibercom IP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rtp.html" class="btn btn-neutral float-left" title="Protocolo RTP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

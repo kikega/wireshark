@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IP DECT - DAP Controller &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Terminales IP TOUCH" href="ip_touch.html" />
+    <link rel="prev" title="Configuración de Mediatrix" href="mediatrix.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Wireshark:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Protocolos</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">Domain Name Server - DNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Ibercom IP:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="silan.html">Switching SILAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ibercom_ip.html">Servicio Ibercom IP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Terminales</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="audiocode.html">Configuración Audiocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dect_ascom.html">Configuración DECT Ascom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gigaset.html">Gigaset IP DECT C530</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediatrix.html">Configuración de Mediatrix</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">IP DECT - DAP Controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#arquitectura">Arquitectura</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dect-access-point">DECT Access Point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dap-controller">DAP Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#terminales">Terminales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#senalizacion-y-flujo-de-voz">Señalización y flujo de voz</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolos-manejados-pr-el-sistema-ip-dect">Protocolos manejados pr el sistema IP-DECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#registro-de-un-terminal-dect-en-oxe">Registro de un terminal DECT en OXE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sincronizacion-de-la-estacion-base">Sincronización de la estación base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#movilidad-dect">Movilidad DECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuracion-de-la-red-ip">Configuración de la red IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pasos-para-instalar-la-solucion-ip-dect">Pasos para instalar la solución IP-DECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dap-configuracion">DAP Configuración</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuracion-en-la-oxe">Configuración en la OXE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dap-manager-acceso">DAP Manager, acceso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#terminal-8232-handset">Terminal 8232 Handset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#comandos-de-mantenimiento">Comandos de mantenimiento</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ip_touch.html">Terminales IP TOUCH</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_wireshark.html">Laboratorios Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>IP DECT - DAP Controller</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/dap_controller.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ip-dect-dap-controller">
+<h1>IP DECT - DAP Controller<a class="headerlink" href="#ip-dect-dap-controller" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Las estaciones IP-DECT, están conectadas a la red IP y utilizan el protocolo SIP para comunicarse con OXE, los terminales, se conectan a la base con el protocolo DECT</p>
+</div>
+<div class="section" id="arquitectura">
+<h2>Arquitectura<a class="headerlink" href="#arquitectura" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Es sistema IP-DECT, está basado en los siguientes componentes</p>
+<ul class="simple">
+<li><p>DECT Access Point</p></li>
+<li><p>DAP Controller</p></li>
+<li><p>Terminales DECT</p></li>
+</ul>
+<img alt="_images/oxe-ip-dect-arquitectura.PNG" class="align-center" src="_images/oxe-ip-dect-arquitectura.PNG" />
+<div class="section" id="dect-access-point">
+<h3>DECT Access Point<a class="headerlink" href="#dect-access-point" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los puntos de acceso DECT (DAP), están conectados a la red IP y proporcionan una interfaz DECT para manejar el registro y llamadas del terminal</p>
+<p>Un DAP está diseñado para soportar</p>
+<ul class="simple">
+<li><p>Hasta 11 llamadas simultáneas por DAP</p></li>
+<li><p>Un máximo de 25 registros DECT por DAP</p></li>
+</ul>
+<p>Cada teléfono DECT se registra en un DAP dedicado durante su fase de instalación, este, funcionará como DAP de registro para el teléfono DECT y garantiza el registro de los teléfonos DECT en OXE a través del protocolo SIP</p>
+</div>
+<div class="section" id="dap-controller">
+<h3>DAP Controller<a class="headerlink" href="#dap-controller" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El controlador DAP, es un servicio web utilizado para configurar y controlar el sistema IP-DECT, permite asignar o reasignar teléfonos DECT a un DAP.</p>
+<p>Cuando un DAP está inactivo, los teléfonos asignados a ese DAP ya no funcionan y el controlador DAP los reasigna a otro DAP</p>
+<p>El controlador DAP, también es necesario cuando los teléfonos se mueven a otro sítio, el controlador, reasigna los teléfonos DECT a los DAP ubicados en el nuevo sitio</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Solo un DAP controller es utilizado por un sistema IP-DECT al mismo tiempo</p>
+</div>
+</div>
+<div class="section" id="terminales">
+<h3>Terminales<a class="headerlink" href="#terminales" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El sistema IP-DECT, soporta</p>
+<ul class="simple">
+<li><p>Los terminales ALU 300/400 DECT con protocolo AGAP (Alcatel GAP)</p></li>
+<li><p>DECT 500 con protocolo GAP, se declaran como extensión SIP en la OXE</p></li>
+</ul>
+</div>
+<div class="section" id="senalizacion-y-flujo-de-voz">
+<h3>Señalización y flujo de voz<a class="headerlink" href="#senalizacion-y-flujo-de-voz" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Una llamada desde o hacia un terminal DECT, requiere los siguientes flujos IP</p>
+<ul class="simple">
+<li><p>Un flujo de señalización SIP entre el registro DAP del teléfono y OXE</p></li>
+<li><p>Una multidifusión IP a todos los DAP cuando el terminal está conectado a un DAP distinto de su DAP de registro</p></li>
+<li><p>Una conexión RTP para el flujo de voz entre el DAP al que está conectado el terminal y la otra persona que llama</p></li>
+</ul>
+<img alt="_images/oxe-ip-dect-rtp-flow.PNG" class="align-center" src="_images/oxe-ip-dect-rtp-flow.PNG" />
+<p><strong>Llamada de entrada/salida</strong></p>
+<p>La sesión SIP inicial, se establece sin negociación inmediata de SDP</p>
+<p>La negociación SDP, se lleva a cabo durante una sesión SIP activa, cuando el terminal responde, OXE envía un RE-INVITE al DAP de registro con una oferta SDP</p>
+<img alt="_images/oxe-ip-dect-llamada.PNG" class="align-center" src="_images/oxe-ip-dect-llamada.PNG" />
+<img alt="_images/oxe-ip-dect-llamada-out.PNG" class="align-center" src="_images/oxe-ip-dect-llamada-out.PNG" />
+<p><strong>Configuración de tonos</strong></p>
+<p>Los tonos son administrados por el sistema IP-DECT y reproducidos/pardos al recibir OXE los comandos START_TONE/STOP_TONE en tramas SIP INFO</p>
+</div>
+</div>
+<div class="section" id="protocolos-manejados-pr-el-sistema-ip-dect">
+<h2>Protocolos manejados pr el sistema IP-DECT<a class="headerlink" href="#protocolos-manejados-pr-el-sistema-ip-dect" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><p><strong>AGAP</strong>  (Alcatel Generic Access Profile), protocolo propietario para terminales específicos Alcatel. Basado en el protocolo GAP, ofrece caracteristicas avanzadas a los terminales. Es encapsulado en tramas SIP INFO entre el DAP y la OXE</p></li>
+<li><p><strong>GAP</strong> (Generic Access Profile), protocolo que permite que los terminales DECT de diferentes fabricantes funcionen juntos</p></li>
+</ul>
+<img alt="_images/oxe-ip-dect-agap.PNG" class="align-center" src="_images/oxe-ip-dect-agap.PNG" />
+</div>
+<div class="section" id="registro-de-un-terminal-dect-en-oxe">
+<h2>Registro de un terminal DECT en OXE<a class="headerlink" href="#registro-de-un-terminal-dect-en-oxe" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para poder operar, un teléfono DECT, debe estar registrado en el sistema y asignado a un DAP.</p>
+<p>El DAP de registro del terminal, envía una solicitud de registro (REGISTER) a OXE, dende se envía, el número de directorio del terminal y la dirección IP de su registro DAP.</p>
+<p>El diálogo Keep-Alive entre DAP y OXE, se hace enviando solicitudes de registro SIP.</p>
+<p>El registro SIP, también se usa cuando un terminal registrado se enciende o sale del área de cobertura de radio. Cuando esto ocurre, el DAP envía una solicitud de registro a OXE.</p>
+<p>Al iniciar o reiniciar el sistema, todos los terminales DECT se registran al mismo tiempo. Si el servidor SIP, rechaza el registro, DAP hace un nuevo intento después de un retraso de 10 segundos.</p>
+<img alt="_images/oxe-ip-dect-register.PNG" class="align-center" src="_images/oxe-ip-dect-register.PNG" />
+</div>
+<div class="section" id="sincronizacion-de-la-estacion-base">
+<h2>Sincronización de la estación base<a class="headerlink" href="#sincronizacion-de-la-estacion-base" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Las estaciones base DAP, requiere una sincronización estable y precisa para funcionar correctamente y proporcionar un traspaso contínuo (handover). La sincronización se transmite por el aire.</p>
+<p>Cuando se inicia el sistema, el DAP con el RPN más pequeño, actúa como fuente de sincronización, este, trnasmite una señal en el aire a todos los demás DAP ubicados en su área de cobertura de radio. A su vez, estos, se convierten en fuente de sincronización para los DAP ubicados en su área de cobertura de radio.</p>
+</div>
+<div class="section" id="movilidad-dect">
+<h2>Movilidad DECT<a class="headerlink" href="#movilidad-dect" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La función de roaming, permite a los usuarios de teléfonis DECT, hacer o recibir llamadas desde cualquier ubicación en el área de cobertura del sistema IP-DECT.</p>
+<p>En una configuración de sitio único, el roaming, es adminsitrado por el sistema IP-DECT. La multidifusión IP, se usa para identificar el DAP en el que están registrados los terminales.</p>
+<p>En sitios múltiples, es posible cuando el controlador DAP está en funcionamiento. Cuando un terminal DECT se mueve de un sitio a otro, el controlador DAP reasigna el terminal a un DAP ubicado en el nuevo sitio</p>
+<p>La función handover, permite a los usuarios de terminales DECT, moverse de un DAP a otro durante la llamada, no hay interrupción de la llamada.</p>
+<p>El handover, es manejado por el sistema IP-DECT.</p>
+<p>Cuando un usuario en conversación, se mueve de un DAP a otro, la llamada, es redirigida como sigue:</p>
+<img alt="_images/oxe-ip-dect-handover.PNG" class="align-center" src="_images/oxe-ip-dect-handover.PNG" />
+</div>
+<div class="section" id="configuracion-de-la-red-ip">
+<h2>Configuración de la red IP<a class="headerlink" href="#configuracion-de-la-red-ip" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El DAP controller, se encuentra en la sede principal y hay sedes remotas conectadas a la WAN</p>
+<ul class="simple">
+<li><p>El roaming es compatible entre todas las sedes, siempre que el controlador DAP esté en funcionamiento</p></li>
+<li><p>El handover, es compatible en la sede</p></li>
+</ul>
+<img alt="_images/oxe-ip-dect-dap-controller.PNG" class="align-center" src="_images/oxe-ip-dect-dap-controller.PNG" />
+</div>
+<div class="section" id="pasos-para-instalar-la-solucion-ip-dect">
+<h2>Pasos para instalar la solución IP-DECT<a class="headerlink" href="#pasos-para-instalar-la-solucion-ip-dect" title="Enlazar permanentemente con este título">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Instalar DAP Controller en servidor OMNIVISTA</p></li>
+<li><p>Configurar sede (RPNs y rangos IP)</p></li>
+<li><p>Instalar antenas y registrarlas mediante DAP Manager</p></li>
+<li><p>Dar de alta extensiones en OXE y DAP Manager</p></li>
+<li><p>Registrar terminales</p></li>
+</ol>
+</div>
+<div class="section" id="dap-configuracion">
+<h2>DAP Configuración<a class="headerlink" href="#dap-configuracion" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="configuracion-en-la-oxe">
+<h3>Configuración en la OXE<a class="headerlink" href="#configuracion-en-la-oxe" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Declaramos el sistema IP-DECT</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">DECT</span> <span class="n">System</span> <span class="o">-&gt;</span>
+     <span class="n">IP</span> <span class="n">Base</span> <span class="n">Type</span> <span class="o">=</span> <span class="n">yes</span>
+
+ <span class="c1"># Añadimos la IP del DAP</span>
+ <span class="n">SIP</span> <span class="o">-&gt;</span>
+     <span class="n">Trusted</span> <span class="n">ip</span> <span class="n">address</span>
+
+<span class="c1"># Declaramos los terminales DECT</span>
+<span class="n">Users</span> <span class="o">-&gt;</span>
+     <span class="n">Set</span> <span class="n">Type</span><span class="p">:</span> <span class="n">GAP</span><span class="o">+</span> <span class="p">(</span><span class="n">para</span> <span class="n">ALU</span> <span class="mi">300</span><span class="o">/</span><span class="mi">400</span> <span class="n">AGAP</span><span class="p">)</span>
+     <span class="n">Set</span> <span class="n">Type</span><span class="p">:</span> <span class="n">SIP</span> <span class="n">Etension</span> <span class="p">(</span><span class="n">Dect</span> <span class="n">en</span> <span class="n">modo</span> <span class="n">GAP</span><span class="p">)</span>
+
+<span class="c1"># Configuramos parámetros de compresión</span>
+<span class="n">System</span> <span class="o">-&gt;</span>
+     <span class="n">Other</span> <span class="n">System</span> <span class="n">Parameters</span> <span class="o">-&gt;</span>
+         <span class="n">Compression</span> <span class="n">Parameters</span> <span class="o">-&gt;</span>
+             <span class="n">System</span> <span class="n">Option</span> <span class="o">-&gt;</span>
+                 <span class="n">Compresion</span> <span class="n">Type</span><span class="p">:</span> <span class="n">G729</span>
+                 <span class="n">Multi</span> <span class="n">Algorithms</span> <span class="k">for</span> <span class="n">compression</span><span class="p">:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>En OXE, los dominios IP, deben configurarse de tal manera, que todos los DAP que pertenezcan a una sede, se instalen en un dominio único.</p>
+<p>El sistema DAP, debe configurarse con G.711 y G.729 en el DAP Controller</p>
+</div>
+</div>
+<div class="section" id="dap-manager-acceso">
+<h3>DAP Manager, acceso<a class="headerlink" href="#dap-manager-acceso" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Bien, desde la red de cliente, desde la red de gestión a través de <strong>port-forwarding</strong> o bien desde escritorio remoto, con el navegador</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>http://dir_omnivista:puerto_dap_manager/cds
+</pre></div>
+</div>
+</div>
+<div class="section" id="terminal-8232-handset">
+<h3>Terminal 8232 Handset<a class="headerlink" href="#terminal-8232-handset" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para registrar el terminal la primera vez</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Si el sistema utiliza Authentication code</span>
+Register
+        enter pin code <span class="o">(</span><span class="m">0000</span> por defecto<span class="o">)</span>
+
+Select a system <span class="o">(</span>Se recomienda utilizar el primer sistema vacio<span class="o">)</span>
+
+Enter park code
+Enter acceso code
+Enter power mode
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Poner el terminal en modo industrial</p>
+<p>*7378423*</p>
+</div>
+</div>
+</div>
+<div class="section" id="comandos-de-mantenimiento">
+<h2>Comandos de mantenimiento<a class="headerlink" href="#comandos-de-mantenimiento" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Enumera cada termnal DECT registrado, el número de equipo, el número de directorio, la dirección IP del DAP de registro y la versión de software</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dectsets</span> <span class="n">v</span>
+<span class="n">dectsets</span> <span class="n">d</span> <span class="n">dir_num</span>
+<span class="n">dectsets</span> <span class="n">n</span> <span class="n">equipo</span>
+</pre></div>
+</div>
+<p>Lista todos los dispositivos SIP declarados y su tipo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sipdect</span> <span class="o">-</span><span class="n">ilv</span>
+<span class="n">sipdect</span> <span class="o">-</span><span class="n">n</span> <span class="n">dir_num</span>
+<span class="n">sipdect</span> <span class="o">-</span><span class="n">u</span> <span class="n">uri_name</span>
+</pre></div>
+</div>
+<p>Verifica que el demi-con del terminal DECT,se libere correctamente cuando el teléfono está bloqueado</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">demi</span><span class="o">-</span><span class="n">con</span> <span class="n">n</span> <span class="nb">dir</span>
+<span class="n">demi</span><span class="o">-</span><span class="n">con</span> <span class="n">n</span> <span class="n">equipo</span>
+<span class="n">demi</span><span class="o">-</span><span class="n">con</span> <span class="n">p</span> <span class="n">crist</span><span class="o">-</span><span class="n">nb</span> <span class="n">cpl</span><span class="o">-</span><span class="n">nb</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ip_touch.html" class="btn btn-neutral float-right" title="Terminales IP TOUCH" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mediatrix.html" class="btn btn-neutral float-left" title="Configuración de Mediatrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

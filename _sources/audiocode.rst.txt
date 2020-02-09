@@ -1,0 +1,124 @@
+=======================
+Configuración Audiocode
+=======================
+
+1. Datos por defecto
+--------------------
+
+Direccionamiento de fábrica
+
+- IP 10.1.10.10/16 (FXS-FXO) o 10.1.10.11 (sólo FXO)
+- GW 0.0.0.0
+- Usuario: Admin / Password: Admin
+
+2. Reinicio de fábrica
+----------------------
+
+Si no puede conectarse a la consola web de dispositivo, puede que tenga que hacer algún trabajo de detective para averiguar que IP está tirando por ARP, si tiene configuración estática.
+
+- Desconectar cable de ethernet
+- Utilizar clip y presionar el boton de reset (parte trasera del equipo), el led **Fail** debe encenderse, mantenerlo pulsado sobre 10 segundos.
+
+Cuando suelte el botón de reestablecimiento, todos los leds brillarán más intensamente que cuando el botón estaba pulsado, se encenderán y apagarán un par de veces mientras el sistema vuelve a los parámetros determinados de fábrica.
+
+
+3. Actualización de firmware
+----------------------------
+
+El equipo debe estar en la versión 5.40A.041
+
+.. code-block:: bash
+
+    Menú -> Software Update > Software Update Wizard.
+
+Aparecerá una ventana con un boton **Start Software Upgrade**.
+
+- Opcion **CMP File**, buscar archivo **Firmware MP118_SIP_FS.40A.041.cmp**
+- Pasar todas las opciones con el botón **Next** hasta **Finish** y pulsar boton **Reset**. El equipo se quedará en *Burning files to flash memory* y el equipo se reiniciará
+
+4. Configuración
+----------------
+
+4.1 Parámetros IP
+*****************
+
+.. code-block:: bash
+
+    Menú -> Network Settings > IP Settings
+
+Single IP Settings
+
+- Ip Address = IP del dispositivo
+- Subnet Mask = Mascara
+- Default Gateway Address = Gateway por defecto
+
+Cambiamos la IP de nuetro PC y pulsamos **Burn**
+
+Si lleva configurada VLAN
+
+Vlan Mode = Enable
+
+- Native VLAN ID = 1
+- OAM VLAN ID = 90
+- Control VLAN ID = 90
+- Media VLAN ID = 90
+
+4.2 Servidor SIP 
+****************
+
+.. code-block:: bash
+
+    Menú -> Protocol Configuration > Protocol Definition > Proxy & Registration
+
+Parámetros a configurar
+
+- Use Default Proxy = yes
+    
+    - Proxy Address = IP del servidor TFTP
+    - Enable Proxy Keep Alive = Disable
+    - Proxy Keep Alive Time = 60
+    - Is Proxy hot Swap = yes
+
+- Proxy Name = Nombre del nodo
+- Enable Registration = Enable
+- Register Time = 90000
+- Gateway Name = IP del Core
+
+.. code-block:: bash
+
+    Menú -> Protocol Configuration > Protocol Definition > Codecs
+
+Añadir G.729, G.723.1 y G.711.
+
+Los codecs debe estar en el siguiente orden:
+
+- g729, 20 ms
+- g7231, 30 ms
+- g711Alaw64k, 20 ms
+- g711Ulaw64k, 20 ms
+
+Pulsamos **Burn** para salvar los cambios   
+
+4.3 Extensiones
+***************
+
+Configuramos las extensiones que van a funcionar en los puertos 1 y 2
+
+.. code-block:: bash
+
+    Menú -> Protocol Configuration > Endpoint Number
+
+.. cssclass:: table-bordered table-hover
+
++--------------+---------------+------------+
+|  Channel(s)  |  Phone Number | Hunt Group |
++==============+===============+============+
+|  1           |  Extension  1 |    1       |
++--------------+---------------+------------+
+|  2           |  Extension  2 |    1       |
++--------------+---------------+------------+
+
+.. Warning::
+
+    Hay que poner el parámetro Hunt Group a 1
+

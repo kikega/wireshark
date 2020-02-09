@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Servicio Ibercom IP &mdash; documentación de Wireshark - 1</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Configuración Audiocode" href="audiocode.html" />
+    <link rel="prev" title="Switching SILAN" href="silan.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wireshark
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Wireshark:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción a Wireshark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtrado.html">Trabajando con los paquetes capturados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Menú Analyze</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estadisticas.html">Estadísticas en Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Protocolos</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">Protocolo IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dhcp.html">Protocolo DHCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arp.html">Protocolo ARP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icmp.html">Protocolo ICMP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp.html">Protocolo TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">Domain Name Server - DNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sip.html">Protocolo SIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtp.html">Protocolo RTP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Ibercom IP:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="silan.html">Switching SILAN</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Servicio Ibercom IP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#descripcion-del-servicio">Descripción del servicio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arquitectura-comun-del-servicio-apv-y-auip">Arquitectura común del servicio: APV y AUIP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cisco-call-manager">Cisco Call Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#elementos-funcionales">Elementos funcionales</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conexionado">Conexionado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hosteada-cisco-hcs">Hosteada Cisco HCS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#caracteristicas-de-la-redundancia-geografica">Caracteristicas de la redundancia geográfica</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#alcatel-lucent-oxe">Alcatel Lucent - OXE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#elementos-de-la-solucion-de-alcatel">Elementos de la solución de Alcatel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Conexionado</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hipath-8000">Hipath 8000</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#elementos-funcionales-de-la-solucion-h8k-osv">Elementos funcionales de la solución H8K-OSV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Conexionado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sedes-remotas">Sedes remotas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#flujos-de-llamadas">Flujos de llamadas</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Terminales</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="audiocode.html">Configuración Audiocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dect_ascom.html">Configuración DECT Ascom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gigaset.html">Gigaset IP DECT C530</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediatrix.html">Configuración de Mediatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dap_controller.html">IP DECT - DAP Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip_touch.html">Terminales IP TOUCH</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Laboratorios</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lab_wireshark.html">Laboratorios Wireshark</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Estudio:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="presentaciones.html">Presentaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc.html">Documentación</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wireshark</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Servicio Ibercom IP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ibercom_ip.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="servicio-ibercom-ip">
+<h1>Servicio Ibercom IP<a class="headerlink" href="#servicio-ibercom-ip" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="descripcion-del-servicio">
+<h2>Descripción del servicio<a class="headerlink" href="#descripcion-del-servicio" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Bajo la denominación de servicio Ibercom IP se engloban aquellas plataformas que ofrecen una solución de telefonía sobre IP, válida para redes corporativas de múltiples dependencias de cualquier tamaño; interconectadas a través de la red IP de datos del Cliente y contando con el entorno de supervisión y mantenimiento del servicio Ibercom Master.</p>
+<p>Las plataformas elegidas son:</p>
+<ul class="simple">
+<li><p>Cisco Call Manager</p></li>
+<li><p>Alcatel OmniPCX Enterprise</p></li>
+<li><p>Mitel MX-ONE</p></li>
+<li><p>Unify</p></li>
+</ul>
+<p>Mediante el servicio Ibercom IP, se proporciona al cliente la instalación y puesta en servicio de los elementos propios de la solución de telefonía:</p>
+<ul class="simple">
+<li><p>Servidores para la gestión de llamadas</p></li>
+<li><p>Terminales digitales/IP</p></li>
+<li><p>Servidores de productos de valor añadido</p></li>
+<li><p>Circuitos de interconexión/acceso a NGN</p></li>
+<li><p>Provisión de numeración</p></li>
+<li><p>Asistencia postventa</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El cliente, debe contratar el servicio de RPV convergentes (MacroLAN, VPN-IP) para el transporte de la telefonía IP.</p>
+<p>La conexión a redes públicas, se puede realizar a través de NGN (APV/AUIP), donde la numeración pública, será la que corresponda en función del distrito de tarificación al que pertenece la dependencia donde están las extensiones</p>
+<p>En el ambito local de cada dependencia, es necesario, crear VLAN diferentes, para terminales del servicio de voz, servicio de datos, gateways, servidores de llamadas y servicios de valor añadido</p>
+</div>
+<div class="section" id="arquitectura-comun-del-servicio-apv-y-auip">
+<h3>Arquitectura común del servicio: APV y AUIP<a class="headerlink" href="#arquitectura-comun-del-servicio-apv-y-auip" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El cliente precisa de una conexión externa, a través de esta interfaz, el cliente enviará/recibirá cualquier llamada desde redes fijas/móviles distintas a su red corporativa.</p>
+<p>Ibercom IP a la red NGN, se define en dos puntos de acceso a la red NGN, donde se proporcionará 10 ó 30 comunicaciones simultáneas.</p>
+<p>La red NGN, soporta el protocolo SIP.</p>
+<p>El servicio de Accesos Primarios Virtuales, pretende ser una alternativa al servicio de Accesos Primarios</p>
+</div>
+</div>
+<div class="section" id="cisco-call-manager">
+<h2>Cisco Call Manager<a class="headerlink" href="#cisco-call-manager" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para la solución Cisco Unified Communications Manager, existen los siguientes productos</p>
+<ul class="simple">
+<li><p>Gestor de llamadas</p></li>
+<li><p>Terminales IP</p></li>
+<li><p>Gateways para la conexión de terminales analógicos y terminales de fax</p></li>
+<li><p>Mensajeria vocal (Unity Connection)</p></li>
+<li><p>Mensajería instantánea y presencia (CUCM IM y Presence)</p></li>
+<li><p>Call Center (UCCX, IPCC Express)</p></li>
+<li><p>Tarificación (cHar)</p></li>
+<li><p>Solución de conferencia (Cisco Webex Meetings Server)</p></li>
+<li><p>Telefonía DECT (Ascom)</p></li>
+<li><p>Trabajador remoto (ExpressWay)</p></li>
+</ul>
+<div class="section" id="elementos-funcionales">
+<h3>Elementos funcionales<a class="headerlink" href="#elementos-funcionales" title="Enlazar permanentemente con este título">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Gestor de llamadas</strong>. Cluster de servidores Communications Manager, proporciona la inteligencia centralizada pa ra la gestión de admisión y enrutamiento de las llamadas, así como la gestión de recursos. Dispone de dos servidores en su configuración mínima y hasta 20 en la máxima, soporta un máximo de 30000 terminales IP y entre 500 y 2000 dependencias remotas (locations). Los servidores pueden estar ubicados en la misma dependencia o distribuirse por varias dependencias a fin de conseguir una mejor organización a nivel geográfico o lógico</p></li>
+<li><p><strong>Servidores PVA</strong>. Proporciona el servicio para todas las oficinas remotas</p></li>
+<li><p><strong>Terminales</strong>. Teléfonos IP de sobremesa, softphone (Jabber, Cisco Communicator), operadora sobre PC y terminales WiFi</p></li>
+<li><p><strong>Adaptador</strong>. Para conexión de múltipes terminales analógicos a la LAN, de 2 y 24 puertos</p></li>
+<li><p><strong>Gateway</strong>. Destinado a la conexión con redes públicas. Estos equipos, podrán llevar recursos de DSP adicionales para multiconferencia. En dependencias remotas, puede disponer  de supervivenia remota, que permitirá actuar como PBX autónoma cuando se pierde la comunicación con el servidor de llamadas</p></li>
+<li><p><strong>EDC de acceso a la WAN</strong>. EDC de acceso a la RPV</p></li>
+</ul>
+</div>
+<div class="section" id="conexionado">
+<h3>Conexionado<a class="headerlink" href="#conexionado" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Todo el equipamiento que forma parte de la solución de voz, debe tener conectividad entre sí. El elemento principal de la arquitectura, el servidor de llamadas, debe tener conectividad IP con todos los terminales IP y Media Gateways, estén en propia dependencia o en dependencias remotas, incluso los servidores que soportan servicios de valor añadido.</p>
+<p>Existen una serie de requisitos que se deben cumplir en la red, en cuanto a retardo y ancho de banda para que sea posible la distribución geográfica de los servidores, lo que hace que no cualquier infraestructura de red, sea válida para soportar la distribución de servidores</p>
+<p>Servicio de RPV convergentes (MacroLAN, VPN-IP), a parte de los datos, se transporta la voz y la señalización elacionada con la telefonía.</p>
+<p>La señalización de gestión necesaria para la supervisión y gestión remota de los elementos que forman parte del servicio ibercom, es entregada por el EDC de acceso a la red, de cada dependencia, a la red de gestión del servicio de red y encaminada a través de esta RPV al centro de gestión y supervisión remota.</p>
+</div>
+<div class="section" id="hosteada-cisco-hcs">
+<h3>Hosteada Cisco HCS<a class="headerlink" href="#hosteada-cisco-hcs" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Consta de un entorno de màquinas virtuales, donde se alojan los servidores para las comunicaciones unificadas de cada cliente, sistema independiente de almacenamiento en arquitectura SAN, interfaz hacia el SBC para comunicaciones externas y herramientas de gestión centralizadas, tanto para el entorno de virtualización, como para provisión y operación y mantenimiento</p>
+<ul class="simple">
+<li><p>Cisco Hosted Collaboration Solutions (HCS), es el producto de Cisco para el despliegue de comunicaciones unificadas de manera vistualizada</p></li>
+<li><p>Proporciona n capa de gestión unificada</p></li>
+<li><p>Solución desplegada en infraestructura de centros de servicios, donde se instancian las PBXs de clientes</p></li>
+<li><p>PBX, conecta a NGN para salida a red fija y móvil</p></li>
+</ul>
+<img alt="_images/cisco-hcs.png" class="align-center" src="_images/cisco-hcs.png" />
+<p>Las aplicaciones HCS, se pueden dividir en dos categorías</p>
+<ul class="simple">
+<li><p>Aplicaciones para el servicio de comunicaciones unificadas</p></li>
+<li><p>Aplicaciones para gestión de la plataforma</p></li>
+</ul>
+<p>HCS consta de los elementos siguientes:</p>
+<p>_ Aplicaciones de comunicaciones unificadas (CUCM, IM&amp;P, CUC Unity)
+- Virtualización con Vmware v5.5
+- Switching virtual Nexus 1000
+- Hardware de procesamiento, Blades B200 M3
+- Almacenamiento centralizado. SAN
+- Switching de interconexión</p>
+</div>
+<div class="section" id="caracteristicas-de-la-redundancia-geografica">
+<h3>Caracteristicas de la redundancia geográfica<a class="headerlink" href="#caracteristicas-de-la-redundancia-geografica" title="Enlazar permanentemente con este título">¶</a></h3>
+<ul class="simple">
+<li><p>Se despliegan las máquiinas de cliente, responsables de la voz, en dos centrales separadas geográficamente, para dotar al sistema de redundancia</p></li>
+<li><p>Las aplicaciones de voz, se despliegan en arquitecturas activo-activo, realizando un reparto equitativo de las líneas de cliente en ambos nodos</p></li>
+<li><p>Ante la caida de un nodo que da servicio, el nodo redundante, tomaría el control de todos los usuarios</p></li>
+<li><p>El dimensionado de las máquinas virtuales, se hace del mismo modo que para una solución on-premise</p></li>
+<li><p>Solo es necesario comunicación a nivel IP entre las máquinas de cliente de los CDS</p></li>
+<li><p>Cuando los teléfonos se registran, se les indica cual es su nodo primario y cual el secundario. Normalmente, la mitad de terminales, tendrá como nodo primario, uno de los centros y la otra mitas tendrá como nodo primario, el otro centro. De esta forma, se mantienen siempre activos ambos nodos, garantizando la entrada en ejecución del nodo de respaldo ante la caida del primario.</p></li>
+<li><p>Ante la caida del nodo primario, las llamadas, no se ven afectadas, ya que una vez establecidas, no utilizan recursos del nodo</p></li>
+</ul>
+<img alt="_images/cds-tesa.jpg" class="align-center" src="_images/cds-tesa.jpg" />
+</div>
+</div>
+<div class="section" id="alcatel-lucent-oxe">
+<h2>Alcatel Lucent - OXE<a class="headerlink" href="#alcatel-lucent-oxe" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="elementos-de-la-solucion-de-alcatel">
+<h3>Elementos de la solución de Alcatel<a class="headerlink" href="#elementos-de-la-solucion-de-alcatel" title="Enlazar permanentemente con este título">¶</a></h3>
+<ul>
+<li><p>Servidor de llamadas OXE</p></li>
+<li><p>Servidores de valor añadido</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>OmniTouch, una aplicación Linux para comunicaciones unificadas</p></li>
+<li><p>Omnivista, equipo sobre Windows, que permite la gestión remota y centralizada de todas las OXE conectadas con él</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h3>Conexionado<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Todos estos equipos, deberán tener conectividad desde el sistema de gestión</p>
+<ul class="simple">
+<li><p>EDC de datos de primer nivel</p></li>
+<li><p>Servidor de comunicaciones</p></li>
+<li><p>Switch</p></li>
+</ul>
+<p>Los media gateways de Alcatel, permiten el desbordamiento de llamadas por la red conmutada, no son equipos gestionables y por lo tanto, no necesitan tener direccioamiento de gestión.</p>
+<p>Elementos de la arquitectura del sistema de gestión</p>
+<img alt="_images/hcs-oxe.jpg" class="align-center" src="_images/hcs-oxe.jpg" />
+<p>Componentes que se despliegan en el hosteado</p>
+<ul class="simple">
+<li><p>Servidor de licencias, uno por cliente</p></li>
+<li><p>Desplegar Omnivista, un servidor por cliente</p></li>
+<li><p>Una o varias OXE</p></li>
+<li><p>Desplegar OMS (gateways virtuales) uno o varios</p></li>
+<li><p>Opentouch, comunicacione sunificadas</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="hipath-8000">
+<h2>Hipath 8000<a class="headerlink" href="#hipath-8000" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="elementos-funcionales-de-la-solucion-h8k-osv">
+<h3>Elementos funcionales de la solución H8K-OSV<a class="headerlink" href="#elementos-funcionales-de-la-solucion-h8k-osv" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Los elementos que integran esta solución de telefonía IP son:</p>
+<ul class="simple">
+<li><p>Gestor de llamadas (OpenScape Voice) y opciones de redundancia</p></li>
+<li><p>Gateway en sede central</p></li>
+<li><p>Gateway en sede remota (supervivencia)</p></li>
+<li><p>Telefónos IP</p></li>
+<li><p>Adaptadores ATA y otros terminales</p></li>
+<li><p>OpenScape Xpressions</p></li>
+</ul>
+<p>La arquitectura distribuida, se puede analizar por áreas</p>
+<ul class="simple">
+<li><p>Sede central</p></li>
+<li><p>Sede remota con salida RTC</p></li>
+<li><p>Sede remota con terminales IP</p></li>
+</ul>
+<p>En la sede central, es donde reside el gestor de llamadas en sus posibles arquitecturas</p>
+<ul class="simple">
+<li><p>Simplex</p></li>
+<li><p>Duplex en un datacenter (alta disponibilidad)</p></li>
+<li><p>Duplex en dos datacenters (alta disponibilidad con redundancia geográfica)</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Conexionado<a class="headerlink" href="#id2" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En la arquitectura simplex, el gestor de llamadas y todas sus aplicaciones, residen en un solo servidor, ubicado en el data center</p>
+<p>Dentro de la arquitectura Simplex está la versión OpenScape Voice Entry que es una versión integrada en un solo servidor que NO puede evolucionar a simplex, su alcance es de 800 usuarios de voz y con la aplicación de comunicaciones unificadas soporta 40 usuarios de UC y 240 de voz solo. Incorpora un SBC y está basado actualmente en el servidor IBM x3250 M3.</p>
+<img alt="_images/hcs-openscape.png" class="align-center" src="_images/hcs-openscape.png" />
+<p>La arquitectura duplex, proporciona alta disponibilidad para el gestor de llamadas y distintas opciones de ubicación y redundancia para las aplicaciones. Se redunda el gestor de llamadas OpenScape Voice, el resto de aplicaciones, se instalan fuera de ambis sistemas y pueden redundarse, según las necesidades del cliente</p>
+<img alt="_images/hcs-openscape-duplex.png" class="align-center" src="_images/hcs-openscape-duplex.png" />
+<p>En un escenario duplex en dos data center, la alta disponibilidad, es que los gestores de llamadas, se separan físicamente en dos data center. Para coordinar la caída y recuperación de los nodos, se utiliza un sofware denominado <strong>Survivable Authority</strong> que se instala en ua tercera ubicación</p>
+<img alt="_images/hcs-openscape-duplex2.png" class="align-center" src="_images/hcs-openscape-duplex2.png" />
+</div>
+<div class="section" id="sedes-remotas">
+<h3>Sedes remotas<a class="headerlink" href="#sedes-remotas" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Las sedes remotas con necesidades de salida local, se equipan con dispositivos gateway</p>
+<ul class="simple">
+<li><p>Sede con salida RTC, gateway OpenScape Branch</p></li>
+<li><p>Sede con salida RTC y supervivencia, utilizan equipos con proxy-SIP + gateway integrado</p></li>
+</ul>
+<p>El equipo en sede remota con supervivencia, incorpora funcionalidades básicas de telefonía cuando se pierde conectividad con el gestor de llamadas. Al tener funcionalidades de gateway, también posibilita a los usuarios hacer y recibir llamadas a RTC</p>
+</div>
+</div>
+<div class="section" id="flujos-de-llamadas">
+<h2>Flujos de llamadas<a class="headerlink" href="#flujos-de-llamadas" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="audiocode.html" class="btn btn-neutral float-right" title="Configuración Audiocode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="silan.html" class="btn btn-neutral float-left" title="Switching SILAN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Kike G
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
