@@ -1,0 +1,202 @@
+===============================
+Comandos para la gestión de red
+===============================
+
+Consultas IP
+------------
+
+**addr** Mostrar direccionaes IP e información
+
+.. code-block::
+
+    # Mostar información sobre todas las direcciones
+    ip addr
+    
+    # Mostrar información de un solo dispositivo
+    ip addr show dev enp0s0   
+    
+**link**  Administre y muestre es eltado de todas las interfaces de red
+
+.. code-block::
+
+    # Mostrar información de todas las interfaces
+    ip link
+    
+    # Mostrar información de un solo dispositivo
+    ip link show dev enp0s0
+    
+    # Mostar stadisticas de interface
+    ip -s link
+    
+**route** Visualiza y cambia la tabla de rutas
+
+.. code-block::
+
+    # Lista todas las entradas en la tabla de rutas del kernel
+    ip route
+    
+**maddr** Gestiona y visualiza el direccionamiento multicast
+
+.. code-block::
+
+    # Visualiza información multicas para todos los dispositivos
+    ip maddr
+    
+    # Visualiza información multicas sobre un dispositivo
+    ip maddr show dev enp0s0
+    
+**neigh** Mostrar elementos vecinos (tabla arp)
+
+.. code-block::
+
+    # Visualiza elementos vecinos
+    ip neigh
+    
+    # Visualiza la ARP cache para un dispositivo
+    ip neigh show dev enp0s0
+    
+**help** Visualiza una lista de comandos y argumentos para cada subcomando
+
+.. code-block::
+
+    # Visualiza comandos IP y argumentos
+    ip help
+    
+    # Visualiza comandos y argumentos para el subcomando listados
+    ip addr help
+    ip link help
+    ip neigh help
+    
+Direccionamiento Multicast
+--------------------------
+
+**maddr add/del** Añade una dirección de multicast
+
+.. code-block::
+
+    ip maddr add 33:33:00:00:00:01 dev enp0s0
+    
+    # Borrar
+    ip maddr del 33:33:00:00:00:01 dev enp0s0
+        
+Modificar direccionamiento y propiedades de enlace
+--------------------------------------------------
+
+**addr add** Añadir una dirección
+
+.. code-block::
+
+    # Configuramos la dirección 192.168.1.1 con máscara 255.255.255.0 al interface enp0s0
+    ip addr add 192.168.1.1./24 dev enp0s0
+    
+    # Borramos la dirección antes creada
+    ip addr del 192.168.1.1./24 dev enp0s0
+    
+    # Cambiamos el estado de el interface
+    ip link set enp0s0 up
+    ip link set enp0s0 down
+    ip link set enp0s0 mtu 9000
+    
+    # Habilita el modo promiscuo
+    ip link set enp0s0 promisc on
+    
+Ajustar y ver rutas
+-------------------
+
+**route add/delete/replace** Añade una entrada en la tabla de rutas
+
+.. code-block::
+
+    ip route add default via 192.168.1.1.dev enp0s0
+    ip route add 192.168.1.0/24 via 192.168.1.1
+    ip route add 192.168.1.0/24 dev enp0s0
+    
+    # Borrar
+    ip route delete 192.168.1.0/24 via 192.168.1.1
+    
+    # Cambiar
+    ip route replace 192.168.1.0/24 dev enp0s0
+    
+**route get** Visualizar la ruta que una dirección tomará
+
+.. code-block::
+
+    ip route get 192.168.1.5
+    
+Gestionar la tabla ARP
+----------------------
+
+**neigh add/del/replace** Añadir una entrada a la tabla ARP
+
+.. code-block::
+
+    ip neigh add 192.168.1.1 lladdr 00:11:22:33:44:55 dev enp0s0
+    
+    # Borrar
+    ip neigh del 192.168.1.1 dev enp0s0
+    
+    # Cambiar
+    ip neigh add 192.168.1.1 lladdr 11:22:33:44:55:66 dev enp0s0
+    
+Comandos de red útiles
+----------------------
+
+**arping** Enviar un ARP request a un host vecino
+
+.. code-block::
+
+    arping -I enp0s0 192.168.1.1    
+    
+    # Chequear si una dirección ethernet está duplicada
+    arping -D -I enp0s0 192.168.1.1 
+    
+**ethtool** Consultar o gestionar el controlador de red y la configuración hardware
+
+.. code-block::
+
+    # Visualizar el buffer
+    ethtool -g enp0s0
+    
+    # Visualizar información del driver de la interface
+    ethtool -i enp0s0    
+    
+    # Identificar un interfaz, haciendo que parpadeen los les del puerto
+    ethtool -p enp0s0
+    
+    # Visualizar estadisticas del dispositivo
+    ethtool -S enp0s0
+    
+**ss** Visualizar estadísticas de un socket
+
+.. code-block::
+
+    # Visualizar todos los sockets (escuchan y no escuhan)
+    ss -a
+    
+    #Visualizar información detallada de un socket
+    ss -e
+    
+    # Visualizar los procesos que utilizan un socket
+    ss -p
+    
+Comparación comandos **net-tools** con **ip**
+
+========================================================= ===========================================================
+NET-TOOLS                                                 IP COMMANDS
+========================================================= ===========================================================
+arp -a                                                    ip neigh
+arp -v                                                    ip -s neigh
+arp -s 192.168.1.1.11:22:33:44:55:66                      ip netgh add q92.168.1.1. lladdr 11:22:33:44:55:66 dev eth0
+arp -i eth1 -d 192.168.1.1                                ip neigh del 192.168.1.1 dev eth1
+ifconfig -a                                               ip addr
+ifconfig eth0 down                                        ip link set eth0 down
+ifconfig eth0 up                                          ip link set eth0 up
+ifconfig eth0 192.168.1.1                                 ip addr add 192.168.1.1/24 dev eth0
+ifconfig eth0 netmask 255.255.255.0                       ip addr add 192.168.1.1/24 dev eth0
+netstat                                                   ss
+netstat -neopa                                            ss -neopa
+netstat -g                                                ip maddr
+route                                                     ip route
+route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0 ip route add 192.168.1.0/24 dev eth0
+route add default gw 192.168.1.1                          ip route add default via 192.168.1.1
+========================================================= ===========================================================

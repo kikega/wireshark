@@ -1,0 +1,338 @@
+====================
+Configuración de red
+====================
+La configuración de red utiliza **NetworkManager** por defecto
+
+:NetworkManager:
+    El demonio
+:nmtui:
+    Interfaz ncurses (no se instala por defecto)
+:nmcli:
+    Interfaz de comando para interactuar con NetworkManager
+:Control-center:
+    GUI para Gnomme Shell
+
+NetworkManager puede ser usado para cualkquier tipo de conexión.
+
+El demonio NM corre con privilegios de **root** y por defecto está configurado para iniciarse en el arranque
+
+.. code-block:: bash
+
+    systemctl status NetworkManager
+
+1. Interactuar con NetworkManager
+---------------------------------
+
+- Una CLI es proporcionada para que usuarios y scripts puedan interactuar con **NM**
+- Los comandos IP se pueden utilizar para agregar y quitar direcciones y rutas en paralelo con **NM** y serán reconocidos por **nmcli**  y el centro de control, pero no serán persistentes cuando se reinicie el ordenador.
+
+2. NetworkManager y scripts de red
+----------------------------------
+
+En versiones anteriores de RHEL, la forma predeterminada de configurar la red, era mediante los scripts de red, que se utilizaban en la secuencia de comandos
+
+.. code-block:: bash
+
+    /etc/init.d/network
+
+Los archivos eran vistos como Configuración o como modificación de una secuencia de comandos.
+
+Aunque **NM** proporciona el servicio de red por defecto, los desarrolladores de RHEL han trabajado para que los scripts y **NM** cooperen entre sí.
+
+3. Corriendo el script de red
+-----------------------------
+
+Correr el script sólo con la utilidad **systemctl** que borrará cualquier variable de entorno existente y asegurará una ejecución límpia.
+
+.. code-block:: bash
+
+    systemctl start|stop|restart|status network
+
+Tenga en cuenta que **NM** se inicia en primer lugar y */etc/init.d/network* chequea con **NM** para evitar la manipulación de conexiones.
+
+**NM** está destinada a ser la principal eplicación usando archivos de configuración *sysconfig* y */etc/init.d/network* está destinado a ser secundario.
+
+4. Configuración de red usando archivos *sysconfig*
+---------------------------------------------------
+
+El directorio */etc/sysconfig* es donde se localizan los scripts y archivos de configuración, la información específica de un interface es almacenada en archivos *ifcfg* en el directorio */etc/sysconfig/network-scripts/*.
+
+El archivo */etc/sysconfig/network* es para configuración global.
+
+En **Fedora**, cuando se edita un archivo *ifcfg*, **NM** no es consciente de ello y debe ser informado del cambio. Si utiliza una de las herramientas para actualizar el perfil de **NM**, no se implementan los cambios hasta que vuelva a conectar dicho perfil, si se ha utilizado un editor, **NM** debe volver a leer los archivos de configuración.
+
+.. code-block:: bash
+
+    nmcli connection reload
+
+Si queremos recargar un perfil en particular
+
+.. code-block:: bash
+
+    nmcli con load /etc/sysconfig/network-scripts/ifcfg-ifname
+
+Los cambios realizados con **nmcli** no requieren juna recarga, pero requieren el nombre dle interfaz asociado
+
+.. code-block:: bash
+
+    nmcli dev disconnect interface-ifname
+    nmcli con up interface-ifname
+
+La secuencia de comandos *ifup*, es un script genérico que hace algo y después llama a scripts especificos como *ifup-ethx*, etc...
+
+En el arranque */etc/init.d/network/* mira todos los archivos *ifcfg* y por cada uno que tenga **ONBOOT=yes**, cheque si **NM** está arrancando el dispositivo. El resultado, es que cualquier archivo *ifcfg* con **ONBOOT=yes**, espera que se inicie, ya seaa por **NM** o por los scripts de inicio, esto asegura que algunos tipos de red antiguas que **NM** no controla (RDSI o modems antiguos) se inicien corrctamente.
+
+5. Configurando la red
+----------------------
+
+A partir de Fedora 20, el GUI de **NM** no es usado por defecto, la configuración de red es parte del *control-center* de Gnome.
+
+5.1. Configurando con CLI usando ifcfg
+**************************************
+
+Los archivos de configuración de interfaz controlan los dispositivos de red individualmente, cuando el sistema arranca, mira estos archivos para determinar que interfaces levantar y como configurarlos.
+
+Estos archivos, se llaman *ifcfg-name*, donde *name* hace referencia al nombre del dispositivo.
+
+5.2. Configuración estática
+***************************
+
+Para una interface *ifcfg-eth0* en */etc/sysconfig/network-scripts/*
+
+.. code-block:: bash
+
+    DEVICE=eth0
+    BOOTPRO=none
+    ONBOOT=yes
+    PREFIX=24
+    IPADDR=10.1.10.10
+
+Opcionalmente, se puede especificar la dirección MAC usando la directiva *HWADDR*.
+
+Para permitir que un usuario normal pueda levantar o bajar la interface, añadir la directiva
+
+.. code-block:: bash
+
+    USERCTL=yes
+
+5.3. Configuración dinámica
+***************************
+
+Para configurar una interface de forma dinámica.
+
+.. code-block:: bash
+
+    DEVICE=eth0
+    BOOTPRO=dhcp
+    ONBOOT=yes
+
+Para enviar un hostname diferente al servidor DHCP, añadir
+
+.. code-block:: bash
+
+    DHCP_HOSTNAME=nombre_host
+
+Para configurar una interface con un servidor DNS específico
+
+.. code-block:: bash
+
+    PEERDNS=no
+    DNS1=ip_addr
+    DNS2=ip_addr
+
+Esto causa que el de red actualice */etc/resolv.conf*    con los servidores DNS especificados.
+
+5.4. Configurando la red usando comandos IP
+*******************************************
+
+5.4.1 Asignar una dirección
++++++++++++++++++++++++++++
+
+.. code-block:: bash
+
+    ip address add 10.1.10.10/24 dev eth0
+    ip addr show dev eth0
+
+Los comandos IP dados en la línea de comandos, no persistirán después de un reinicio de sistema.
+
+5.4.2 Rutas estáticas y router por defecto
+++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: bash
+
+    ip route [add | del | change | append | replace] destino
+    ip route add 196.168.1.1/24 via 10.0.0.1 [dev ifname]
+
+La confiuración de rutas estáticas, puede ser almacenado por interfaz en */etc/sysconfig/network-scripts/route-interface*
+
+5.4.3. Configurar el router por defecto
++++++++++++++++++++++++++++++++++++++++
+
+La puert de enlace está predeterminada por los scripts de red que se analizan en */etc/sysconfig/*
+
+.. code-block:: bash
+
+    GATEWAY=192.168.1.1
+
+En entornos de configuración dinámica, la información sobre el gateway, está determinada por DHCP.
+
+5.5 Usar **NM** Comand Line Tool **nmcli**
+******************************************
+
+
+**nmcli** es usado por usuarios y scripts para controlar NetworkManager.
+
+.. code-block:: bash
+
+    nmcli OPTIONS OBJECT {command | help}
+
+.. topic:: Parametros
+
+    OPTIONS, las mas usadas son:
+
+    - -t, para uso en scripts
+    - -p, para usuarios
+    - -h, para obtener ayuda
+
+    OBJECT, lo más usado es:
+
+    - general
+    - networking
+    - connection
+    - device
+
+Se puede usar el tabulador para autocompletado del comando, además, es sensible al contexto
+
+.. code-block:: bash
+
+    nmcli help
+    nmcli connection help
+
+5.5.1 Parar y arrancar una interface usando nmcli
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: bash
+
+    nmcli con up id eth0
+    nmcli dev disconnect eth0
+
+Se recomienda el uso de *nmcli dev disconnect eth0* que *nmcli con down id eth0*, la desconexión situa el interface en un modo manual.
+
+5.5.2 Entendiendo las opciones nmcli
+++++++++++++++++++++++++++++++++++++
+
+Muchos comandos **nmcli** son autoexplicativos, pero unos pocos merecen un estudio
+
+- type (tipo de conexión), cada conexión tiene opciones especificas (tab para ver una lista de ellas)
+- con-name, el nombre asignado al perfil de conexión, si no se espera un nombre de conexión, se genera uno como *type-ifname[-number]*. El nombre de conexión, es el nombre de un perfil de conexión y no debe ser confundido con el nombre de la interfaz.
+- id, id puede ser usado en *nmcli con* para identificar una conexión, se refiere al mismo nombre de conexión que con-name.
+- uuid, es una identificación de una conexión asignada por el sistema.
+
+5.5.3 Conectando una red usando **nmcli**
++++++++++++++++++++++++++++++++++++++++++
+
+Para listar las conexiones de red disponibles
+
+.. code-block:: bash
+
+    nmcli con show
+
+Añadir una conexión, significa la creación de ujn perfil de configuración que se asigna a un dispositivo. Antes de crear un nuevo perfil, revise los siguientes dispositivos de la siguiente manera.
+
+.. code-block:: bash
+
+    nmcli dev status
+
+Para añadir una conexión ethernet dinámica con DHCP
+
+.. code-block:: bash
+
+    nmcli connection add type ethernet con-name "nom" ifname "dev"
+    nmcli con add type ethernet con-name casa ifname eth0
+
+NetworkManager ajusta el parámetro connection.autoconnect a yes y escribe ajustes en */etc/sysconfig/network-scripts/ifcfg-casa* donde la directiva ONBOOT se establece a yes.
+
+Tenr en cuenta que los cambios manuales en el archivo ifcfg no serán tenidas en cuenta por NetworkManager hasta que la interface se levante de nuevo.
+
+Para levantar una conexión ethernet
+
+.. code-block:: bash
+
+    nmcli con up casa
+
+Para cambiar el hostname enviado a un servidor DHCP, modificar la propiedad dhcp-hostname
+
+.. code-block:: bash
+
+    nmcli con modify casa ipv4.dhcp-hostname "nombre" ipv6.dhcp-hostname "nombre"
+
+Para ignorar los servidores DNS enviados por DHCP, modificar ignore-auto-DNS
+
+.. code-block:: bash
+
+    nmcli con modify casa ipve.ignore-auto-dns yes
+
+Si queremos modificar la conexión dinámica con el editor interactivo
+
+.. code-block:: bash
+
+    nmcli con edit type ethernet con-name eth0
+
+5.5.4 Añadiendo una conexión estática
++++++++++++++++++++++++++++++++++++++
+
+Para añadir una conexión ethernet con una configuración estática para IPv4, utilizar el siguiente formato
+
+.. code-block:: bash
+
+    nmcli con add type ethernet con-name "nombre" ifname "interfaz" ip4 dir_ip gw4 dir_ip
+    nmcli con add type ethernet con-name "oficina" ifname eth1 ip4 192.168.1.100/24 gw4 192.168.1.1
+
+NetworkManager ajustará su parámetri *ipv4.method=manual* y connection.autoconnect=yes, también escribira ajustes  en */etc/sysconfig/network-scripts/* donde BOOTPROTO=none y ONBOOT=yes.
+
+Si queremos ajustar dos servidores DNS
+
+.. code-block:: bash
+
+    nmcli con mod oficina ipv4.dns "8.8.8.8 8.8.4.4"
+
+Si queremos añadir servidores DNS adicionales, hay que usar el prefijo "+"
+
+.. code-block:: bash
+
+    nmcli con mod oficina +ipv4.dns "10.10.10.10"
+
+Para levantar la nueva conexión ethernet y ver su estado o infomación detallada
+
+.. code-block:: bash
+
+    nmcli con up oficina ifname eth1
+    nmcli device status
+    nmcli -p con show oficina
+
+.. topic:: Ejemplo
+
+    .. code-block:: bash
+
+        $sudo nmcli device status
+        DISPOSITIVO  TIPO      ESTADO         CONNECTION
+        eth0         ethernet  conectado      Wired connection 1
+        wlan0        wifi      no disponible  --
+        lo           loopback  sin gestión    --
+
+Para modificar una conexión ethernet estática
+
+.. code-block:: bash
+
+    nmcli con mod oficina ipv4.address "192.168.1.101"
+
+5.6 Configurar rutas estáticas
+******************************
+
+Para configurar una ruta estática en una conexión ethernet existente
+
+.. code-block:: bash
+
+    nmcli con mod eth0 +ipv4.routes "192.168.122.0/24 10.10.10.1"
+
+Esto, dirige el tráfico de la red 192.168.122.0 al gateway 10.10.10.1
