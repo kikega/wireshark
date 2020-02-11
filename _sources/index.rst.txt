@@ -47,7 +47,6 @@ Redes, Wireshark y entorno Ibercom
     :maxdepth: 1
     :caption: Ibercom IP:
     
-    rpv
     silan
     ibercom_ip
     
