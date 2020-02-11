@@ -25,4 +25,6 @@ Presentaciones curso Ibercom Hosted IP
 - `Protocolo IP <_static/documentacion/presentaciones/hosted/5-ip.pdf>`_
 - `Protocolo TCP <_static/documentacion/presentaciones/hosted/6-tcp.pdf>`_
 - `Aplicaciones de red <_static/documentacion/presentaciones/hosted/7-aplicaciones.pdf>`_
+- `Wireshark <_static/documentacion/presentaciones/hosted/8-wireshark.pdf>`_
+- `Voz sobre IP - VoIP <_static/documentacion/presentaciones/hosted/9-voip.pdf>`_
 
