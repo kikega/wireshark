@@ -21,3 +21,17 @@ Alcatel
 - `DECT 8332 <_static/documentacion/alcatel/8232.pdf>`_
 - `Mediatrix <_static/documentacion/alcatel/mediatrix.pdf>`_
 - `Audiocode <_static/documentacion/alcatel/audiocode.pdf>`_
+- `Terminales 80x8. Guía rápida <_static/documentacion/alcatel/80x8-gr.pdf>`_
+- `Terminales 80x8. Manual usuario <_static/documentacion/alcatel/80x8-mu.pdf>`_
+- `Terminal 8018. Manual usuario <_static/documentacion/alcatel/8018-mu.pdf>`_
+- `Terminal 8008. Manual usuario <_static/documentacion/alcatel/8008-gr.pdf>`_
+
+Cisco
+*****
+
+- `Terminal 69x1. Manual usuario <_static/documentacion/cisco/69x1-mu.pdf>`_
+- `Terminal 78x1. Manual usuario <_static/documentacion/cisco/7821-mu.pdf>`_
+- `Terminal 88x1. Manual usuario <_static/documentacion/cisco/88x1-mu.pdf>`_
+- `Antenas DECT Ascom <_static/documentacion/cisco/dect-ascom.pdf>`_
+
+
