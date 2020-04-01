@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Búsqueda &mdash; documentación de Wireshark - 1</title>
+  <title>&lt;no title&gt; &mdash; documentación de Wireshark - 1</title>
   
 
   
@@ -27,7 +27,6 @@
         <script type="text/javascript" src="_static/language_data.js"></script>
         <script type="text/javascript" src="_static/translations.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/javascript" src="_static/searchtools.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -38,7 +37,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/estilos.css" type="text/css" />
     <link rel="index" title="Índice" href="genindex.html" />
-    <link rel="search" title="Búsqueda" href="#" /> 
+    <link rel="search" title="Búsqueda" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -68,7 +67,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -176,12 +175,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Búsqueda</li>
+      <li>&lt;no title&gt;</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/sip-update.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -193,19 +194,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <dl class="simple">
+<dt>El Protocolo de inicio de sesión (SIP) [ 1 ] define el método INVITE</dt><dd><p>para el inicio y modificación de sesiones</p>
+</dd>
+<dt>La principal dificultad es cuando los aspectos de la sesión deben ser</dt><dd><p>modificado antes de que se haya respondido la INVITE inicial</p>
+</dd>
+<dt>Sin embargo, no se puede utilizar un RE-INVITE para este</dt><dd><p>propósito, porque el RE-INVITE tiene un impacto en el estado de la
+diálogo, además de la sesión.</p>
+</dd>
+<dt>Como resultado, se necesita una solución que permita a la persona que llama o a la persona que llama</dt><dd><p>proporcionar información actualizada de la sesión antes de una respuesta final</p>
+</dd>
+<dt>El método UPDATE, definido</dt><dd><p>aquí, satisface esa necesidad.  Puede ser enviado por un UA dentro de un diálogo
+(temprano o confirmado) para actualizar los parámetros de la sesión sin afectar
+El estado de diálogo en sí.</p>
+</dd>
+</dl>
+<p>Descripción general
+El funcionamiento de esta extensión es sencillo.  La persona que llama comienza</p>
+<blockquote>
+<div><p>con una transacción INVITE, que se realiza normalmente.  Una vez un diálogo
+se establece, ya sea temprano o confirmado, la persona que llama puede generar un
+Método de ACTUALIZACIÓN que contiene una oferta SDP [ 3 ] a los fines de
+actualizar la sesión y ser respondida con un 2xx</p>
+</div></blockquote>
+<p>Determinación del soporte para esta extensión
+Cuando un UAS que cumple con esta especificación recibe una solicitud INVITE</p>
+<blockquote>
+<div><p>para un nuevo diálogo y genera una respuesta provisional confiable
+que contiene SDP, esa respuesta DEBE contener un campo de encabezado Permitir
+que enumera el método UPDATE</p>
+</div></blockquote>
+<p>Actualización
+Aunque una actualización se puede enviar en un diálogo confirmado, se recomienda usar RE-INVITE. Esto es, porque un UPDATE, debe responderse de inmediato, descartando la posibilidad de aprobación del usuario, dicha aprobación, será necesaria y es posible con RE-INVITE</p>
+<p>Si un UA no ecibe un 2xx a una actualización, los parámetros de la sesión, deben permanecer sin cambios</p>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
            
@@ -243,14 +265,7 @@
   
   
     
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

@@ -27,5 +27,6 @@ Presentaciones curso Ibercom Hosted IP
 - `Aplicaciones de red <_static/documentacion/presentaciones/hosted/7-aplicaciones.pdf>`_
 - `Wireshark <_static/documentacion/presentaciones/hosted/8-wireshark.pdf>`_
 - `Voz sobre IP - VoIP <_static/documentacion/presentaciones/hosted/9-voip.pdf>`_
-- `Terminales <_static/documentacion/presentaciones/hosted/9-voip.pdf>`_
+- `Linux <_static/documentacion/presentaciones/hosted/10-linux.pdf>`_
+- `Terminales <_static/documentacion/presentaciones/hosted/12-terminales.pdf>`_
 

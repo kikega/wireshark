@@ -1,0 +1,163 @@
+==============
+Protocolo HTTP
+==============
+
+Introducción
+------------
+
+El protocolo de transferencia de hipertexto, es un protocolo de nivel de aplicación para sistemas distribuidos, usado en cada transacción e la web.
+
+HTTP, define la sintaxis y la semántica, de un conjunto de métodos que indican el propósito de una solicitud. Es un protocolo orientado a transacciones, sin estado, que sigue el esquema cliente-servidor (petición y respuesta).
+
+Al cliente que efectúa una petición, se le conoce como **user-agent**, y el recurso solicitado, se identifica mediante un URL, que indica la localización del mismo.
+
+.. note::
+
+    Un cliente, envía una petición a un servidor, indicando el método de la solicitud, el recurso solicitado y la versión del protocolo, seguido de un mensaje con información del cliente y/o modificadores de la solicitud.
+    
+    El servidor, responde con una línea de estado, que incluye la versión protocolo y un mensaje de éxito o error, seguido de un mensaje, que contiene información del servidor y el posible contenido del cuerpo de la entidad
+    
+    Se define la secuencia CR LF (Salto de carro, retorno de línea), para todos los elementos del protocolo, excepto, el cuerpo de la entidad
+    
+Parámetros del protocolo
+------------------------
+
+Versión HTTP
+************
+
+HTTP, usa un esquema de numeración **<mayor>.<menor>**, para indicar las versiones del protocolo. El objetivo, es que el remitente, indique el formato de un mensaje y su capacidad para comprender la comunicación HTTP
+
+.. code-block::
+
+    GET / HTTP/1.1
+    
+.. note::
+
+    Una aplicación que envía un mensaje de solicitud o respuesta que incluye la versión **HTTP/1.1**, debe cumplir, al menos, está especificación
+    
+Uniform Resource Identifiers
+****************************
+
+Los identificadores uniformes de recursos, son simplemente, cadenas formateadas que identifican, a través del nombre, la ubicación o cualquier otra característica de un recurso.
+
+.. note::
+
+    El protocolo HTTP no establece ningún límite en la logitud de un URI, Los servidores, deben poder manejar la URL de cualquier recurso que sirvan y deberían manejar URI de longitud ilimitada, si proporcionan variables basadas en GET. Si no puede manejar el largo de u URI, debe devolver el código de error **414 (Request-URI too long)**
+    
+.. code-block::
+
+    http_URL = http://host[:puerto][recurso][? query]
+    
+Si el puerto está vacío o no se da, se supone el puerto 80   y si el recurso no está presente, debe aparecer como **/**
+
+Juego de caracteres
+*******************
+
+El término **conjunto de caracteres**, se refiere a un método utilizado con una o más tablas, para convertir una secuencia de octetos en una secuencia de caracteres.
+
+Mensajes HTTP
+-------------
+
+Tipos de mensaje
+****************
+
+Los mensajes HTTP, consisten en solicitudes de cliente al servidor y las respuestas del servidor al cliente.
+
+Ambos tipos de mensaje, consisten en una línea de inicio, cero o más campos de encabezado, una línea vacá, que indica el final de los campos de encabezado y posiblemente, un cuerpo de mensaje
+
+**Petición**
+
+.. image:: _static/imagenes/http-request-message.png
+    :align: center
+    
+**Respuesta**    
+    
+.. image:: _static/imagenes/http-response-message.png
+    :align: center
+
+Cabeceras de mensaje
+********************
+
+Cada campo de las cabeceras, consta de un nombre, dos puntos y el valor del campo. Los nombres de campo, no distinguen entre mayúsculas y minúsculas. Los campos de encabezado, se pueden extender sobre varías líneas 
+
+El orden en que se reciben los campos de encabezado con diferentes nombres de campo, no es significativo. Sin embargo, es una buena práctica, enviar primero los campos de encabezado general, seguidos de los campos de solicitud y terminar con los cmapos de entidad   
+
+Cuerpo del mensaje
+******************
+
+El cuerpo del mensaje, si lo hay, se usa para transportar el cuerpo de la entidad asociado con la solicitud o respuesta. La presencia, en una solicitud, se indica mediante la inclusión de un campo de encabezado **Content-Length** en las cabeceras del mensaje
+
+Para los mensajes de respuesta, si un cuerpo de mensaje está incluido o no, depende tanto del método de solicitud, como del código de estado de respuesta.
+
+Todas las respuestas al método de solicitud **HEAD**, no deben incluir un cuerpo de mensaje
+
+Request (Peticiones)
+--------------------
+
+Un mensaje de solicitud de un cliente a un servidor, incluye dentro de la primera línea, el método que se aplicará al recurso, el identificador del recurso y la versión dle protocolo en uso.
+
+Métodos
+
+- OPTIONS
+- GET
+- HEAD
+- POST
+- PUT
+- DELETE
+- TRACE
+- CONNECT
+
+La lista de métodos permitidos por un recurso, se puede especificar en un campo del encabezado, **Allow header field**. Un servidor, debe devolver el código de estado **405 (Methos Not Alloed)** si conce el método, pero no está permitido para ese recurso y **501 (Not Implemented)** si no reconoce o no implementa el método..
+
+Los métodos HEAD y GET, debe ser compatibles con todos los servidores de uso general, todos los demás, son opcionales.
+
+El recurso exacto identificado por una solicitud de Internet, se determina examinando el campo de encabezado **Request-URI** y **Host**
+
+.. code-block::
+
+    GET /pub/WWW/index.html HTTP/1.1
+    Host: www.micasa.com
+    
+Los campos d encabezado de solicitud, permiten al cliente, pasar información adicional sobre la solicitud y sobre el cliente mismo, al servidor. Actúan como modificadores de solicitud
+
+- **Accept**, indican el tipo de respuesta que aceptan
+- **Accept-Encoding**, el tipo de codificación
+- **Host**, especifica la maquina y el puerto del recurso pedido
+- **User-Agent**, información sobre el agente que genera la petición
+- **Proxy-Authorization**, para identificación del cliente
+    
+Response (Respuesta)
+--------------------
+
+Después de recibir e interpretar un request, un servidor, responde con un mensaje HTTP response.
+
+La primera líneade un mensaje de respuesta, es la línea de estado, que consta de la versión del protocolo, seguida de un código de estado numérico y su frase asociada
+
+.. code-block::
+
+    HTTP/1.1 200 OK
+    
+El código de estado, define el resultado de la operación y está destinado a ser usado por autómatas, la frase, es una descripción textual del código de estado y está destinada al usuario
+
+El primer dígito del código de estado, define la clase de la respuesta, hay 5 categorías definidas por el primer dígito
+
+- **1xx**. Informativo, no se usa
+- **2xx**. Correcto, la acción se ha aceptado correctamente
+- **3xx**. Redirección, se debe realizar alguna acción adicional para completar la petición
+- **4xx**. Error de cliente, la petición, no se puede realizar
+- **5xx**. Error de servidor, aunque la petición es correcta
+
+Los códigos de estado son extensibles. No se requiere que las aplicaciones HTTP, comprendan el significado de todos los códigos, aunque, deben comprender la clase de cualquier código de estado, definido por el primer dígito y tratar cualquier respuesta no reconocida como equivalente al código **x00** de esa clase
+
+Los campos de encabezado de la respuesta, permiten que el servidor, pase información adicional sobre la respuesta, que no se puede colocar en la línea de estado
+
+- **Age**, estimación del tiempo transcurrido desde que se creó la respuesta
+- **Proxy-Authenticate**, indica el esquema de autenticación
+- **Server**, información sobre el servidor
+- **Public**, lista de métodos soportados por el servidor
+- **Warning**, usada para aportar información adicional sobre el estado de la respuesta
+
+Requerimientos de la transmisión de mensajes
+--------------------------------------------
+
+Los servidores HTTP/1.1, deben mantener conexiones persistentes

@@ -1,0 +1,34 @@
+El Protocolo de inicio de sesión (SIP) [ 1 ] define el método INVITE
+    para el inicio y modificación de sesiones
+    
+La principal dificultad es cuando los aspectos de la sesión deben ser
+    modificado antes de que se haya respondido la INVITE inicial
+Sin embargo, no se puede utilizar un RE-INVITE para este
+    propósito, porque el RE-INVITE tiene un impacto en el estado de la
+    diálogo, además de la sesión.
+    
+Como resultado, se necesita una solución que permita a la persona que llama o a la persona que llama
+    proporcionar información actualizada de la sesión antes de una respuesta final
+    
+El método UPDATE, definido
+    aquí, satisface esa necesidad.  Puede ser enviado por un UA dentro de un diálogo
+    (temprano o confirmado) para actualizar los parámetros de la sesión sin afectar
+    El estado de diálogo en sí.
+    
+Descripción general
+El funcionamiento de esta extensión es sencillo.  La persona que llama comienza
+    con una transacción INVITE, que se realiza normalmente.  Una vez un diálogo
+    se establece, ya sea temprano o confirmado, la persona que llama puede generar un
+    Método de ACTUALIZACIÓN que contiene una oferta SDP [ 3 ] a los fines de
+    actualizar la sesión y ser respondida con un 2xx
+    
+Determinación del soporte para esta extensión
+Cuando un UAS que cumple con esta especificación recibe una solicitud INVITE
+    para un nuevo diálogo y genera una respuesta provisional confiable
+    que contiene SDP, esa respuesta DEBE contener un campo de encabezado Permitir
+    que enumera el método UPDATE
+    
+Actualización
+Aunque una actualización se puede enviar en un diálogo confirmado, se recomienda usar RE-INVITE. Esto es, porque un UPDATE, debe responderse de inmediato, descartando la posibilidad de aprobación del usuario, dicha aprobación, será necesaria y es posible con RE-INVITE
+
+Si un UA no ecibe un 2xx a una actualización, los parámetros de la sesión, deben permanecer sin cambios
